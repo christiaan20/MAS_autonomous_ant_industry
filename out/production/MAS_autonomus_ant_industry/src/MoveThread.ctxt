@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.params=coX2\ w\ view\ toObject\ model
+comment0.target=MoveThread(int,\ Werker,\ GroteView,\ Object,\ Model)
+comment0.text=\r\n\ Constructor\ voor\ objecten\ van\ MoveThread,\ deze\ maakt\ een\ nieuwe\ animatie\ en\ een\ nieuwe\ thread\ die\ de\r\n\ animatie\ uitvoert\ en\ start\ ook\ de\ thread.\r\n\ \r\n\ @param\ coX2\ int,\ de\ X\ coordinaat\ van\ het\ punt\ waar\ de\ werker\ heen\ moet\ gaan\r\n\ @param\ w\ int,\ \ \ \ de\ werker\ die\ de\ beweging\ uitvoert\r\n\ @param\ view\ GroteView,\ De\ GroteView\ waar\ op\ de\ beweging\ tezien\ zal\ zijn\r\n\ @param\ toObject\ Object,\ Het\ object\ waar\ de\ werker\ naar\ toe\ gaat,\ kan\ null\ zijn\r\n\ @param\ model\ Model,\ het\ model\ waartoe\ de\ werker\ behoort.\r\n\ \r\n
+numComments=1

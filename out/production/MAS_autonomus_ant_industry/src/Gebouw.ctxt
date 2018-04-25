@@ -1,0 +1,29 @@
+#BlueJ class context
+comment0.params=x\ y\ bBalk\ lBalk\ rBalk\ functie
+comment0.target=Gebouw(int,\ int,\ Grondstof,\ Grondstof,\ Grondstof,\ Functie)
+comment0.text=\r\n\ Constructor\ voor\ objecten\ van\ Gebouwn,\ begin\ instelling\ zijn\:\ een\ nieuw\ contructie\ in\ onderdelen,\ de\ muis\ hangt\ niet\ over\ het\ gebouw,\ er\ kunnen\ 5\ \r\n\ werkers\ in\ het\ gebouw,\ eerste\ wordt\ af\ op\ false\ gezet\ en\ daarna\ wordt\ er\ met\ de\ methode\ afcontrole()\ gecontroleert\ of\ het\ gebouw\ af\ is\ of\ niet.\r\n\ (geen\ enkel\ balk\ in\ de\ 1st\ constructie\ is\ nog\ null\ \=>\ af\ \=\ true)\r\n
+comment1.params=
+comment1.target=void\ afcontrole()
+comment1.text=\r\n\ Method\ afcontrole\ kijkt\ of\ het\ gebouw\ af\ is,\ door\ te\ kijken\ of\ alle\ balken\ niet\ null\ zijn\ als\ dit\ is\ dan\ is\ af\ \=\ true\r\n\r\n
+comment2.params=
+comment2.target=Functie\ getFunctie()
+comment2.text=\r\n\ Method\ getFunctie\ geeft\ de\ functie\ van\ het\ gebouw\r\n\r\n\ @return\ functie\ Functie,\ \ \ \ \ de\ functie\ van\ het\ gebouw\r\n
+comment3.params=
+comment3.target=Constructie\ getConstructie()
+comment3.text=\r\n\ Method\ getConstructie\ geeft\ de\ 1ste\ contructie\ terug\r\n\r\n\ @return\ onderdelen.get(0)\ Constructie,\ De\ eerste\ constructie\r\n
+comment4.params=
+comment4.target=boolean\ isAf()
+comment4.text=\r\n\ Method\ isAf\ zegt\ of\ een\ gebouw\ af\ is\ of\ niet;\r\n\r\n\ @return\ af\ boolean,\ gebouw\ is\ af\ \:\ true,\ gebouw\ is\ niet\ af\:\ false\r\n
+comment5.params=con\ g
+comment5.target=void\ setbovenBalk(int,\ Grondstof)
+comment5.text=\r\n\ Method\ setbovenBalk\ \ veranderd\ het\ soortmateriaal\ waaruit\ de\ bovenste\ balk\ gemaakt\ is\ van\ een\ gekozen\ construcite\ maar\ enkel\ als\ het\ gebouw\ nog\ niet\ af\ is\r\n\ na\ het\ toevoegen\ wordt\ eer\ gecontroleert\ of\ het\ gebouw\ af\ is\ met\ afcontrole()\r\n\r\n\ @param\ con\ Int,\ \ \ de\ positie\ van\ de\ constructie\ in\ de\ ArrayList\r\n\ @param\ g\ Grondstof,\ \ Het\ soort\ grondstof\ waaruit\ de\ balk\ gemaakt\ wordt\r\n
+comment6.params=con\ g
+comment6.target=void\ setRechterBalk(int,\ Grondstof)
+comment6.text=\r\n\ Method\ setRechterBalk\ \ veranderd\ het\ soort\ materiaal\ waaruit\ de\ rechter\ balk\ gemaakt\ is\ van\ een\ gekozen\ construcite\ maar\ enkel\ als\ het\ gebouw\ nog\ niet\ af\ is\r\n\ na\ het\ toevoegen\ wordt\ eer\ gecontroleert\ of\ het\ gebouw\ af\ is\ met\ afcontrole()\r\n\r\n\ @param\ con\ Int,\ \ \ de\ positie\ van\ de\ constructie\ in\ de\ ArrayList\r\n\ @param\ g\ Grondstof,\ \ Het\ soort\ grondstof\ waaruit\ de\ balk\ gemaakt\ wordt\r\n
+comment7.params=con\ g
+comment7.target=void\ setLinkerBalk(int,\ Grondstof)
+comment7.text=\r\n\ Method\ setLinkerBalk\ \ veranderd\ het\ soortmateriaal\ waaruit\ de\ bovenste\ balk\ gemaakt\ is\ van\ een\ gekozen\ construcite\ maar\ enkel\ als\ het\ gebouw\ nog\ niet\ af\ is\r\n\ na\ het\ toevoegen\ wordt\ eer\ gecontroleert\ of\ het\ gebouw\ af\ is\ met\ afcontrole()\r\n\r\n\ @param\ con\ Int,\ \ \ de\ positie\ van\ de\ constructie\ in\ de\ ArrayList\r\n\ @param\ g\ Grondstof,\ \ Het\ soort\ grondstof\ waaruit\ de\ balk\ gemaakt\ wordt\r\n
+comment8.params=
+comment8.target=java.util.Iterator\ getIterator()
+comment8.text=\r\n\ Method\ getIterator\ geeft\ de\ iterator\ om\ de\ Constructies\ in\ onderdelen\ door\ telopen\r\n\r\n\ @return\ onderdelen.iterator\ Iterator<Constructie>,\ \ \ de\ iterator\ \r\n
+numComments=9

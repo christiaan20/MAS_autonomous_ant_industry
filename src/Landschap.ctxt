@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Landschap()
+comment0.text=\r\n\ Constructor\ voor\ objecten\ van\ de\ klasse\ Landschap\ met\ begininstelling\:\ 20\ Grondobjecten\ met\ een\ maximum\ hoogte\ van\ 10,\ de\ beginhoogte\ van\ de\ Grond\ \ wordt\ \r\n\ willekeurig\ gegenereert\ tussen\ 2\ en\ 15,\ er\ wordt\ een\ niewe\ array\ gemaakt\ met\ X\ aantal\ plaatsen,\ de\ methode\ setLand()\ wordt\ gebruikt\ om\ het\ relief\ te\ bepalen.\r\n
+comment1.params=
+comment1.target=void\ setLand()
+comment1.text=\r\n\ Method\ setLand\ gaat\ voor\ elke\ plaats\ in\ de\ landschap\ array\ aan\ veranderHoogte()\ vragen\ of\ de\ Grond\ naar\ omhoog,\ naar\ onder\ of\ recht\ moet\ zijn.\ bij\ onder\ wordt\r\n\ de\ grond\ hoogte\ voor\ de\ volgende\ Grond\ objecten\ ook\ verlaagt\ met\ 1\ en\ bij\ omhoog\ wordt\ dit\ verhoogt\ met\ 1,\ er\ is\ een\ controle\ ingebouwd\ zodat\ er\ geen\ 2\ verschillende\r\n\ helling\ komen\ na\ elkaar\ en\ ook\ een\ controle\ die\ er\ voor\ zorgt\ dat\ de\ grond\ 2\ rooster\ eenheden\ van\ de\ onderkant\ en\ de\ bovenkant\ van\ het\ scherm\ blijft.\r\n\r\n
+comment2.params=x
+comment2.target=int\ gethoogteGrond(int)
+comment2.text=\r\n\ Method\ gethoogteGrond\ geeft\ de\ hoogte\ van\ een\ Grond\ object\ op\ een\ bepaalde\ plaats\ in\ het\ landschap\r\n\r\n\ @param\ x\ int,\ \ \ \ De\ \ x\ coordingaat\ van\ de\ plaats\ in\ het\ landschap\ waar\ men\ de\ hoogte\ van\ de\ grond\ wilt\ weten\r\n\ @return\ landschap[x].gethoogte()\ int,\ \ \ \ de\ hoogte\ van\ de\ grond\ op\ plaats\ x\r\n
+comment3.params=x
+comment3.target=Grond\ getGrond(int)
+comment3.text=\r\n\ Method\ getGrond\ geeft\ het\ object\ grond\ op\ een\ bepaalde\ plaats\ in\ het\ landschap\r\n\r\n\ @param\ x\ int,\ \ \ \ de\ x\ coordinaat\ van\ de\ plaats\ in\ het\ landschap\ waar\ men\ het\ Grond\ object\ wilt\ van\ hebben\r\n\ @return\ landschap[x]\ Grond,\ \ het\ gevraagde\ grond\ object\r\n
+comment4.params=a\ x
+comment4.target=void\ addGrond(Grond,\ int)
+comment4.text=\r\n\ Method\ addGrond\ zet\ een\ gegeven\ object\ grond\ op\ een\ gegeven\ x\ coordinaat\ in\ het\ landschap\r\n\r\n\ @param\ a\ Grond,\ \ het\ Grond\ object\ dat\ geplaatst\ moet\ worden\r\n\ @param\ x\ int,\ \ \ \ \ de\ X\ coordinaat\ waar\ het\ grond\ object\ geplaats\ moet\ worden\r\n
+comment5.params=
+comment5.target=int\ getX()
+comment5.text=\r\n\ Method\ getX\ geeft\ het\ aantal\ kolomen\ in\ het\ rooster\ terug\r\n\r\n\ @return\ X\ int,\ \ \ het\ aantal\ kolomen\ in\ het\ rooster\r\n
+comment6.params=
+comment6.target=int\ getY()
+comment6.text=\r\n\ Method\ getY\ \ geeft\ de\ maximale\ hoogte\ van\ de\ grond\ objecten\ in\ rooster\ eenheden\r\n\r\n\ @return\ Y\ int,\ \ \ de\ maximale\ hoogte\ van\ de\ grond\ in\ rooster\ eenheden\r\n
+comment7.params=
+comment7.target=GrondRichting\ veranderHoogte()
+comment7.text=\r\n\ Method\ veranderHoogte\ genereert\ een\ willekeurige\ Grondrichtings\ waarde\ er\ is\ 3/10\ kans\ dat\ het\ onder\ of\ boven\ is\ en\ 4/10\ kans\ dat\ het\ rechts\r\n\ Deze\ methode\ wordt\ door\ setLand()\ gebruikt\ om\ de\ richting\ van\ een\ Grond\ object\ te\ bepalen.\r\n\r\n\ @return\ r\ int,\ \ \ een\ willekeurige\ GrondRichting,\ kan\ recht,\ boven\ of\ onder\ zijn\r\n
+numComments=8

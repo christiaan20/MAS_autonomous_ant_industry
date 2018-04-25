@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.params=model\ view
+comment0.target=MainThread(Model,\ GroteView)
+comment0.text=\r\n\ Constructor\ voor\ objecten\ van\ MainThread\ een\ nieuwe\ MainAnimation\ wordt\ gemaakt\ en\ ook\ een\r\n\ nieuwe\ Thread\ die\ de\ MainAnimation\ gebruikt,\ De\ thread\ wordt\ gestart.\r\n\ \r\n\ @Param\ model\ Model,\ \ \ het\ model\ die\ door\ de\ mainAnimatie\ gestuurd\ wordt\r\n\ @Param\ view\ View,\ \ \ \ de\ GroteView\ die\ door\ de\ mainAnimatie\ gestuurd\ wordt\r\n
+numComments=1
