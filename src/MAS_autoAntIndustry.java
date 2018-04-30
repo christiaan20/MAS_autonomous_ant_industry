@@ -9,7 +9,7 @@ import java.awt.event.*;
  * @author Christiaan Vanbergen
  * @version V9
  */
-public class AnEngineersQuest extends Frame
+public class MAS_autoAntIndustry extends Frame
 {
     private Model model;
     private GroteView view;
@@ -25,7 +25,7 @@ public class AnEngineersQuest extends Frame
      * er wordt een windowslistener met een methode om alles weg te doen en het scherm zonder fouten te sluiten aan deze frame toegevoegt 
      * 
      */
-    public AnEngineersQuest()
+    public MAS_autoAntIndustry()
     {
         model = new Model();
         view = new GroteView(model);
@@ -55,7 +55,7 @@ public class AnEngineersQuest extends Frame
      */
     public static void main(String[] args)
     {
-        AnEngineersQuest venster = new AnEngineersQuest();
+        MAS_autoAntIndustry venster = new MAS_autoAntIndustry();
         venster.setTitle(" Autonomous ant colonisation");
         venster.setVisible(true);
         venster.setResizable(false);

@@ -10,18 +10,18 @@ package src;
  */
 public class GatherAnimation implements Runnable
 {
-    private Werker w;   // de werker die gronstoffen Verzameld
+    private Werker w;   // de werkers die gronstoffen Verzameld
     private Object o;   // het Object waar grondstoffen verzameld worden of afgedropt worden
     private GroteView view; // de GroteView die upgedate moet worden
-    private Model model;    // Het model waartoe de werker behoort
+    private Model model;    // Het model waartoe de werkers behoort
 
 
     /**
      * Constructor voor Objecten van GatherAnimation
      * 
-     * @param w int,    de werker die grondstoffen verzameld
-     * @param o Object, Het object waar de werker aan het verzamelen is
-     * @param model Model,  het model waartoe de werker behoort.
+     * @param w int,    de werkers die grondstoffen verzameld
+     * @param o Object, Het object waar de werkers aan het verzamelen is
+     * @param model Model,  het model waartoe de werkers behoort.
      * @param view GroteView,   De GroteView  die upgedate moet worden
      * 
      */
@@ -35,14 +35,14 @@ public class GatherAnimation implements Runnable
     }
 
     /**
-     * Method run wanneer het object waar de werker in zit van het type grondstoffen is dan zal er zolang als de werker in de structuur zit, de werker
-     * niet vol is, de werker dezelfde type van lading al heeft als het type van het object of de werker geen lading heeft en zolang er nog stoffen in 
-     * het object zitten. zal de werker om de 2,5 seconden een eenheid van grondstoffen van het object krijgen. na de cyclus wordt er gechecked of het
-     * ontgonnen object leeg is of niet , zo ja wordt het verwijderd anders niks. daarna wordt de werker uit het object gezet. als het object een gebouw is
-     * met functie hoofhdgebouw of opslag dan zal de lading van de werker bij de juist grondstof worden opgeteld in het model en verliest de werker zijn lading
-     * De groteview wordt geupdate en de werker wordt uit het object gezet.
-     * Als de werker een huidig werk heeft en als deze in het object zit wat zijn werk is zal een move thread naar het dichtbij zijnde opslag of hoofdgebouw 
-     * geiniteert worden en als de werker niet in het object van huidig werk zit dan wordt een moveThread naar het huidige werk geïniteert.
+     * Method run wanneer het object waar de werkers in zit van het type grondstoffen is dan zal er zolang als de werkers in de structuur zit, de werkers
+     * niet vol is, de werkers dezelfde type van lading al heeft als het type van het object of de werkers geen lading heeft en zolang er nog stoffen in
+     * het object zitten. zal de werkers om de 2,5 seconden een eenheid van grondstoffen van het object krijgen. na de cyclus wordt er gechecked of het
+     * ontgonnen object leeg is of niet , zo ja wordt het verwijderd anders niks. daarna wordt de werkers uit het object gezet. als het object een gebouw is
+     * met functie hoofhdgebouw of opslag dan zal de lading van de werkers bij de juist grondstof worden opgeteld in het model en verliest de werkers zijn lading
+     * De groteview wordt geupdate en de werkers wordt uit het object gezet.
+     * Als de werkers een huidig werk heeft en als deze in het object zit wat zijn werk is zal een move thread naar het dichtbij zijnde opslag of hoofdgebouw
+     * geiniteert worden en als de werkers niet in het object van huidig werk zit dan wordt een moveThread naar het huidige werk geïniteert.
      *
      */
     public void run()
@@ -126,13 +126,21 @@ public class GatherAnimation implements Runnable
                     w.dropLading();
                     view.updateParameters();
                 }
+
                 o.deleteWerker(w);
 
 
             }
 
         }
-            w.setMoving(true);
+        //make the werkers drop a pheromone
+        w.setDistLastPheroDrop(w.getPheromonePolicy().getDropDistance()+1);
+        //remove all the pheromones that were detected and visited in the way towards
+        w.removeAllDetectedPhero();
+        w.removeAllVisitedPhero();
+
+        model.findPheromones(w);
+        w.setMoving(true);
        /*
         if (w.getHuidigWerk() != null)
         {

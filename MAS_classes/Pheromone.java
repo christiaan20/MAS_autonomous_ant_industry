@@ -13,7 +13,7 @@ public class Pheromone extends Object{
     private Grondstof task;
     private Werker owner;
 
-    public Pheromone(int x, int y, double expireTime, Grondstof task) {
+    public Pheromone(int x, int y, double expireTime, Grondstof task, Werker owner) {
          super.hoverOver= false;
          super.selected = false;
          super.coX = x;
@@ -22,6 +22,7 @@ public class Pheromone extends Object{
          super.Ysize = 10;
          this.expireTime = expireTime;
          this.task= task;
+         this.owner = owner;
     }
 
     //method to decrease the lifetime of the pheromine returns true when pheromone out of time and is deleted
@@ -51,7 +52,7 @@ public class Pheromone extends Object{
         this.task = task;
     }
 
-    @Override
+
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

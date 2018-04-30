@@ -3,7 +3,7 @@ package src;
 /**
  * Deze klasse zorgt voor de initiatie van de MainAnimatie
  * erft van Thread
- * wordt gebruikt in AnEngineersQuest
+ * wordt gebruikt in MAS_autoAntIndustry
  * 
  * @author Christiaan Vanbergen
  * @version V11

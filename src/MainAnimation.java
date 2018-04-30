@@ -1,5 +1,7 @@
 package src;
 
+import java.awt.*;
+
 /**
  * Deze klasse zorgt voor het bewegen van het hemelLichaam en het verversen van de Graphics in de view
  * implementeert Runnable.
@@ -36,6 +38,8 @@ public class MainAnimation implements Runnable
     {
        int count = 0;
        int countThres = 5;
+       int countGather = 0;
+       int countGatherThres = 100;
        int countPheromon = 0;
        int countPreroThreshold = 1;
       while(true)
@@ -50,20 +54,38 @@ public class MainAnimation implements Runnable
                     {
                         for(Werker w: model.getWerkers())
                         {
-                            w.getAnimation().runAutoThread();
-                            if(w.dropPheromone())
-                                model.createPheromone(w.getX(),w.getCoY(),w.getTask(),w.getPheromonePolicy().getExpireTime());
+                            w.tick(model);
+                           // w.getAnimation().runAutoThread();
 
 
+                            //System.out.println("added pheromone too visited list?");
                         }
+                        view.updateParameters();
                         model.checkExpiredPheromones();
                         count = 0;
 
                     }
-                    if(countPheromon >= countPreroThreshold)
+                    if(countPreroThreshold <= countPheromon  )
                     {
                          model.tickPheromones(countPreroThreshold*25);
+                        countPheromon = 0;
                     }
+                    if(countGatherThres <= countGather)
+                    {
+                        while(model.requestObjectenLock())
+                        {
+
+                        }
+                        for(Object o: model.getObjecten())
+                        {
+                            o.tickGathering(model);
+
+                        }
+                        model.releaseObjectenLock();
+                        countGather = 0;
+                    }
+
+                    countGather++;
                     countPheromon++;
                     count++;
 

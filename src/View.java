@@ -47,7 +47,7 @@ public class View extends Canvas
 
     /**
      * Method maakPad Deze methode gaat alle Grond objecten af en vult ,naar gelang de parameters van elke Grond object, de volgende 50 posities van de pad array 
-     * met de juiste y waardes zodat de werker lijkt over het landschap te lopen. wordt door de contructor van dit object gebruikt
+     * met de juiste y waardes zodat de werkers lijkt over het landschap te lopen. wordt door de contructor van dit object gebruikt
      *
      */
     public void maakPad()
@@ -154,9 +154,9 @@ public class View extends Canvas
     }
 
     /**
-     * Method paintWerker gaat alle werkers uit het model af en tekend ze als ze niet in een structuur zitten, de geselecteerde  werker wordt deze rood gekleurd,
-     * en wordt er boven de werker zijn naam, hoeveelheid lading en lading type weergegeven. als de muis boven de werker hangt wordt er een rechthoek rond de werker getekend
-     * als de hulp in model aan is zal er ondersteunend tekst boven een werker komen
+     * Method paintWerker gaat alle werkers uit het model af en tekend ze als ze niet in een structuur zitten, de geselecteerde  werkers wordt deze rood gekleurd,
+     * en wordt er boven de werkers zijn naam, hoeveelheid lading en lading type weergegeven. als de muis boven de werkers hangt wordt er een rechthoek rond de werkers getekend
+     * als de hulp in model aan is zal er ondersteunend tekst boven een werkers komen
      * 
      * @param g Graphics, de grafische beelden die aangepast worden 
      */
@@ -188,10 +188,18 @@ public class View extends Canvas
                     String count = "(" + String.valueOf(w.getDetectedPheromones().size()) + ") pheros";
                     g.drawString(count, w.getX()-10, coYW - size/2 -45);
 
+                    //draw a line
+                    g.setColor(Color.black);
+                    drawAngledLine(g,200,200, Math.toRadians(315),20);
+                    drawAngledLine(g,w.getX(),w.getCoY(), w.getCurrDirection(),20);
+                    g.setColor(Color.red);
+
                     if(w.getCurrPheromone() != null)
                     {
                         String currPheropoint = '(' + String.valueOf(w.getCurrPheromone().getX()) + ',' + String.valueOf(w.getCurrPheromone().getY()) + ')';
                         g.drawString(currPheropoint, w.getX() - 10, coYW - size / 2 - 55);
+
+
 
                         g.setColor(Color.pink);
                         int pointSize = 7;
@@ -766,14 +774,14 @@ public class View extends Canvas
                 if(b.getFunctie() == Functie.hoofdgebouw)
                 {
                     g.setColor(Color.white);
-                    g.drawString("Nu kan je een werker met deze knop maken ", 230, 730);
+                    g.drawString("Nu kan je een werkers met deze knop maken ", 230, 730);
                     g.setColor(Color.black);
                 }
             }
 
             else if( model.getSelectedWerker() != null)
             {
-                g.drawString("Nu kan je eender welke grondstoffen aan klikken met linkermuisknop om de werker te sturen ", 50, 40);
+                g.drawString("Nu kan je eender welke grondstoffen aan klikken met linkermuisknop om de werkers te sturen ", 50, 40);
             }
             else if(model.isBouwMode())
             {
@@ -831,6 +839,14 @@ public class View extends Canvas
     {
         String point = '(' + String.valueOf(mouseX) + ',' + String.valueOf(sizeY-mouseY) + ')';
         g.drawString(point,mouseX,  mouseY );
+    }
+
+    public void drawAngledLine(Graphics g,int x, int y, double angle, int length)
+    {
+        int x_dist = (int) (Math.cos(angle)* (double) length);
+        int y_dist = (int) (Math.sin(angle)* (double) length);
+
+        g.drawLine(x,sizeY - y,x + x_dist, sizeY -( y + y_dist ));
     }
 
     public int getMouseX() {

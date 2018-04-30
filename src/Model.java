@@ -1,12 +1,13 @@
 package src;
 
+import MAS_classes.CustomStruct;
 import MAS_classes.Pheromone;
 
 import java.util.*;
 
 /**
  * Dit is de klasse die alle aspecten van het spel bij elkaar houd, de algemene parameters bij houden, de verzamelingen van werkers en objecten bijhoud
- * , de grote van het spelbord, welke werker of object op het huidige moment wordt overhangen en geselecteerd is, 
+ * , de grote van het spelbord, welke werkers of object op het huidige moment wordt overhangen en geselecteerd is,
  * of bouwmode aanstaat of niet, met welke grondstof op het moment gebouwd word en of de help aan staat of niet. 
  * Hier worden de grondstof objecten en 1 hoofdgebouw willekeurig gegenereert.
  * inexpliciet wordt er in dit model gebruik gemaakt van een rooster van Y+4 rijen en X aantal kollomen (zie Landschap)de onderste rij is altijd gevuld met Grond objecten 
@@ -14,7 +15,7 @@ import java.util.*;
  * deze worden in het model bijgehouden. De werkers liggen als het waren boven dit rooster al zullen zij boven de 1ste rij lopen en door de 2de rij 
  * zij worden in model bijgehouden.
  * De klasse maakt gebruik van de klassen: Werker, Landschap, hemelLichaam,Object,Grondstof;
- * De klasse wordt aangemaakt bij het aanmaken van een AnEngineersQuest Object
+ * De klasse wordt aangemaakt bij het aanmaken van een MAS_autoAntIndustry Object
  * 
  * @author christiaan Vanbergen 
  * @version V12
@@ -34,10 +35,12 @@ public class Model
     private boolean bouwMode; // true als er gebouwen kunnen gezet worden, alle andere functies worden uitgeschakeld, false als de normale functie van het spel kan
     private Grondstof grondstofMode;//
     private Object selectedO = null; // het object die op dat moment geselecteert is
-    private Werker selectedW = null; // de werker die op dat moment geselecteert is
+    private Werker selectedW = null; // de werkers die op dat moment geselecteert is
     private Object hoveringObject = null; // true als er al een object is waar de muist overhangt
-    private boolean active = false ;// true als er al werker is waar de muis overhangt
+    private boolean active = false ;// true als er al werkers is waar de muis overhangt
     private boolean hulp; // is de hulp functie aan of niet
+
+    private boolean objectenLocked; //mutex lock for the objecten list
 
     /**
      * Constructor voor het model, de begin instellingen zijn: bouwmode is af, er is geen object geselecteer, de grote van het bord is 1300 op 850
@@ -60,6 +63,7 @@ public class Model
         //this.setObjecten();
         //this.set_MAS_Objects();
         hulp = false;
+        objectenLocked = false;
     }
 
     public void set_MAS_Objects(GroteView v)
@@ -68,17 +72,13 @@ public class Model
         objecten.add( HQ);
 
         objecten.add( new Grondstoffen(Grondstof.steen,500,500));
-        this.addWerker(HQ.getX(),HQ.getY(),"werker_1",v,this);
-        this.addWerker(HQ.getX(),HQ.getY(),"werker_2",v,this);
-  /*      this.addWerker(HQ.getX(),HQ.getY(),"werker_3",v,this);
-        this.addWerker(HQ.getX(),HQ.getY(),"werker_4",v,this);
-        this.addWerker(HQ.getX(),HQ.getY(),"werker_5",v,this);
-        this.addWerker(HQ.getX(),HQ.getY(),"werker_6",v,this);
-        this.addWerker(HQ.getX(),HQ.getY(),"werker_7",v,this);
-        this.addWerker(HQ.getX(),HQ.getY(),"werker_8",v,this);
-        this.addWerker(HQ.getX(),HQ.getY(),"werker_9",v,this);*/
+        objecten.add( new Grondstoffen(Grondstof.steen,600,500));
+        objecten.add( new Grondstoffen(Grondstof.steen,900,500));
+        objecten.add( new Grondstoffen(Grondstof.steen,100,100));
+        objecten.add( new Grondstoffen(Grondstof.steen,100,200));
+        objecten.add( new Grondstoffen(Grondstof.steen,900,900));
 
-        for( int i = 0; i<0;i++)
+        for( int i = 0; i<10;i++)
         {
             this.addWerker(HQ.getX(),HQ.getY(),("werker_" + String.valueOf(i+10)) ,v,this);
         }
@@ -204,9 +204,11 @@ public class Model
 
 
 
-    public void createPheromone(int x,int y,Grondstof g ,double expireTime)
+    public void createPheromone(int x,int y,Grondstof g ,double expireTime, Werker w)
     {
-        this.addObject(new Pheromone(x,y,expireTime,g));
+        Pheromone p = new Pheromone(x,y,expireTime,g,w);
+        this.addObject(p);
+        w.addVisitedPheromone(p);
     }
 
     public void deletePheromone(Pheromone p)
@@ -261,8 +263,17 @@ public class Model
     public void verwijderLegeObjecten(Object o)
     {
       //  landschap.getGrond(o.getX()).setBezet(false);
-        objecten.remove(o);
 
+       // objecten.remove(o);
+
+
+        Iterator<Object> iter = objecten.iterator();
+        while (iter.hasNext()) {
+            Object obj = iter.next();
+            if(obj.equals(o) )
+                iter.remove();
+
+        }
     }
 
     /**
@@ -336,15 +347,15 @@ public class Model
     }
 
     /**
-     * Method dichsteOpslag zoekt de opslag of het hoofdgebouw dat het dichtst bij de werker zijn positie is in x richting.
+     * Method dichsteOpslag zoekt de opslag of het hoofdgebouw dat het dichtst bij de werkers zijn positie is in x richting.
      *
-     * @param w Werker,     de werker waar men de het dichtst zijnde opslag of hoofdgebouw zoekt
+     * @param w Werker,     de werkers waar men de het dichtst zijnde opslag of hoofdgebouw zoekt
      * @return dichsteOpslag Gebouw,    het Gebouw dat het dichst ligt bij de gegeven Werker
      */
     public Gebouw dichsteOpslag(Werker w)
     {
-        Gebouw dichsteOpslag = null; // Het dichste opslag gebouw tot de werker tot nu toe
-        int kleinsteXVerschil = 1000000; // De kleinste afstand tussen opslag gebouw en werker tot nu toe
+        Gebouw dichsteOpslag = null; // Het dichste opslag gebouw tot de werkers tot nu toe
+        int kleinsteXVerschil = 1000000; // De kleinste afstand tussen opslag gebouw en werkers tot nu toe
         for(Object o: objecten)
         {
             if( o instanceof Gebouw)
@@ -395,7 +406,7 @@ public class Model
 
     /**
      * Method getSizeX geeft de grootte van het bord in de x richting.
-     * Wordt door de view, AnEngineersQuest en Controler gebruikt
+     * Wordt door de view, MAS_autoAntIndustry en Controler gebruikt
      *
      * @return sizeX int,    de grootte van het bord in de x richting
      */
@@ -407,7 +418,7 @@ public class Model
 
     /**
      * Method getSizeX geeft de grootte van het bord in de y richting.
-     * Wordt door de view, AnEngineersQuest en Controler gebruikt
+     * Wordt door de view, MAS_autoAntIndustry en Controler gebruikt
      *
      * @return sizeX int,    de grootte van het bord in de y richting
      */
@@ -515,11 +526,11 @@ public class Model
     }
 
     /**
-     * Method addWerker voegt een nieuwe werker toe aan het model die een bepaalde naam en bepaalde begin x coordinaat heeft
+     * Method addWerker voegt een nieuwe werkers toe aan het model die een bepaalde naam en bepaalde begin x coordinaat heeft
      *
-     * @param coX int,  De begin x coördinaat van de nieuwe werker
-     * @param coY int,  De begin y coördinaat van de nieuwe werker
-     * @param naam String,   De naam van de nieuwe werker
+     * @param coX int,  De begin x coördinaat van de nieuwe werkers
+     * @param coY int,  De begin y coördinaat van de nieuwe werkers
+     * @param naam String,   De naam van de nieuwe werkers
      */
     public void addWerker(int coX, int coY , String naam, GroteView v, Model m)
     {
@@ -533,10 +544,10 @@ public class Model
 
 
     /**
-     * Method addWerker voegt een nieuwe werker toe aan het model die een bepaalde naam en bepaalde begin x coordinaat heeft
+     * Method addWerker voegt een nieuwe werkers toe aan het model die een bepaalde naam en bepaalde begin x coordinaat heeft
      *
-     * @param coX int,  De begin x coördinaat van de nieuwe werker
-     * @param naam String,   De naam van de nieuwe werker
+     * @param coX int,  De begin x coördinaat van de nieuwe werkers
+     * @param naam String,   De naam van de nieuwe werkers
      */
     public void addWerker(int coX, String naam)
     {
@@ -544,10 +555,10 @@ public class Model
     }
 
     /**
-     * Method getSelectedWerker geeft de werker die nu geselecteerd is terug
+     * Method getSelectedWerker geeft de werkers die nu geselecteerd is terug
      * Wordt door de controller gebruikt
      *
-     * @return selectedW Werker, de werker die geselecteerd is of null
+     * @return selectedW Werker, de werkers die geselecteerd is of null
      */
     public  Werker getSelectedWerker()
     {
@@ -555,10 +566,10 @@ public class Model
     }
 
     /**
-     * Method setSelectedWerker veranderd de geselecteerde werker
+     * Method setSelectedWerker veranderd de geselecteerde werkers
      * Wordt door de controller gebruikt
      * 
-     * @param w Werker, De nieuwe werker die net geselecteerd is of null
+     * @param w Werker, De nieuwe werkers die net geselecteerd is of null
      */
     public void setSelectedWerker(Werker w)
     {
@@ -588,10 +599,10 @@ public class Model
     }
 
     /**
-     * Method isActive zegt of de muis over een werker hangt of niet
+     * Method isActive zegt of de muis over een werkers hangt of niet
      * Wordt door de controller gebruikt
      * 
-     * @return active boolean, true als de muis over een werker hangt, false als de muis over geen werker hangt
+     * @return active boolean, true als de muis over een werkers hangt, false als de muis over geen werkers hangt
      */
     public boolean isActive()
     {
@@ -599,10 +610,10 @@ public class Model
     }
 
     /**
-     * Method setActive veranderd de status of de muis over een werker hangt of niet
+     * Method setActive veranderd de status of de muis over een werkers hangt of niet
      * Wordt door de controller gebruikt
      * 
-     * @param active boolean,   true als de muis over een werker is gekomen, false als de muis van een werker afgaat
+     * @param active boolean,   true als de muis over een werkers is gekomen, false als de muis van een werkers afgaat
      */
     public void setActive (boolean active)
     {
@@ -675,22 +686,44 @@ public class Model
         return (int) Math.abs( Math.sqrt(Math.pow(Xdist,2)+ Math.pow(Ydist,2)));
     }
 
-    public boolean DetectedPheromone(Werker w, Pheromone p)
+    public boolean  DetectedPheromone(Werker w, Pheromone p)
     {
+
         if(distBetween(w.getX(),w.getCoY(),p.getX(),p.getY())<= w.getPheromonePolicy().getDetectDistance())
             return true;
         return false;
     }
 
+    public boolean  DetectedPheromone(Werker w, CustomStruct s)
+    {
+        Pheromone p = s.getPheromone();
+        int dist = distBetween(w.getX(),w.getCoY(),p.getX(),p.getY());
+
+        if(dist<= w.getPheromonePolicy().getDetectDistance())
+        {
+            s.setDistance(dist);
+            return true;
+        }
+        return false;
+    }
+
+    public void updatePheromoneDistances(Werker w)
+    {
+
+    }
+
     public void findPheromones(Werker w)
     {
+
         for(Object o:objecten)
         {
             if(o instanceof Pheromone)
             {
-                if(DetectedPheromone(w,(Pheromone) o))
+                CustomStruct s = new CustomStruct((Pheromone) o);
+                if(DetectedPheromone(w, s))
                 {
-                    w.addDetectedPheromone((Pheromone) o);
+                    int dist = s.getDistance();
+                    w.addDetectedPheromone(s.getPheromone(), dist);
                 }
             }
         }
@@ -705,10 +738,33 @@ public class Model
     }
 
     public ArrayList<Object> getObjecten() {
+
+        return objecten;
+    }
+
+    public ArrayList<Object> getObjectenBlock() {
+
         return objecten;
     }
 
     public void setObjecten(ArrayList<Object> objecten) {
         this.objecten = objecten;
+    }
+
+    public boolean requestObjectenLock()
+    {
+        if(objectenLocked == false)
+        {
+            objectenLocked = true;
+            return true;
+        }
+        else
+            return false;
+
+    }
+
+    public void releaseObjectenLock()
+    {
+        objectenLocked = false;
     }
 }

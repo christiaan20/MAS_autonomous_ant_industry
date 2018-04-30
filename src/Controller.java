@@ -57,11 +57,11 @@ public class Controller implements MouseListener, MouseMotionListener
 
     /**
      * Method mousePressed activeert wanneer er geklikt wordt op eender welke knop op de muis 
-     * voert de juiste acties uit wanneer er geklikt over een object of werker of lege plaats rekening houdend met de bouwmode, eventueel alreeds geselecteerde object,eventueel alreeds geselecteerde werker.
-     * De bepaling van welk object of welke werker er word aangeklikt wordt gedaan foor te controleren of een parameter in de werker of Object true is.
+     * voert de juiste acties uit wanneer er geklikt over een object of werkers of lege plaats rekening houdend met de bouwmode, eventueel alreeds geselecteerde object,eventueel alreeds geselecteerde werkers.
+     * De bepaling van welk object of welke werkers er word aangeklikt wordt gedaan foor te controleren of een parameter in de werkers of Object true is.
      * in bouwmode zal deze methode al dan niet gebouwen aanmaken of balken toevoegen aan gebouwen.
-     * Hij zal de geselecteerde werker beweging laten doen en in sommige gevallen een verzamelcyclus initialiseren.
-     * Pas op als de werker aan al aan het bewegen is en de Rechtermuis knop wordt in gedrukt zal de werker stoppen met bewegen om een nieuwe bewegen te doen
+     * Hij zal de geselecteerde werkers beweging laten doen en in sommige gevallen een verzamelcyclus initialiseren.
+     * Pas op als de werkers aan al aan het bewegen is en de Rechtermuis knop wordt in gedrukt zal de werkers stoppen met bewegen om een nieuwe bewegen te doen
      * moet er nog een eens op rechtermuis knop worden geduwd
      * 
      * @param e MouseEvent een object die informatie bevat over waar de muis heeft geklikt, in deze methode wordt alleen de x en y positie gebruikt hieruit
@@ -263,7 +263,7 @@ public class Controller implements MouseListener, MouseMotionListener
                     {
                         w.getMovePolicy().setTarget_x(e.getX());
                         w.getMovePolicy().setTarget_y(model.getSizeY()-e.getY());
-                        w.setCurrDirection(w.getAngleToPoint(e.getX(),e.getY()));
+                        w.setCurrDirection(w.getAngleToPoint(e.getX(),view.getSizeY()-e.getY()));
                         //w.setHuidigWerk(null);
                         //w.setMoving(false);
                     }
@@ -303,7 +303,7 @@ public class Controller implements MouseListener, MouseMotionListener
 
     /**
      * Method mouseMoved activeert telkens als de muis van positie veranderd
-     * gaat na of de muis boven een werker of een object hangt door middel van de methodes: overObject en overWerker
+     * gaat na of de muis boven een werkers of een object hangt door middel van de methodes: overObject en overWerker
      *
      * @param e MouseEvent  een object die informatie bevat over waar de muis heeft geklikt, in deze methode wordt alleen de x en y positie gebruikt hieruit
      */
@@ -312,47 +312,60 @@ public class Controller implements MouseListener, MouseMotionListener
         view.getView().setMouseX(e.getX());
         view.getView().setMouseY(e.getY());
 
-        java.util.Iterator<Werker> iterator=model.getIterator();
-        while (iterator.hasNext()) 
+        //nteger[] werkers = model.getWerkers().toArray(new Integer[model.getWerkers().size()]);
+
+        try
         {
-            Werker w = iterator.next();
-            overWerker(e,30,30,w);
+            //for(int i = 0;i<werkers.length;i++)
+            java.util.Iterator<Werker> iterator=model.getIterator();
+            while (iterator.hasNext())
+            {
+                Werker w = iterator.next();
+                overWerker(e,30,30,w);
+            }
         }
-        java.util.Iterator<Object> iterator1=model.getIterator2();
-        while (iterator1.hasNext()) 
+        catch(java.util.ConcurrentModificationException ex)
         {
-            Object o = iterator1.next();
-
-
-            if (o instanceof Grondstoffen)
-            {
-                Grondstoffen b = (Grondstoffen) o;
-                if(b.getStof()==Grondstof.hout)
-                {
-                    overObject(e,50,100,b,2);
-                }
-                else if(b.getStof()==Grondstof.steen)
-                {
-                    overObject(e,50,50,b,1);
-                }
-                else if (b.getStof()==Grondstof.voedsel)
-                {
-                    overObject(e,50,50,b,1);
-                }
-            }
-            else
-            {
-                if (o instanceof Gebouw)
-                {
-                    Gebouw b = (Gebouw) o;
-
-                    overObject(e,50,50,b,1);
-
-                }
-
-            }
 
         }
+
+
+
+        //Integer[] objecte = model.getObjecten().toArray(new Integer[model.getObjecten().size()]);
+        //for(int i = 0;i<werkers.length;i++)
+        try
+        {
+            java.util.Iterator<Object> iterator1 = model.getIterator2();
+            while (iterator1.hasNext()) {
+                Object o = iterator1.next();
+
+
+                if (o instanceof Grondstoffen) {
+                    Grondstoffen b = (Grondstoffen) o;
+                    if (b.getStof() == Grondstof.hout) {
+                        overObject(e, 50, 100, b, 2);
+                    } else if (b.getStof() == Grondstof.steen) {
+                        overObject(e, 50, 50, b, 1);
+                    } else if (b.getStof() == Grondstof.voedsel) {
+                        overObject(e, 50, 50, b, 1);
+                    }
+                } else {
+                    if (o instanceof Gebouw) {
+                        Gebouw b = (Gebouw) o;
+
+                        overObject(e, 50, 50, b, 1);
+
+                    }
+
+                }
+            }
+
+        }
+        catch(java.util.ConcurrentModificationException ex)
+        {
+
+        }
+
     }
 
     /**
@@ -366,7 +379,7 @@ public class Controller implements MouseListener, MouseMotionListener
 
     /**
      * Method overObject wordt gebruikt door de mousePressed methode uit deze klasse om op te vervragen of de muis boven een object hangt of niet 
-     * zo ja als het opbject nog wordt overgehangen of er geen werker voor staat dan wordt er parameter hoverover in het betreffende object true en hoveringObject in model wordt het object o
+     * zo ja als het opbject nog wordt overgehangen of er geen werkers voor staat dan wordt er parameter hoverover in het betreffende object true en hoveringObject in model wordt het object o
      * zo nee als het opbject wordt overgehange is wordt er parameter hoverover in het betreffende object false en hoveringObject in model wordt null
      * 
      * @param e De MouseEvent die bij de mousePressed gegeven werdt
@@ -400,14 +413,14 @@ public class Controller implements MouseListener, MouseMotionListener
     }
 
     /**
-     * Method overWerker wordt gebruikt door de mousePressed methode uit deze klasse om op te vervragen of de muis boven een bepaalde werker hangt of niet 
-     * zo ja als de werker nog niet wordt overgehangen of er geen werker voor staat en de werker niet in een structuur zit
-     * dan wordt er parameter hoverOver in het betreffende werker true en active in model wordt het true
-     * zo nee als het werker nog wordt overgehangen is wordt er parameter hoverOver in het betreffende  werker false en active in model wordt false
+     * Method overWerker wordt gebruikt door de mousePressed methode uit deze klasse om op te vervragen of de muis boven een bepaalde werkers hangt of niet
+     * zo ja als de werkers nog niet wordt overgehangen of er geen werkers voor staat en de werkers niet in een structuur zit
+     * dan wordt er parameter hoverOver in het betreffende werkers true en active in model wordt het true
+     * zo nee als het werkers nog wordt overgehangen is wordt er parameter hoverOver in het betreffende  werkers false en active in model wordt false
      * 
      * @param e De MouseEvent die bij de mousePressed gegeven werdt
-     * @param grootteX de grote van de werker waarop geklikt wordt in de x richting
-     * @param grootteY de grote van de werker waarop geklikt wordt in de y richting
+     * @param grootteX de grote van de werkers waarop geklikt wordt in de x richting
+     * @param grootteY de grote van de werkers waarop geklikt wordt in de y richting
      * @param w de Werker waar de test op gedaan moet worden
      */
     public void overWerker (MouseEvent e,int grootteX, int grootteY, Werker w)

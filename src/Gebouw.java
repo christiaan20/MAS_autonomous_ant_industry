@@ -32,11 +32,61 @@ public class  Gebouw extends Object
         Xsize = 100;
         Ysize = 100;
         super.hoverOver = false;
-        werker = new Werker[5];
+        werkers = new Werker[5];
         af = false;
         afcontrole();
     }
-        
+
+    @Override
+    public void tickGathering(Model model)
+    {
+        try
+        {
+            for(Werker w: werkers)
+            {
+                if(this.getFunctie() == Functie.hoofdgebouw || this.getFunctie() == Functie.opslag)
+                {
+
+                    if(w.inStructuur())
+                    {
+                        if(w.getTask() == Grondstof.hout)
+                        {
+                            model.setHoeveelheidHout(w.getLading());
+                        }
+                        else if(w.getTask() == Grondstof.steen)
+                        {
+                            model.setHoeveelheidSteen(w.getLading());
+                        }
+                        else if(w.getTask() == Grondstof.voedsel)
+                        {
+                            model.setHoeveelheidVoedsel(w.getLading());
+                        }
+
+                        w.dropLading();
+
+                    }
+                    this.deleteWerker(w);
+
+
+                }
+
+
+                //make the werkers drop a pheromone
+                w.setDistLastPheroDrop(w.getPheromonePolicy().getDropDistance()+1);
+                //remove all the pheromones that were detected and visited in the way towards
+                w.removeAllDetectedPhero();
+                w.removeAllVisitedPhero();
+
+                model.findPheromones(w);
+                w.setMoving(true);
+            }
+
+        }
+        catch(NullPointerException v)
+        {
+        }
+    }
+
 
     /**
      * Method afcontrole kijkt of het gebouw af is, door te kijken of alle balken niet null zijn als dit is dan is af = true

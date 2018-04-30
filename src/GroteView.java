@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Deze klasse zorgt voor de rangeschikking en het maken van de knoppen, labels en tekstvelden
  * De MainThread,GatherThread,MoveThread en AnEnigneersQuest klassen gebruiken dit object
  * Deze klasse gebruikt de klassen View en Model.
- * erft van Panel en implementeert ActionListener.
+ * erft van Panel en if i mplementeert ActionListener.
  * belangerijkste methode is performed()
  * 
  * 
@@ -25,9 +25,9 @@ public class GroteView extends Panel implements ActionListener
     private Panel panelboven;   // het panel met labels in het noorden 
     private Panel panelonder;   // het panel met knoppen, labels en tekstvelden in het zuiden
     private Button bouwMode;    // de knop voor de bouwmode aan en uit te schakelen
-    private Button maakWerker;  // de knop om een werker aan te maken
+    private Button maakWerker;  // de knop om een werkers aan te maken
     private Button help;        // de knop om de help functie aan te zetten of afzetten
-    private TextField naamWerker;   // het veld waar de naam van een nieuwe werker kan in gevoert worden
+    private TextField naamWerker;   // het veld waar de naam van een nieuwe werkers kan in gevoert worden
     private Label infoNaamWerker;   // extra informatie over het vorige tekst veld
     private Button hout;    // de knop die de grondstofmode naar hout zet of af zet 
     private Button steen;   // de knop die de gronstofmode naar steen zet of af zet
@@ -45,7 +45,7 @@ public class GroteView extends Panel implements ActionListener
      * en voegt de panels op hun beurt toe aan de juist coordinatie en de view in het midden deze krijgt
      * alle resterende plaats.
      *
-     * @param m het model dat aangemaakt wordt in AnEngineersQuest
+     * @param m het model dat aangemaakt wordt in MAS_autoAntIndustry
      */
     public GroteView(Model m)
     {
@@ -53,10 +53,10 @@ public class GroteView extends Panel implements ActionListener
         model = m;
         this.setLayout(new BorderLayout());
         bouwMode = new Button("Bouwmode: off");
-        maakWerker = new Button("Maak werker kost: 10 voedsel");
+        maakWerker = new Button("Maak werkers kost: 10 voedsel");
         help = new Button(" help: on ");
-        naamWerker = new TextField("werker 1",15);
-        infoNaamWerker = new Label("De naam van de nieuwe werker: ");
+        naamWerker = new TextField("werkers 1",15);
+        infoNaamWerker = new Label("De naam van de nieuwe werkers: ");
         hout = new Button(" Hout: off ");
         steen = new Button(" Steen: off ");
         infoGrondstof = new Label ("Grondstoffen: ");
@@ -100,8 +100,8 @@ public class GroteView extends Panel implements ActionListener
     /**
      * Method actionPerformed de methode die reageert op het klikken van de knoppen.
      * Bij het drukken van maakWerker moet het hoofdgebouw geselecteerd zijn en dan wordt er 10 voedsel 
-     * af getrokken van de hoeveelheid voedsel in model, een nieuwe werker gemaakt op de coordinaten van 
-     * het hoofdgebouw en de parameters up gedate, de naam van de werker wordt + 1 gedaan.
+     * af getrokken van de hoeveelheid voedsel in model, een nieuwe werkers gemaakt op de coordinaten van
+     * het hoofdgebouw en de parameters up gedate, de naam van de werkers wordt + 1 gedaan.
      * bij het drukken van bouwmode als bouwmode af is, wordt die aan en wordt de knop rood, 
      * als bouwmode aan is wordt deze af en wordt de knop wit.
      * bij het drukken van hout wordt grondstofmode in model hout en wordt de knop bruin en knop steen
@@ -124,7 +124,7 @@ public class GroteView extends Panel implements ActionListener
                     model.addWerker(b.getX()*view.getZ(),naamWerker.getText());
                     model.setHoeveelheidVoedsel(-10);
                     updateParameters();
-                    naamWerker.setText("werker " + String.valueOf(model.getSizeWerkers()+1));
+                    naamWerker.setText("werkers " + String.valueOf(model.getSizeWerkers()+1));
                 }
             }
         }

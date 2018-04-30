@@ -28,9 +28,65 @@ public class Grondstoffen extends Object
         Xsize = 50;
         Ysize = 50;
         random = new Random();
-        hoeveelheid = random.nextInt(15)+5;
-        werker = new Werker[5];
+        hoeveelheid = random.nextInt(50)+5;
+        werkers = new Werker[5];
     }
+
+    @Override
+    public void tickGathering(Model model)
+    {
+        for(Werker w: werkers)
+        {
+            try
+            {
+
+                if(w.inStructuur() == true && w.isVol() == false && this.getHoeveelheid() > 0 && (this.getStof() == w.getTask() || w.getTask() == null || w.getTask() == Grondstof.explorer))
+                {
+
+                    if(this.getStof() == Grondstof.hout)
+                    {
+                        w.addLading(Grondstof.hout);
+                        this.verlaagHoeveelheid();
+                    }
+                    if(this.getStof() == Grondstof.steen)
+                    {
+                        w.addLading(Grondstof.steen);
+                        this.verlaagHoeveelheid();
+                    }
+                    if(this.getStof() == Grondstof.voedsel)
+                    {
+                        w.addLading(Grondstof.voedsel);
+
+                        this.verlaagHoeveelheid();
+                    }
+
+                }
+
+                if(w.isVol() == true)
+                    w.setInStructuur(false);
+
+                if(this.getHoeveelheid() <= 0)
+                {
+                    model.verwijderLegeObjecten(this);
+                   // w.setHuidigWerk(null);
+                }
+
+                if(w.inStructuur() == false)
+                {
+                    this.deleteWerker(w);
+                    this.atExitOfWorker(w,model);
+
+                }
+
+
+            }
+            catch(NullPointerException v)
+            {
+            }
+        }
+
+    }
+
     public Grondstof getStof()
     {
         return stof;
