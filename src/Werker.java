@@ -158,12 +158,13 @@ public class Werker {
 
     public void tick(Model model)
     {
+        //moving is when the worker is active
         if(this.isMoving())
         {
             //procede to move to the assigned coordinates
             //System.out.println("step X" +w.getX() + "Y " + w.getCoY());
 
-            //move agent
+            //move agent, if the agent has reached this current target true is returned and it looks for new pheromones
             if(this.move(model.getSizeX(),model.getSizeY()))
             {
                 this.removeAllDetectedPhero();

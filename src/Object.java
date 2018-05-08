@@ -6,7 +6,7 @@ package src;
  * Deze klasse wordt door model,GatherThread,MainThread, GatherAnimation en MoveAnimation gebruikt
  * 
  * @author Christiaan Vanbergen
- * @version V11
+ * @version V11f
  */
 public abstract class Object
 {

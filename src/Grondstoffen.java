@@ -32,6 +32,20 @@ public class Grondstoffen extends Object
         werkers = new Werker[5];
     }
 
+    public Grondstoffen(Grondstof stof, int X, int Y, int hoeveelheid)
+    {
+        this.stof = stof;
+        super.hoverOver = false;
+        coX = X;
+        coY = Y;
+        Xsize = 50;
+        Ysize = 50;
+        random = new Random();
+        this.hoeveelheid = hoeveelheid;
+        werkers = new Werker[5];
+    }
+
+
     @Override
     public void tickGathering(Model model)
     {
@@ -67,9 +81,11 @@ public class Grondstoffen extends Object
 
                 if(this.getHoeveelheid() <= 0)
                 {
-                    model.verwijderLegeObjecten(this);
+                 //   model.verwijderLegeObjecten(this);
                    // w.setHuidigWerk(null);
+                    w.setInStructuur(false);
                 }
+
 
                 if(w.inStructuur() == false)
                 {

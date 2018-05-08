@@ -71,7 +71,7 @@ public class Model
         Gebouw HQ = new Gebouw(400,400,Grondstof.hout,Grondstof.steen,Grondstof.steen,Functie.hoofdgebouw);
         objecten.add( HQ);
 
-        objecten.add( new Grondstoffen(Grondstof.steen,500,500));
+        objecten.add( new Grondstoffen(Grondstof.steen,500,500, 3));
         objecten.add( new Grondstoffen(Grondstof.steen,600,500));
         objecten.add( new Grondstoffen(Grondstof.steen,900,500));
         objecten.add( new Grondstoffen(Grondstof.steen,100,100));
@@ -213,11 +213,12 @@ public class Model
 
     public void deletePheromone(Pheromone p)
     {
-        this.verwijderLegeObjecten(p);
+        this.verwijderObject(p);
     }
 
     public void checkExpiredPheromones()
     {
+        this.requestObjectenLockBlocking();
         Iterator<Object> iter = objecten.iterator();
 
         while (iter.hasNext()) {
@@ -229,11 +230,13 @@ public class Model
             }
 
         }
+        this.releaseObjectenLock();
 
     }
 
     public void tickPheromones(double msec)
     {
+        this.requestObjectenLockBlocking();
         for(Object obj: objecten)
         {
             if(obj instanceof Pheromone)
@@ -241,6 +244,7 @@ public class Model
                 ((Pheromone) obj).tick(msec);
             }
         }
+        this.releaseObjectenLock();
     }
 
 
@@ -257,23 +261,48 @@ public class Model
     /**
      * Method verwijderLegeObjecten verwijderd het meegegeven object, de grond onder dat object wordt terug vrij om op te bouwen.
      *
-     *
-     * @param o Object, Het Object dat moet verwijderd worden.
      */
-    public void verwijderLegeObjecten(Object o)
+    public void verwijderLegeObjecten()
     {
       //  landschap.getGrond(o.getX()).setBezet(false);
 
        // objecten.remove(o);
+        this.requestObjectenLockBlocking();
+
 
 
         Iterator<Object> iter = objecten.iterator();
         while (iter.hasNext()) {
             Object obj = iter.next();
-            if(obj.equals(o) )
-                iter.remove();
+            if(obj instanceof Grondstoffen)
+            {
+                if(((Grondstoffen) obj).getHoeveelheid() <= 0)
+                    iter.remove();
+            }
+
 
         }
+        this.releaseObjectenLock();
+    }
+
+    public void verwijderObject(Object o)
+    {
+        //  landschap.getGrond(o.getX()).setBezet(false);
+
+        // objecten.remove(o);
+        this.requestObjectenLockBlocking();
+
+        Iterator<Object> iter = objecten.iterator();
+        while (iter.hasNext()) {
+            Object obj = iter.next();
+            if(obj.equals(o))
+            {
+                    iter.remove();
+            }
+
+
+        }
+        this.releaseObjectenLock();
     }
 
     /**
@@ -751,8 +780,13 @@ public class Model
         this.objecten = objecten;
     }
 
+    /**
+     * non-blocking method that will return true when the Object list is free to be iterated over
+     * @return
+     */
     public boolean requestObjectenLock()
     {
+
         if(objectenLocked == false)
         {
             objectenLocked = true;
@@ -760,6 +794,22 @@ public class Model
         }
         else
             return false;
+
+    }
+
+    /**
+     * blocking method that will return true when the Object list is free to be iterated over
+     * @return
+     */
+    public boolean requestObjectenLockBlocking()
+    {
+
+        while(objectenLocked == true)
+        {
+
+        }
+        objectenLocked = true;
+        return true;
 
     }
 

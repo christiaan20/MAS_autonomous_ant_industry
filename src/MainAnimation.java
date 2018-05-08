@@ -61,27 +61,26 @@ public class MainAnimation implements Runnable
                             //System.out.println("added pheromone too visited list?");
                         }
                         view.updateParameters();
-                        model.checkExpiredPheromones();
+
                         count = 0;
 
                     }
                     if(countPreroThreshold <= countPheromon  )
                     {
-                         model.tickPheromones(countPreroThreshold*25);
+                        model.tickPheromones(countPreroThreshold*25);
+                        model.checkExpiredPheromones();
                         countPheromon = 0;
                     }
                     if(countGatherThres <= countGather)
                     {
-                        while(model.requestObjectenLock())
-                        {
-
-                        }
+                        model.requestObjectenLockBlocking();
                         for(Object o: model.getObjecten())
                         {
                             o.tickGathering(model);
 
                         }
                         model.releaseObjectenLock();
+                        model.verwijderLegeObjecten();
                         countGather = 0;
                     }
 

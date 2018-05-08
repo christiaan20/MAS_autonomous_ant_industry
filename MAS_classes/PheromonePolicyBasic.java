@@ -14,6 +14,9 @@ public class PheromonePolicyBasic implements PheromonePolicy {
     private int detectDistance;//the distance an ant can detect a pheromone
     private boolean enablePheroDrop;
 
+    //parameters pertaining to the visualisation
+    private int viewSize; //the diameter that is shown
+
     public PheromonePolicyBasic(Werker w) {
         werker = w;
         expireTime = 30.0;

@@ -88,7 +88,7 @@ public class GatherAnimation implements Runnable
 
             if(b.getHoeveelheid() <= 0)
             {
-                model.verwijderLegeObjecten(o);
+                model.verwijderLegeObjecten();
                 w.setHuidigWerk(null);
             }
 
