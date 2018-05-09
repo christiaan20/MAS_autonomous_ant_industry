@@ -1,7 +1,7 @@
 package MAS_classes;
 
-import src.Grondstof;
-import src.Werker;
+import src.Task;
+import src.Worker;
 import src.Object;
 
 /**
@@ -10,10 +10,10 @@ import src.Object;
 public class Pheromone extends Object{
 
     private double expireTime; // the expire time of the pheromone in seconds
-    private Grondstof task;
-    private Werker owner;
+    private Task task;
+    private Worker owner;
 
-    public Pheromone(int x, int y, double expireTime, Grondstof task, Werker owner) {
+    public Pheromone(int x, int y, double expireTime, Task task, Worker owner) {
          super.hoverOver= false;
          super.selected = false;
          super.coX = x;
@@ -44,11 +44,11 @@ public class Pheromone extends Object{
         this.expireTime = expireTime;
     }
 
-    public Grondstof getTask() {
+    public Task getTask() {
         return task;
     }
 
-    public void setTask(Grondstof task) {
+    public void setTask(Task task) {
         this.task = task;
     }
 
@@ -74,11 +74,11 @@ public class Pheromone extends Object{
         return result;
     }
 
-    public Werker getOwner() {
+    public Worker getOwner() {
         return owner;
     }
 
-    public void setOwner(Werker owner) {
+    public void setOwner(Worker owner) {
         this.owner = owner;
     }
 }

@@ -1,7 +1,7 @@
 package src;
 
 /**
- * Deze klasse is een verzamel klasse voor objecten die in het spel voorkomen en die daar een werkers
+ * Deze klasse is een verzamel klasse voor objecten die in het spel voorkomen en die daar een workers
  * kunnen betreden worden.
  * Deze klasse wordt door model,GatherThread,MainThread, GatherAnimation en MoveAnimation gebruikt
  * 
@@ -16,17 +16,17 @@ public abstract class Object
     protected  int coY; // de Y coordinaat van het Object
     protected  int Xsize; // NEW the size of the object in X direction
     protected  int Ysize; // NEW the size of the object in Y direction
-    protected Werker[] werkers;  // een array van werkers die in het object aanwezig zijn
-    protected int aantalWerkers;    // het aantal werkers in het object
+    protected Worker[] workers;  // een array van workers die in het object aanwezig zijn
+    protected int aantalWerkers;    // het aantal workers in het object
 
     public void tickGathering(Model model)
     {
 
     }
 
-    public void atExitOfWorker(Werker w, Model model)
+    public void atExitOfWorker(Worker w, Model model)
     {
-        //make the werkers drop a pheromone
+        //make the workers drop a pheromone
         w.setDistLastPheroDrop(w.getPheromonePolicy().getDropDistance()+1);
         //remove all the pheromones that were detected and visited in the way towards
         w.removeAllDetectedPhero();
@@ -99,58 +99,58 @@ public abstract class Object
     }
 
     /**
-     * Method addWerker voegt een werkers toe in de eerst beschikbare plaats en zet de status van die werkers
+     * Method addWorker voegt een workers toe in de eerst beschikbare plaats en zet de status van die workers
      * op in structuur.
      *
-     * @param w Werker, De werkers die wordt toegevoegt
+     * @param w Worker, De workers die wordt toegevoegt
      */
-    public void  addWerker(Werker w)
+    public void  addWerker(Worker w)
     {
         if(aantalWerkers < 5)
         {
-            boolean geplaatst = false; // plaatselijke parameter die zegt of de werkers al gepaatst is of niet
+            boolean geplaatst = false; // plaatselijke parameter die zegt of de workers al gepaatst is of niet
             for(int i=0; i<5;i++)
             {
                 
                 if( geplaatst == false)
                 {
-                    if(werkers[i] == null)
+                    if(workers[i] == null)
                     {
-                        werkers[i] = w;
+                        workers[i] = w;
                         geplaatst = true;
                     }
                 }
             }
             aantalWerkers++;
-            w.setInStructuur(true);
+            w.setInStructure(true);
         }
     }
 
     /**
-     * Method deleteWerker verwijderd een werkers uit het object, zet de status van deze werkers op uit structuur
+     * Method deleteWerker verwijderd een workers uit het object, zet de status van deze workers op uit structuur
      *
-     * @param w Werker, de te verwijderen werkers.
+     * @param w Worker, de te verwijderen workers.
      */
-    public void deleteWerker(Werker w)
+    public void deleteWerker(Worker w)
     {
         if(aantalWerkers > 0)
         {
             for(int i=0; i<5;i++)
             {
-                if(werkers[i] == w)
+                if(workers[i] == w)
                 {
-                    werkers[i] = null;
+                    workers[i] = null;
                 }
             }
-            w.setInStructuur(false);
+            w.setInStructure(false);
             aantalWerkers--;
         }
     }
     
     /**
-     * Method getAantalWerkers geeft het aantal werkers dat in een object zit 
+     * Method getAantalWerkers geeft het aantal workers dat in een object zit
      *
-     * @return aantalWerker int,    het aantal werkers in het object
+     * @return aantalWerker int,    het aantal workers in het object
      */
     public int getAantalWerkers()
     {

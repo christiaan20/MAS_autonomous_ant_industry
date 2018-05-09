@@ -3,7 +3,7 @@ package src;
 import java.awt.*;
 import java.awt.event.*;
 /**
- * Deze klasse is een verzamelklassen voor het hele spel hij gebruikt de klassen: Model, GroteView,MainThread,Controller
+ * Deze klasse is een verzamelklassen voor het hele spel hij gebruikt de klassen: Model, WindowView,MainThread,Controller
  * De hoofdbedoeling van deze klasse is dat met de main methode het spel venster kan geopend worden
  * 
  * @author Christiaan Vanbergen
@@ -12,7 +12,7 @@ import java.awt.event.*;
 public class MAS_autoAntIndustry extends Frame
 {
     private Model model;
-    private GroteView view;
+    private WindowView view;
     private Controller controller;
     private MainThread main;
 
@@ -28,14 +28,14 @@ public class MAS_autoAntIndustry extends Frame
     public MAS_autoAntIndustry()
     {
         model = new Model();
-        view = new GroteView(model);
+        view = new WindowView(model);
         main = new MainThread(model,view);
         add(view);
         controller = new Controller(model,view);
         this.setSize(1000,view.getSizeY()) ;
         view.setBackground(new Color(240,120,70 ));
 
-        controller.startWerkers();
+        controller.startWorkers();
 
         this.addWindowListener( new WindowAdapter() 
             {

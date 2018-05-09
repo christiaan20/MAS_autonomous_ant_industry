@@ -1,5 +1,0 @@
-#BlueJ class context
-comment0.params=w\ o\ model\ view
-comment0.target=GatherThread(Werker,\ Object,\ Model,\ GroteView)
-comment0.text=\r\n\ Constructor\ voor\ objecten\ van\ GatherThread\ een\ nieuwe\ GatherAnimation\ wordt\ gemaakt\ en\ ook\ een\r\n\ nieuwe\ Thread\ die\ de\ GatherAnimation\ gebruikt,\ De\ thread\ wordt\ gestart.\r\n\ \r\n\ @param\ w\ int,\ \ \ \ de\ werker\ die\ grondstoffen\ verzameld\r\n\ @param\ o\ Object,\ Het\ object\ waar\ de\ werker\ aan\ het\ verzamelen\ is\r\n\ @param\ model\ Model,\ het\ model\ waartoe\ de\ werker\ behoort.\r\n\ @param\ view\ GroteView,\ De\ GroteView\ \ die\ upgedate\ moet\ worden\r\n\ \r\n
-numComments=1

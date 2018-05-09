@@ -1,8 +1,8 @@
 package MAS_classes;
-import src.Gebouw;
-import src.Grondstof;
-import src.Grondstoffen;
-import src.Werker;
+import src.Building;
+import src.Resource;
+import src.Task;
+import src.Worker;
 
 import java.util.*;
 
@@ -13,9 +13,9 @@ import java.util.*;
 public class MovePolicyBasic implements movePolicy {
 
  //   public Model model;
-    private Werker werker;
-    private int target_x; //absolute x coordinate where the werkers is going to
-    private int target_y; //absolute y coordinate where the werkers is going to
+    private Worker worker;
+    private int target_x; //absolute x coordinate where the workers is going to
+    private int target_y; //absolute y coordinate where the workers is going to
     private Object targetObject; //Object for the worker to enter
     private int distWalked;
 
@@ -29,9 +29,9 @@ public class MovePolicyBasic implements movePolicy {
 
 
 
-    public MovePolicyBasic(Werker w,int stepDistance)
+    public MovePolicyBasic(Worker w, int stepDistance)
     {
-        this.werker = w;
+        this.worker = w;
        // this.model = model;
         target_x = w.getX();
         target_y = w.getCoY();
@@ -41,11 +41,11 @@ public class MovePolicyBasic implements movePolicy {
 
     public boolean move(int SizeX,int SizeY)
     {
-        if(werker.getTask() == Grondstof.explorer)
+        if(worker.getTask() == Task.explorer)
         {
             return explorerMove(SizeX, SizeY);
         }
-        else if (werker.getTask() == Grondstof.steen)
+        else if (worker.getTask() == Task.steen)
         {
             return steenWorkerMove(SizeX, SizeY);
         }
@@ -62,42 +62,42 @@ public class MovePolicyBasic implements movePolicy {
     public boolean steenWorkerMove(int sizeX, int sizeY)
     {
         //if the there is no current pheromone in the worker then select a new pheromone to follow
-        if(werker.getCurrPheromone() == null)
+        if(worker.getCurrPheromone() == null)
         {
-            werker.getPheromonePolicy().selectPheromone();
-            werker.getPheromonePolicy().setEnablePheroDrop(true);
+            worker.getPheromonePolicy().selectPheromone();
+            worker.getPheromonePolicy().setEnablePheroDrop(true);
         }
 
-        Pheromone phero =  werker.getCurrPheromone();
+        Pheromone phero =  worker.getCurrPheromone();
 
         //if there is no valid pheromone in the area just wander
         if( phero == null)
         {
-            werker.getPheromonePolicy().setEnablePheroDrop(false);
+            worker.getPheromonePolicy().setEnablePheroDrop(false);
             wanderWithin(sizeX,sizeY);
-           // werkers.setTask(Grondstof.explorer);
+           // workers.setTask(Task.explorer);
         }
-        /*else if (phero.getX() == werkers.getX() && phero.getY() == werkers.getCoY())
+        /*else if (phero.getX() == workers.getX() && phero.getY() == workers.getCoY())
         {
 
-            //if the werkers has reached the current pheromone add to the visited pheromones and select a new one
-            werkers.addVisitedPheromone(phero);
-            werkers.getPheromonePolicy().selectPheromone();
-            phero = werkers.getCurrPheromone();
+            //if the workers has reached the current pheromone add to the visited pheromones and select a new one
+            workers.addVisitedPheromone(phero);
+            workers.getPheromonePolicy().selectPheromone();
+            phero = workers.getCurrPheromone();
            if( phero != null)
            {
-               werkers.moveTo(phero.getX(),phero.getY());
+               workers.moveTo(phero.getX(),phero.getY());
            }
 
         }*/
         else
         {
-            werker.moveTo(phero.getX(),phero.getY());
+            worker.moveTo(phero.getX(),phero.getY());
 
-            if (phero.getX() == werker.getX() && phero.getY() == werker.getCoY())
+            if (phero.getX() == worker.getX() && phero.getY() == worker.getCoY())
             {
-                werker.addVisitedPheromone(phero);
-                werker.setCurrPheromone(null);
+                worker.addVisitedPheromone(phero);
+                worker.setCurrPheromone(null);
                 return true;
             }
 
@@ -110,13 +110,13 @@ public class MovePolicyBasic implements movePolicy {
 
     public boolean foundObject(Object obj)
     {
-        werker.getPheromonePolicy().setEnablePheroDrop(true);
+        worker.getPheromonePolicy().setEnablePheroDrop(true);
 
-            if (werker.getTask() == Grondstof.explorer) {
+            if (worker.getTask() == Task.explorer) {
 
                 return explorerFoundObject(obj);
             }
-            if (werker.getTask() == Grondstof.steen) {
+            if (worker.getTask() == Task.steen) {
                 return steenWorkerFoundObject(obj);
             }
 
@@ -127,16 +127,16 @@ public class MovePolicyBasic implements movePolicy {
 
     public boolean explorerFoundObject(Object obj)
     {
-        if (obj instanceof Grondstoffen)
+        if (obj instanceof Resource)
         {
-            werker.setDistLastPheroDrop(werker.getPheromonePolicy().getDropDistance()+1);
+            worker.setDistLastPheroDrop(worker.getPheromonePolicy().getDropDistance()+1);
 
-            Grondstoffen stof = (Grondstoffen) obj;
+            Resource stof = (Resource) obj;
 
-            werker.setMoving(false);
-            werker.setTask(stof.getStof());
-            werker.removeAllVisitedPhero(); //so that it can find his way home but might want to give this responsibility to the pheromonePolicy
-            werker.removeAllDetectedPhero();
+            worker.setMoving(false);
+            worker.setTask(stof.getStof());
+            worker.removeAllVisitedPhero(); //so that it can find his way home but might want to give this responsibility to the pheromonePolicy
+            worker.removeAllDetectedPhero();
 
             return true;
         }
@@ -145,32 +145,32 @@ public class MovePolicyBasic implements movePolicy {
 
     public boolean steenWorkerFoundObject(Object obj)
     {
-        if (obj instanceof Grondstoffen)
+        if (obj instanceof Resource)
         {
-            Grondstoffen stof = (Grondstoffen) obj;
+            Resource stof = (Resource) obj;
 
-            if(werker.getTask() == stof.getStof() && !(werker.isVol()))
+            if(worker.getTask() == stof.getStof() && !(worker.isVol()))
             {
-                werker.setDistLastPheroDrop(werker.getPheromonePolicy().getDropDistance()+1);
+                worker.setDistLastPheroDrop(worker.getPheromonePolicy().getDropDistance()+1);
 
-                werker.setMoving(false);
-                werker.removeAllVisitedPhero(); //so that it can find his way home but might want to give this responsibility to the pheromonePolicy
-                werker.removeAllDetectedPhero();
+                worker.setMoving(false);
+                worker.removeAllVisitedPhero(); //so that it can find his way home but might want to give this responsibility to the pheromonePolicy
+                worker.removeAllDetectedPhero();
                 return true;
             }
             return false;
 
         }
-        else if(obj instanceof Gebouw)
+        else if(obj instanceof Building)
         {
-            Gebouw b = (Gebouw) obj;
-            if( werker.getLading() > 0)
+            Building b = (Building) obj;
+            if( worker.getLoad() > 0)
             {
-                werker.setDistLastPheroDrop(werker.getPheromonePolicy().getDropDistance()+1);
+                worker.setDistLastPheroDrop(worker.getPheromonePolicy().getDropDistance()+1);
 
-                werker.setMoving(false);
-                werker.removeAllVisitedPhero();
-                werker.removeAllDetectedPhero();
+                worker.setMoving(false);
+                worker.removeAllVisitedPhero();
+                worker.removeAllDetectedPhero();
                 return true;
             }
 
@@ -196,11 +196,11 @@ public class MovePolicyBasic implements movePolicy {
 
         boolean output = false; //whether the move has reached a target
         //each step of stepDistance long the ant turns -90° to 90° after bigTurnThreshold the ant can turn upto 360°
-        if( distWalked >= stepDistance || ((target_x == werker.getX() && target_y == werker.getCoY())))
+        if( distWalked >= stepDistance || ((target_x == worker.getX() && target_y == worker.getCoY())))
         {
 
             double corner = (random.nextDouble()-0.5)*(Math.PI); //make a bend of min -90° and 90°
-            double totCorner = werker.getCurrDirection() + corner; //add bend to currecnt direction of the werkers
+            double totCorner = worker.getCurrDirection() + corner; //add bend to currecnt direction of the workers
 
             //generate a target based on the stepDistance
             if(bigTurnCount >=  bigTurnThreshold)
@@ -210,22 +210,22 @@ public class MovePolicyBasic implements movePolicy {
             }
             bigTurnCount = bigTurnCount+1;
 
-            target_x = werker.getX() +  (int) (Math.cos(totCorner)*stepDistance);
-            target_y = werker.getCoY() + (int) (Math.sin(totCorner)*stepDistance);
+            target_x = worker.getX() +  (int) (Math.cos(totCorner)*stepDistance);
+            target_y = worker.getCoY() + (int) (Math.sin(totCorner)*stepDistance);
 
             //if the target coordinates are outside of the borders of the map the ant is turned back by decreasing totCorner with 180° (but in radials)
             if(checkOutsideOfBorders(target_x,target_y,sizeX,sizeY))
             {
                 totCorner = totCorner - Math.PI;
-                target_x = werker.getX() +  (int) (Math.cos(totCorner)*stepDistance);
-                target_y = werker.getCoY() + (int) (Math.sin(totCorner)*stepDistance);
+                target_x = worker.getX() +  (int) (Math.cos(totCorner)*stepDistance);
+                target_y = worker.getCoY() + (int) (Math.sin(totCorner)*stepDistance);
             }
 
             distWalked =0;
-            werker.setCurrDirection(totCorner);
+            worker.setCurrDirection(totCorner);
             output = true;
         }
-        distWalked = distWalked + werker.moveTo(target_x,target_y);
+        distWalked = distWalked + worker.moveTo(target_x,target_y);
         return output;
     }
 

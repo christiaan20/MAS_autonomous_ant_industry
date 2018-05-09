@@ -6,10 +6,10 @@ import java.awt.*;
 import java.lang.*;
 
 /**
- * De view teken alles wat er in het model staat op zo een manier dat het overzichtelijk is en elk object herkenbaar is. hierin wordt het pad waar de werkers
+ * De view teken alles wat er in het model staat op zo een manier dat het overzichtelijk is en elk object herkenbaar is. hierin wordt het pad waar de workers
  * overlopen gemaakt.
  * De belangrijkste methodes zijn paint() en teken().
- * De GroteView gebruikt deze klasse en maakt ook een object van deze klasse in zijn constructor.
+ * De WindowView gebruikt deze klasse en maakt ook een object van deze klasse in zijn constructor.
  * Deze klasse erft van Canvas
  * 
  * 
@@ -25,7 +25,7 @@ public class View extends Canvas
     private int xVerschuiving; // het aantal pixels dat het landschap naar links verschoven is om mooier in het beeld te passen
     private int yVerschuiving; // het aantal pixels dat het landschap naar boven verschoven is om mooier in het beeld te passen
     private Image buffer; // een image die als buffer dient voor een snelle repaint.
-    private int[] pad = new int[1600]; // het pad waar de werkers overlopen
+    private int[] pad = new int[1600]; // het pad waar de workers overlopen
 
     private int mouseX;
     private int mouseY;
@@ -47,7 +47,7 @@ public class View extends Canvas
 
     /**
      * Method maakPad Deze methode gaat alle Grond objecten af en vult ,naar gelang de parameters van elke Grond object, de volgende 50 posities van de pad array 
-     * met de juiste y waardes zodat de werkers lijkt over het landschap te lopen. wordt door de contructor van dit object gebruikt
+     * met de juiste y waardes zodat de workers lijkt over het landschap te lopen. wordt door de contructor van dit object gebruikt
      *
      */
     public void maakPad()
@@ -154,9 +154,9 @@ public class View extends Canvas
     }
 
     /**
-     * Method paintWerker gaat alle werkers uit het model af en tekend ze als ze niet in een structuur zitten, de geselecteerde  werkers wordt deze rood gekleurd,
-     * en wordt er boven de werkers zijn naam, hoeveelheid lading en lading type weergegeven. als de muis boven de werkers hangt wordt er een rechthoek rond de werkers getekend
-     * als de hulp in model aan is zal er ondersteunend tekst boven een werkers komen
+     * Method paintWerker gaat alle workers uit het model af en tekend ze als ze niet in een structuur zitten, de geselecteerde  workers wordt deze rood gekleurd,
+     * en wordt er boven de workers zijn naam, hoeveelheid lading en lading type weergegeven. als de muis boven de workers hangt wordt er een rechthoek rond de workers getekend
+     * als de hulp in model aan is zal er ondersteunend tekst boven een workers komen
      * 
      * @param g Graphics, de grafische beelden die aangepast worden 
      */
@@ -164,10 +164,10 @@ public class View extends Canvas
     {
 
 
-        java.util.Iterator<Werker> iterator=model.getIterator();
+        java.util.Iterator<Worker> iterator=model.getIterator();
         while (iterator.hasNext()) 
         {
-            Werker w = iterator.next();
+            Worker w = iterator.next();
             int size = w.getSize();
             if(w.inStructuur()== false)
             {
@@ -176,8 +176,8 @@ public class View extends Canvas
                 if(w.isSelected()== true)
                 {
                     g.setColor(Color.red);
-                    g.drawString(w.getNaam(), w.getX()-10, coYW - size/2  - 5);
-                    g.drawString(String.valueOf(w.getLading()), w.getX()-10, coYW - size/2  - 15);
+                    g.drawString(w.getName(), w.getX()-10, coYW - size/2  - 5);
+                    g.drawString(String.valueOf(w.getLoad()), w.getX()-10, coYW - size/2  - 15);
                     if(w.getTask()!= null)
                     {
                         g.drawString(String.valueOf(w.getTask()), w.getX()-10, coYW- size/2 - 25);
@@ -306,15 +306,15 @@ public class View extends Canvas
             //Object o = iterator.next();
 
 
-            if (o instanceof Grondstoffen) {
-                Grondstoffen b = (Grondstoffen) o;
+            if (o instanceof Resource) {
+                Resource b = (Resource) o;
                 int x = b.getX(); // de x coordinaat van b
                 int y = b.getY(); // de y coordinaat van b
 
-                if (b.getStof() == Grondstof.hout) {
+                if (b.getStof() == Task.hout) {
                     if (b.isSelected() == true) {
                         g.setColor(Color.red);
-                        g.drawString(String.valueOf(b.getHoeveelheid()), x + 20, sizeY - (y + 1) - 5);
+                        g.drawString(String.valueOf(b.getAmount()), x + 20, sizeY - (y + 1) - 5);
                         g.drawString("hout", x + 15, sizeY - y - 20);
                     } else {
                         g.setColor(new Color(139, 90, 43));
@@ -329,13 +329,13 @@ public class View extends Canvas
                     if (b.getHoverOver() == true) {
                         g.drawRect(x, sizeY - y + 1, 50, 100);
                     }
-                } else if (b.getStof() == Grondstof.steen) {
+                } else if (b.getStof() == Task.steen) {
                     int objSizeX = b.getXsize();
                     int objSizeY = b.getYsize();
 
                     if (b.isSelected() == true) {
                         g.setColor(Color.red);
-                        g.drawString(String.valueOf(b.getHoeveelheid()), x + 20 - objSizeX / 2, sizeY - y - 5 - objSizeY / 2);
+                        g.drawString(String.valueOf(b.getAmount()), x + 20 - objSizeX / 2, sizeY - y - 5 - objSizeY / 2);
                         g.drawString("Steen", x + 9 - objSizeX / 2, sizeY - y - 20 - objSizeY / 2);
                     } else {
                         g.setColor(Color.gray);
@@ -348,10 +348,10 @@ public class View extends Canvas
                     if (b.getHoverOver() == true) {
                         g.drawRect(x - objSizeX / 2, sizeY - (y) - b.getYsize() / 2, objSizeX, objSizeY);
                     }
-                } else if (b.getStof() == Grondstof.voedsel) {
+                } else if (b.getStof() == Task.voedsel) {
                     if (b.isSelected() == true) {
                         g.setColor(Color.red);
-                        g.drawString(String.valueOf(b.getHoeveelheid()), x + 20, sizeY - y - 5);
+                        g.drawString(String.valueOf(b.getAmount()), x + 20, sizeY - y - 5);
                         g.drawString("voedsel", x + 5, sizeY - y - 20);
                     } else {
                         g.setColor(Color.green);
@@ -383,20 +383,20 @@ public class View extends Canvas
                 int x = p.getX();
                 int y = p.getY();
 
-                if (p.getTask() == Grondstof.steen) {
+                if (p.getTask() == Task.steen) {
                     g.setColor(Color.GRAY);
-                } else if (p.getTask() == Grondstof.explorer) {
+                } else if (p.getTask() == Task.explorer) {
                     g.setColor(Color.BLUE);
 
                 }
                 g.fillOval(x - objXsize / 2, sizeY - y - objYsize / 2, objXsize, objYsize);
             } else {
-                Gebouw b = (Gebouw) o;
+                Building b = (Building) o;
                 int x = b.getX(); // de x coordinaat van b
                 int y = b.getY();
-                java.util.Iterator<Constructie> iterator1 = b.getIterator();
+                java.util.Iterator<Construction> iterator1 = b.getIterator();
                 while (iterator1.hasNext()) {
-                    Constructie c = iterator1.next();
+                    Construction c = iterator1.next();
                     if (c != null) {
                         int xPos = c.getXPositieGebouw();
                         int yPos = c.getYPositieGebouw();
@@ -405,27 +405,27 @@ public class View extends Canvas
 
                         }
 
-                        if (c.getBovenBalk() == null) {
+                        if (c.getTopBeam() == null) {
                             if (model.isBouwMode()) {
                                 g.drawRect((x + xPos), sizeY - (y + yPos), 50, 15);
                             }
                         } else {
                             if (b.isSelected() == true) {
                                 g.setColor(Color.red);
-                                if (b.getFunctie() == Functie.hoofdgebouw) {
+                                if (b.getFunction() == Function.hoofdgebouw) {
 
                                     g.fillRoundRect((b.getX()) + 15, sizeY - (b.getY()) - 10, 20, 20, 3, 3);
 
                                 }
-                            } else if (c.getBovenBalk() == Grondstof.hout) {
-                                if (b.getFunctie() == Functie.hoofdgebouw) {
+                            } else if (c.getTopBeam() == Task.hout) {
+                                if (b.getFunction() == Function.hoofdgebouw) {
                                     g.setColor(Color.GRAY);
                                     g.fillRoundRect((b.getX()) + 15, sizeY - (b.getY()) - 10, 20, 20, 3, 3);
 
                                 }
                                 g.setColor(new Color(139, 90, 43));
                             } else {
-                                if (b.getFunctie() == Functie.hoofdgebouw) {
+                                if (b.getFunction() == Function.hoofdgebouw) {
                                     g.setColor(new Color(139, 90, 43));
                                     g.fillRoundRect((b.getX()) + 15, sizeY - (b.getY()) - 10, 20, 20, 3, 3);
 
@@ -434,12 +434,12 @@ public class View extends Canvas
                             }
                             g.fillRect((x + xPos), sizeY - (y + yPos), 50, 15);
                         }
-                        if (c.getRechterBalk() == null) {
+                        if (c.getRightBeam() == null) {
                             if (model.isBouwMode()) {
                                 g.drawRect((x + xPos) + 35, sizeY - (y + yPos) + 15, 15, 35);
                             }
                         } else {
-                            if (c.getRechterBalk() == Grondstof.hout) {
+                            if (c.getRightBeam() == Task.hout) {
                                 g.setColor(new Color(139, 90, 43));
                             } else {
                                 g.setColor(Color.gray);
@@ -447,12 +447,12 @@ public class View extends Canvas
                             }
                             g.fillRect((x + xPos) + 35, sizeY - (y + yPos) + 15, 15, 35);
                         }
-                        if (c.getLinkerBalk() == null) {
+                        if (c.getLeftBeam() == null) {
                             if (model.isBouwMode()) {
                                 g.drawRect((x + xPos), sizeY - (y + yPos) + 15, 15, 35);
                             }
                         } else {
-                            if (c.getLinkerBalk() == Grondstof.hout) {
+                            if (c.getLeftBeam() == Task.hout) {
                                 g.setColor(new Color(139, 90, 43));
                             } else {
                                 g.setColor(Color.gray);
@@ -488,18 +488,18 @@ public class View extends Canvas
         while (iterator.hasNext())
         {
             Object o = iterator.next();
-            if (o instanceof Grondstoffen)
+            if (o instanceof Resource)
             {
-                Grondstoffen b = (Grondstoffen)o;
+                Resource b = (Resource)o;
                 int x = b.getX(); // de x coordinaat van b
                 int y = b.getY(); // de y coordinaat van b
 
-                if(b.getStof() == Grondstof.hout)
+                if(b.getStof() == Task.hout)
                 {
                     if(b.isSelected()== true)
                     {
                         g.setColor(Color.red);
-                        g.drawString(String.valueOf(b.getHoeveelheid()), x+20,sizeY-((y+1)*Z)-yVerschuiving-5);
+                        g.drawString(String.valueOf(b.getAmount()), x+20,sizeY-((y+1)*Z)-yVerschuiving-5);
                         g.drawString("hout", x+15,sizeY-((y+1)*Z)-yVerschuiving-20);
                     }
                     else
@@ -518,12 +518,12 @@ public class View extends Canvas
                         g.drawRect(x,sizeY-(y+1)*Z-yVerschuiving, 50, 100);
                     }
                 }
-                else if(b.getStof() == Grondstof.steen)
+                else if(b.getStof() == Task.steen)
                 {
                     if(b.isSelected()== true)
                     {
                         g.setColor(Color.red);
-                        g.drawString(String.valueOf(b.getHoeveelheid()), x+20,sizeY-((y)*Z)-yVerschuiving-5);
+                        g.drawString(String.valueOf(b.getAmount()), x+20,sizeY-((y)*Z)-yVerschuiving-5);
                         g.drawString("Steen", x+9,sizeY-((y)*Z)-yVerschuiving-20);
                     }
                     else
@@ -537,12 +537,12 @@ public class View extends Canvas
                         g.drawRect(x,sizeY-(y)*50-yVerschuiving , 50, 50);
                     }
                 }
-                else if(b.getStof() == Grondstof.voedsel)
+                else if(b.getStof() == Task.voedsel)
                 {
                     if(b.isSelected()== true)
                     {
                         g.setColor(Color.red);
-                        g.drawString(String.valueOf(b.getHoeveelheid()), x+20,sizeY-((y)*Z)-yVerschuiving-5);
+                        g.drawString(String.valueOf(b.getAmount()), x+20,sizeY-((y)*Z)-yVerschuiving-5);
                         g.drawString("voedsel", x+5,sizeY-((y)*Z)-yVerschuiving-20);
                     }
                     else
@@ -572,13 +572,13 @@ public class View extends Canvas
             }
             else
             {
-                Gebouw b = (Gebouw)o;
+                Building b = (Building)o;
                 int x = b.getX(); // de x coordinaat van b
                 int y = b.getY();
-                java.util.Iterator<Constructie> iterator1=b.getIterator();
+                java.util.Iterator<Construction> iterator1=b.getIterator();
                 while (iterator1.hasNext())
                 {
-                    Constructie c = iterator1.next();
+                    Construction c = iterator1.next();
                     if(c != null)
                     {
                         int xPos = c.getXPositieGebouw();
@@ -589,7 +589,7 @@ public class View extends Canvas
 
                         }
 
-                        if(c.getBovenBalk() == null)
+                        if(c.getTopBeam() == null)
                         {
                             if (model.isBouwMode())
                             {
@@ -601,16 +601,16 @@ public class View extends Canvas
                             if(b.isSelected()== true)
                             {
                                 g.setColor(Color.red);
-                                if(b.getFunctie() == Functie.hoofdgebouw)
+                                if(b.getFunction() == Function.hoofdgebouw)
                                 {
 
                                     g.fillRoundRect((b.getX())*Z-xVerschuiving+15, sizeY-(b.getY())*50-yVerschuiving-10, 20, 20, 3, 3);
 
                                 }
                             }
-                            else if(c.getBovenBalk() == Grondstof.hout)
+                            else if(c.getTopBeam() == Task.hout)
                             {
-                                if(b.getFunctie() == Functie.hoofdgebouw)
+                                if(b.getFunction() == Function.hoofdgebouw)
                                 {
                                     g.setColor(Color.GRAY);
                                     g.fillRoundRect((b.getX())*Z-xVerschuiving+15, sizeY-(b.getY())*50-yVerschuiving-10, 20, 20, 3, 3);
@@ -620,7 +620,7 @@ public class View extends Canvas
                             }
                             else
                             {
-                                if(b.getFunctie() == Functie.hoofdgebouw)
+                                if(b.getFunction() == Function.hoofdgebouw)
                                 {
                                     g.setColor(new Color(139,90,43 ));
                                     g.fillRoundRect((b.getX())*Z-xVerschuiving+15, sizeY-(b.getY())*50-yVerschuiving-10, 20, 20, 3, 3);
@@ -630,7 +630,7 @@ public class View extends Canvas
                             }
                             g.fillRect((x+xPos)*Z-xVerschuiving,sizeY-(y+yPos)*Z-yVerschuiving , 50, 15);
                         }
-                        if(c.getRechterBalk() == null)
+                        if(c.getRightBeam() == null)
                         {
                             if (model.isBouwMode())
                             {
@@ -639,7 +639,7 @@ public class View extends Canvas
                         }
                         else
                         {
-                            if(c.getRechterBalk() == Grondstof.hout)
+                            if(c.getRightBeam() == Task.hout)
                             {
                                 g.setColor(new Color(139,90,43 ));
                             }
@@ -651,7 +651,7 @@ public class View extends Canvas
                             }
                             g.fillRect((x+xPos)*Z-xVerschuiving+35,sizeY-(y+yPos)*50-yVerschuiving+15 , 15, 35);
                         }
-                        if(c.getLinkerBalk() == null)
+                        if(c.getLeftBeam() == null)
                         {
                             if (model.isBouwMode())
                             {
@@ -660,7 +660,7 @@ public class View extends Canvas
                         }
                         else
                         {
-                            if(c.getLinkerBalk() == Grondstof.hout)
+                            if(c.getLeftBeam() == Task.hout)
                             {
                                 g.setColor(new Color(139,90,43 ));
                             }
@@ -768,20 +768,20 @@ public class View extends Canvas
                 g.setColor(Color.white);
             }
             
-            if( model.getSelectedObject() instanceof Gebouw)
+            if( model.getSelectedObject() instanceof Building)
             {
-                Gebouw b = (Gebouw) model.getSelectedObject();
-                if(b.getFunctie() == Functie.hoofdgebouw)
+                Building b = (Building) model.getSelectedObject();
+                if(b.getFunction() == Function.hoofdgebouw)
                 {
                     g.setColor(Color.white);
-                    g.drawString("Nu kan je een werkers met deze knop maken ", 230, 730);
+                    g.drawString("Nu kan je een workers met deze knop maken ", 230, 730);
                     g.setColor(Color.black);
                 }
             }
 
             else if( model.getSelectedWerker() != null)
             {
-                g.drawString("Nu kan je eender welke grondstoffen aan klikken met linkermuisknop om de werkers te sturen ", 50, 40);
+                g.drawString("Nu kan je eender welke grondstoffen aan klikken met linkermuisknop om de workers te sturen ", 50, 40);
             }
             else if(model.isBouwMode())
             {
@@ -805,12 +805,12 @@ public class View extends Canvas
                 {
                     Object o = iterator.next();
 
-                    if (o instanceof Gebouw)
+                    if (o instanceof Building)
                     {
-                        Gebouw b = (Gebouw)o;
+                        Building b = (Building)o;
                         int x = b.getX(); // de x coordinaat van b
                         int y = b.getY();
-                        if(b.getFunctie() == Functie.hoofdgebouw)
+                        if(b.getFunction() == Function.hoofdgebouw)
                         {
                             int verschuivingX = -50; // de verschuiving van de tekst tenopzichte van de coordinaaten van het gebouw in de x richting 
                             if( model.isHulp() == true && b.isSelected() == false && model.getSelectedWerker() == null)

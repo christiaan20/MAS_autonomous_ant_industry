@@ -6,15 +6,15 @@ import MAS_classes.Pheromone;
 import java.util.*;
 
 /**
- * Dit is de klasse die alle aspecten van het spel bij elkaar houd, de algemene parameters bij houden, de verzamelingen van werkers en objecten bijhoud
- * , de grote van het spelbord, welke werkers of object op het huidige moment wordt overhangen en geselecteerd is,
+ * Dit is de klasse die alle aspecten van het spel bij elkaar houd, de algemene parameters bij houden, de verzamelingen van workers en objecten bijhoud
+ * , de grote van het spelbord, welke workers of object op het huidige moment wordt overhangen en geselecteerd is,
  * of bouwmode aanstaat of niet, met welke grondstof op het moment gebouwd word en of de help aan staat of niet. 
  * Hier worden de grondstof objecten en 1 hoofdgebouw willekeurig gegenereert.
  * inexpliciet wordt er in dit model gebruik gemaakt van een rooster van Y+4 rijen en X aantal kollomen (zie Landschap)de onderste rij is altijd gevuld met Grond objecten 
  * ,deze neemt meer de vakken in en wordt bijgehouden in het landschap en de vakken net boven elke grond wordt gevult met Objecten 
- * deze worden in het model bijgehouden. De werkers liggen als het waren boven dit rooster al zullen zij boven de 1ste rij lopen en door de 2de rij 
+ * deze worden in het model bijgehouden. De workers liggen als het waren boven dit rooster al zullen zij boven de 1ste rij lopen en door de 2de rij
  * zij worden in model bijgehouden.
- * De klasse maakt gebruik van de klassen: Werker, Landschap, hemelLichaam,Object,Grondstof;
+ * De klasse maakt gebruik van de klassen: Worker, Landschap, hemelLichaam,Object,Task;
  * De klasse wordt aangemaakt bij het aanmaken van een MAS_autoAntIndustry Object
  * 
  * @author christiaan Vanbergen 
@@ -22,22 +22,22 @@ import java.util.*;
  */
 public class Model 
 {
-    private ArrayList<Werker> werkers = new ArrayList<Werker>(); // de werkers die in het model zitten
+    private ArrayList<Worker> workers = new ArrayList<Worker>(); // de workers die in het model zitten
     private Landschap landschap; // het landschap in het spel
     private ArrayList<Object> objecten = new ArrayList<Object>(); // de objecten die in het model zitten
     private Random random = new Random(); // een random parameter die willekeurige getallen kan genereren waar nodig
-    private int hoeveelheidHout; // de hoeveelheid van hout die de speler terbeschikking heeft
-    private int hoeveelheidSteen;// de hoeveelheid van steen die de speler terbeschikking heeft
-    private int hoeveelheidVoedsel;// de hoeveelheid van voedsel die de speler terbeschikking heeft
+    private int amountWood; // de hoeveelheid van hout die de speler terbeschikking heeft
+    private int amountStone;// de hoeveelheid van steen die de speler terbeschikking heeft
+    private int amountFood;// de hoeveelheid van voedsel die de speler terbeschikking heeft
     private int sizeX; // de grootte van het bord is x richting deze is nodig om het pad correct te configureren
     private int sizeY; // de grootte van het bord is y richting deze is nodig om het pad correct te configureren
     private HemelLichaam hemel; // het object die de zon en de maan maakt
     private boolean bouwMode; // true als er gebouwen kunnen gezet worden, alle andere functies worden uitgeschakeld, false als de normale functie van het spel kan
-    private Grondstof grondstofMode;//
+    private Task taskMode;//
     private Object selectedO = null; // het object die op dat moment geselecteert is
-    private Werker selectedW = null; // de werkers die op dat moment geselecteert is
+    private Worker selectedW = null; // de workers die op dat moment geselecteert is
     private Object hoveringObject = null; // true als er al een object is waar de muist overhangt
-    private boolean active = false ;// true als er al werkers is waar de muis overhangt
+    private boolean active = false ;// true als er al workers is waar de muis overhangt
     private boolean hulp; // is de hulp functie aan of niet
 
     private boolean objectenLocked; //mutex lock for the objecten list
@@ -55,9 +55,9 @@ public class Model
         selectedO = null;
         sizeX = 1000;
         sizeY = 800;
-        hoeveelheidHout = 20;
-        hoeveelheidSteen = 20;
-        hoeveelheidVoedsel = 20;
+        amountWood = 20;
+        amountStone = 20;
+        amountFood = 20;
         //landschap = new Landschap();
         //hemel = new HemelLichaam();
         //this.setObjecten();
@@ -66,21 +66,21 @@ public class Model
         objectenLocked = false;
     }
 
-    public void set_MAS_Objects(GroteView v)
+    public void set_MAS_Objects(WindowView v)
     {
-        Gebouw HQ = new Gebouw(400,400,Grondstof.hout,Grondstof.steen,Grondstof.steen,Functie.hoofdgebouw);
+        Building HQ = new Building(400,400, Task.hout, Task.steen, Task.steen, Function.hoofdgebouw);
         objecten.add( HQ);
 
-        objecten.add( new Grondstoffen(Grondstof.steen,500,500, 3));
-        objecten.add( new Grondstoffen(Grondstof.steen,600,500));
-        objecten.add( new Grondstoffen(Grondstof.steen,900,500));
-        objecten.add( new Grondstoffen(Grondstof.steen,100,100));
-        objecten.add( new Grondstoffen(Grondstof.steen,100,200));
-        objecten.add( new Grondstoffen(Grondstof.steen,900,900));
+        objecten.add( new Resource(Task.steen,500,500, 3));
+        objecten.add( new Resource(Task.steen,600,500));
+        objecten.add( new Resource(Task.steen,900,500));
+        objecten.add( new Resource(Task.steen,100,100));
+        objecten.add( new Resource(Task.steen,100,200));
+        objecten.add( new Resource(Task.steen,900,900));
 
         for( int i = 0; i<10;i++)
         {
-            this.addWerker(HQ.getX(),HQ.getY(),("werker_" + String.valueOf(i+10)) ,v,this);
+            this.addWorker(HQ.getX(),HQ.getY(),("werker_" + String.valueOf(i+10)) ,v,this);
         }
 
     }
@@ -99,23 +99,23 @@ public class Model
      * Method randomGrondstof genereert willekeurig een waarde van grondstof met 1/5 kans op hout,steen of voedsel en 2/5 kans op null.
      * setObjecten() maakt gebruik van deze methode.
      * 
-     * @return b Grondstof, de willekeurig gegenereerde waarde van Grondstof die beslist welk soort grondstoffen object op een bepaalde coordinaat komt,bij null geen object
+     * @return b Task, de willekeurig gegenereerde waarde van Task die beslist welk soort grondstoffen object op een bepaalde coordinaat komt,bij null geen object
      */
-    public Grondstof randomGrondstof()
+    public Task randomGrondstof()
     {
-        Grondstof b = null; // de waarde van grondstof die uiteindelijk gegeven zal worden
+        Task b = null; // de waarde van grondstof die uiteindelijk gegeven zal worden
         int a =random.nextInt(10);
         if (a <= 1 )
         {
-            b = Grondstof.hout;
+            b = Task.hout;
         }
         if(a >= 8)
         {
-            b = Grondstof.steen;
+            b = Task.steen;
         }
         if(a >=4 && a<=5)
         {
-            b = Grondstof.voedsel;
+            b = Task.voedsel;
         }
         return b;
     }
@@ -157,7 +157,7 @@ public class Model
                 Grond b =landschap.getGrond(i);
                 if(b.getRichting()== GrondRichting.recht)
                 {
-                    Grondstof c = randomGrondstof();
+                    Task c = randomGrondstof();
                     if( c == null)
                     {
                         boolean toelating = randomConstructie(); // mag er daar een constructie komen?
@@ -165,7 +165,7 @@ public class Model
                         {
                             if(toelating)
                             {
-                                objecten.add( new Gebouw(i,b.getHoogte()+1,Grondstof.hout,Grondstof.steen,Grondstof.steen,Functie.hoofdgebouw));
+                                objecten.add( new Building(i,b.getHoogte()+1, Task.hout, Task.steen, Task.steen, Function.hoofdgebouw));
                                 constructie = true;
                                 b.setBezet(true);
                             }
@@ -182,7 +182,7 @@ public class Model
                                 }
                                 if (nogRechteStukken == false)
                                 {
-                                    objecten.add( new Gebouw(i,b.getHoogte()+1,Grondstof.hout,Grondstof.steen,Grondstof.steen,Functie.hoofdgebouw));
+                                    objecten.add( new Building(i,b.getHoogte()+1, Task.hout, Task.steen, Task.steen, Function.hoofdgebouw));
                                     constructie = true;
                                     b.setBezet(true);
                                 }
@@ -192,7 +192,7 @@ public class Model
                     }
                     else
                     {
-                        objecten.add( new Grondstoffen(c,i,b.getHoogte()+1));
+                        objecten.add( new Resource(c,i,b.getHoogte()+1));
                         b.setBezet(true);
 
                     }
@@ -204,7 +204,7 @@ public class Model
 
 
 
-    public void createPheromone(int x,int y,Grondstof g ,double expireTime, Werker w)
+    public void createPheromone(int x, int y, Task g , double expireTime, Worker w)
     {
         Pheromone p = new Pheromone(x,y,expireTime,g,w);
         this.addObject(p);
@@ -213,7 +213,7 @@ public class Model
 
     public void deletePheromone(Pheromone p)
     {
-        this.verwijderObject(p);
+        this.deleteObject(p);
     }
 
     public void checkExpiredPheromones()
@@ -249,13 +249,13 @@ public class Model
 
 
     /**
-     *  getSizeWerkers geeft hoeveel werkers er in het spel zijn, wordt in grote view door perform() gebruikt
+     *  getSizeWerkers geeft hoeveel workers er in het spel zijn, wordt in grote view door perform() gebruikt
      *
-     * @return     werkers.size() int,  de grote van de arraylist
+     * @return     workers.size() int,  de grote van de arraylist
      */
     public int getSizeWerkers()
     {
-        return werkers.size();
+        return workers.size();
     }
 
     /**
@@ -274,9 +274,9 @@ public class Model
         Iterator<Object> iter = objecten.iterator();
         while (iter.hasNext()) {
             Object obj = iter.next();
-            if(obj instanceof Grondstoffen)
+            if(obj instanceof Resource)
             {
-                if(((Grondstoffen) obj).getHoeveelheid() <= 0)
+                if(((Resource) obj).getAmount() <= 0)
                     iter.remove();
             }
 
@@ -285,7 +285,7 @@ public class Model
         this.releaseObjectenLock();
     }
 
-    public void verwijderObject(Object o)
+    public void deleteObject(Object o)
     {
         //  landschap.getGrond(o.getX()).setBezet(false);
 
@@ -306,91 +306,91 @@ public class Model
     }
 
     /**
-     * Method getHoeveelheidHout geeft de hoeveelheid hout de speler heeft verzamel + begin hoeveelheden.
+     * Method getAmountWood geeft de hoeveelheid hout de speler heeft verzamel + begin hoeveelheden.
      * Wordt door Grote View en Controler gebruikt.
      *
-     * @return hoeveelheidHout int,  de hoeveelheid hout tussen 0 en oneindig
+     * @return amountWood int,  de hoeveelheid hout tussen 0 en oneindig
      */
-    public int getHoeveelheidHout()
+    public int getAmountWood()
     {
-        return hoeveelheidHout;
+        return amountWood;
     }
 
     /**
-     * Method getHoeveelheidSteen geeft de hoeveelheid Steen de speler heeft verzamel + begin hoeveelheden.
+     * Method getAmountStone geeft de hoeveelheid Steen de speler heeft verzamel + begin hoeveelheden.
      * Wordt door Grote View en Controler gebruikt.
      *
-     * @return hoeveelheidSteen int,  de hoeveelheid Steen tussen 0 en oneindig
+     * @return amountStone int,  de hoeveelheid Steen tussen 0 en oneindig
      */
-    public int getHoeveelheidSteen()
+    public int getAmountStone()
     {
-        return hoeveelheidSteen;
+        return amountStone;
     }
 
     /**
-     * Method getHoeveelheidVoedsel geeft de hoeveelheid Voedsel de speler heeft verzamel + begin hoeveelheden.
+     * Method getAmountFood geeft de hoeveelheid Voedsel de speler heeft verzamel + begin hoeveelheden.
      * Wordt door Grote View en Controler gebruikt.
      *
-     * @return hoeveelheidVoedsel int,  de hoeveelheid Voedsel tussen 0 en oneindig
+     * @return amountFood int,  de hoeveelheid Voedsel tussen 0 en oneindig
      */
-    public int getHoeveelheidVoedsel()
+    public int getAmountFood()
     {
-        return hoeveelheidVoedsel;
+        return amountFood;
     }
 
     /**
-     * Method setHoeveelheidSteen verhoogt de hoeveelheid steen met een bepaald bedrag
+     * Method setAmountStone verhoogt de hoeveelheid steen met een bepaald bedrag
      * Wordt door GatherAnimation en Controler gebruikt.
      * 
      * @param bedrag int,   de hoeveelheid dat bij de hoeveelheid steen geteld moet worden tussen -oneindig en oneindig
      */
-    public void setHoeveelheidSteen(int bedrag)
+    public void setAmountStone(int bedrag)
     {
-        hoeveelheidSteen = hoeveelheidSteen + bedrag;
+        amountStone = amountStone + bedrag;
 
     }
 
     /**
-     * Method setHoeveelheidHout verhoogt de hoeveelheid Hout met een bepaald bedrag
+     * Method setAmountWood verhoogt de hoeveelheid Hout met een bepaald bedrag
      * Wordt door GatherAnimation en Controler gebruikt.
      * 
      * @param bedrag int,   de hoeveelheid dat bij de hoeveelheid Hout geteld moet worden tussen -oneindig en oneindig
      */
-    public void setHoeveelheidHout(int bedrag)
+    public void setAmountWood(int bedrag)
     {
 
-        hoeveelheidHout = hoeveelheidHout + bedrag;
+        amountWood = amountWood + bedrag;
 
     }
 
     /**
-     * Method setHoeveelheidVoedsel verhoogt de hoeveelheid Voedsel met een bepaald bedrag 
+     * Method setAmountFood verhoogt de hoeveelheid Voedsel met een bepaald bedrag
      * Wordt door GatherAnimation en Controler gebruikt.
      * 
      * @param bedrag int,   de hoeveelheid dat bij de hoeveelheid Voedsel geteld moet worden tussen -oneindig en oneindig
      */
-    public void setHoeveelheidVoedsel(int bedrag)
+    public void setAmountFood(int bedrag)
     {
-        hoeveelheidVoedsel = hoeveelheidVoedsel + bedrag;
+        amountFood = amountFood + bedrag;
 
     }
 
     /**
-     * Method dichsteOpslag zoekt de opslag of het hoofdgebouw dat het dichtst bij de werkers zijn positie is in x richting.
+     * Method dichsteOpslag zoekt de opslag of het hoofdgebouw dat het dichtst bij de workers zijn positie is in x richting.
      *
-     * @param w Werker,     de werkers waar men de het dichtst zijnde opslag of hoofdgebouw zoekt
-     * @return dichsteOpslag Gebouw,    het Gebouw dat het dichst ligt bij de gegeven Werker
+     * @param w Worker,     de workers waar men de het dichtst zijnde opslag of hoofdgebouw zoekt
+     * @return dichsteOpslag Building,    het Building dat het dichst ligt bij de gegeven Worker
      */
-    public Gebouw dichsteOpslag(Werker w)
+    public Building dichsteOpslag(Worker w)
     {
-        Gebouw dichsteOpslag = null; // Het dichste opslag gebouw tot de werkers tot nu toe
-        int kleinsteXVerschil = 1000000; // De kleinste afstand tussen opslag gebouw en werkers tot nu toe
+        Building dichsteOpslag = null; // Het dichste opslag gebouw tot de workers tot nu toe
+        int kleinsteXVerschil = 1000000; // De kleinste afstand tussen opslag gebouw en workers tot nu toe
         for(Object o: objecten)
         {
-            if( o instanceof Gebouw)
+            if( o instanceof Building)
             {
-                Gebouw g = (Gebouw) o; 
-                if (g.getFunctie() == Functie.hoofdgebouw || g.getFunctie() == Functie.opslag)
+                Building g = (Building) o;
+                if (g.getFunction() == Function.hoofdgebouw || g.getFunction() == Function.opslag)
                 {
                     if( (g.getX()*50)-w.getX() < 0)
                     {
@@ -414,19 +414,19 @@ public class Model
     }
 
     /**
-     * Method getIterator geeft de iterator om de verzameling van werkers door te lopen 
+     * Method getIterator geeft de iterator om de verzameling van workers door te lopen
      *
-     * @return werks.iterator() Iterator<Werker>, de gevraagde iterator
+     * @return werks.iterator() Iterator<Worker>, de gevraagde iterator
      */
-    public Iterator<Werker> getIterator() 
+    public Iterator<Worker> getIterator()
     {
-        return werkers.iterator();    
+        return workers.iterator();
     }
 
     /**
-     * Method getIterator geeft de iterator om de verzameling van werkers door te lopen 
+     * Method getIterator geeft de iterator om de verzameling van workers door te lopen
      *
-     * @return werks.iterator() Iterator<Werker>, de gevraagde iterator
+     * @return werks.iterator() Iterator<Worker>, de gevraagde iterator
      */
     public Iterator<Object> getIterator2() 
     {
@@ -481,7 +481,7 @@ public class Model
 
     /**
      * Method setBouwMode werander de bouwmode naar de bijgegeven waarde
-     * Wordt door GroteView gebruikt
+     * Wordt door WindowView gebruikt
      *
      * @param b boolean, als bouwmode aangezet wordt: true, als bouwmode afgezet wordt: false
      */
@@ -515,21 +515,21 @@ public class Model
      * Method getGrondstofmode geeft in welke grondstof er nu gebouwd wordt.
      * Wordt gebruikt door Controler, Groteview.
      *
-     * @return grondstofMode Grondstof,  De actieve grondstof, hout of steen
+     * @return taskMode Task,  De actieve grondstof, hout of steen
      */
-    public Grondstof getGrondstofmode()
+    public Task getGrondstofmode()
     {
-        return grondstofMode;
+        return taskMode;
     }
 
     /**
-     * Method setGrondstofMode veranderd in welke grondstof er nu gebouwd wordt
+     * Method setTaskMode veranderd in welke grondstof er nu gebouwd wordt
      *
-     * @param b Grondstof,  de grondstof waar gebouwd in gaat worden, hout of steen
+     * @param b Task,  de grondstof waar gebouwd in gaat worden, hout of steen
      */
-    public void setGrondstofMode(Grondstof b)
+    public void setTaskMode(Task b)
     {
-        grondstofMode=  b;
+        taskMode =  b;
     }
 
     /**
@@ -555,17 +555,17 @@ public class Model
     }
 
     /**
-     * Method addWerker voegt een nieuwe werkers toe aan het model die een bepaalde naam en bepaalde begin x coordinaat heeft
+     * Method addWorker voegt een nieuwe workers toe aan het model die een bepaalde naam en bepaalde begin x coordinaat heeft
      *
-     * @param coX int,  De begin x coördinaat van de nieuwe werkers
-     * @param coY int,  De begin y coördinaat van de nieuwe werkers
-     * @param naam String,   De naam van de nieuwe werkers
+     * @param coX int,  De begin x coördinaat van de nieuwe workers
+     * @param coY int,  De begin y coördinaat van de nieuwe workers
+     * @param naam String,   De naam van de nieuwe workers
      */
-    public void addWerker(int coX, int coY , String naam, GroteView v, Model m)
+    public void addWorker(int coX, int coY , String naam, WindowView v, Model m)
     {
-        Werker werker = new Werker(coX,coY,naam);
-        werker.initMovePolicy(v,m);
-        werkers.add(werker);
+        Worker worker = new Worker(coX,coY,naam);
+        worker.initMovePolicy(v,m);
+        workers.add(worker);
 
 
     }
@@ -573,34 +573,34 @@ public class Model
 
 
     /**
-     * Method addWerker voegt een nieuwe werkers toe aan het model die een bepaalde naam en bepaalde begin x coordinaat heeft
+     * Method addWorker voegt een nieuwe workers toe aan het model die een bepaalde naam en bepaalde begin x coordinaat heeft
      *
-     * @param coX int,  De begin x coördinaat van de nieuwe werkers
-     * @param naam String,   De naam van de nieuwe werkers
+     * @param coX int,  De begin x coördinaat van de nieuwe workers
+     * @param naam String,   De naam van de nieuwe workers
      */
-    public void addWerker(int coX, String naam)
+    public void addWorker(int coX, String naam)
     {
-        werkers.add(new Werker(coX,naam));
+        workers.add(new Worker(coX,naam));
     }
 
     /**
-     * Method getSelectedWerker geeft de werkers die nu geselecteerd is terug
+     * Method getSelectedWerker geeft de workers die nu geselecteerd is terug
      * Wordt door de controller gebruikt
      *
-     * @return selectedW Werker, de werkers die geselecteerd is of null
+     * @return selectedW Worker, de workers die geselecteerd is of null
      */
-    public  Werker getSelectedWerker()
+    public Worker getSelectedWerker()
     {
         return selectedW;
     }
 
     /**
-     * Method setSelectedWerker veranderd de geselecteerde werkers
+     * Method setSelectedWerker veranderd de geselecteerde workers
      * Wordt door de controller gebruikt
      * 
-     * @param w Werker, De nieuwe werkers die net geselecteerd is of null
+     * @param w Worker, De nieuwe workers die net geselecteerd is of null
      */
-    public void setSelectedWerker(Werker w)
+    public void setSelectedWerker(Worker w)
     {
         selectedW = w;
     }
@@ -628,10 +628,10 @@ public class Model
     }
 
     /**
-     * Method isActive zegt of de muis over een werkers hangt of niet
+     * Method isActive zegt of de muis over een workers hangt of niet
      * Wordt door de controller gebruikt
      * 
-     * @return active boolean, true als de muis over een werkers hangt, false als de muis over geen werkers hangt
+     * @return active boolean, true als de muis over een workers hangt, false als de muis over geen workers hangt
      */
     public boolean isActive()
     {
@@ -639,10 +639,10 @@ public class Model
     }
 
     /**
-     * Method setActive veranderd de status of de muis over een werkers hangt of niet
+     * Method setActive veranderd de status of de muis over een workers hangt of niet
      * Wordt door de controller gebruikt
      * 
-     * @param active boolean,   true als de muis over een werkers is gekomen, false als de muis van een werkers afgaat
+     * @param active boolean,   true als de muis over een workers is gekomen, false als de muis van een workers afgaat
      */
     public void setActive (boolean active)
     {
@@ -650,7 +650,7 @@ public class Model
     }
      /**
      * Method isHulp zegt of er hulp wordt gegeven onf niet
-     * Wordt door de GroteView gebruikt
+     * Wordt door de WindowView gebruikt
      * 
      * @return hulp boolean, true als er hulp gegeven wordt, false als er geen hulp gegeven wordt
      */
@@ -672,30 +672,30 @@ public class Model
    
     /**
      * Method Restart brengt alles terug naar begin condities en genereert alles opnieuw
-     * De threads van het vorige spel blijven nog draaien, dit betekend dat werkers van het vorige spel die naar de opslagplaats gingen het lading nog gaan afgeven
+     * De threads van het vorige spel blijven nog draaien, dit betekend dat workers van het vorige spel die naar de opslagplaats gingen het lading nog gaan afgeven
      * maakt soms alleen het hemellichaam dan moet de methode nog eens opgeroepen worden, gebeurde pas naar het verkleinen van de scherm grootte
      *
      */
     public void restart()
     {
         objecten.removeAll(objecten);
-        werkers.removeAll(werkers);
+        workers.removeAll(workers);
         bouwMode = false;
         selectedO = null;
         sizeX = 1300;
         sizeY = 850;
-        hoeveelheidHout = 20;
-        hoeveelheidSteen = 20;
-        hoeveelheidVoedsel = 20;
+        amountWood = 20;
+        amountStone = 20;
+        amountFood = 20;
         landschap = new Landschap(); 
         hemel = new HemelLichaam();
         this.setObjecten();
         
     }
 
-    public Gebouw getHQ()
+    public Building getHQ()
     {
-        return (Gebouw) objecten.get(0);
+        return (Building) objecten.get(0);
     }
 
     public Object checkOverObjectFromModel(int x, int y) {
@@ -715,7 +715,7 @@ public class Model
         return (int) Math.abs( Math.sqrt(Math.pow(Xdist,2)+ Math.pow(Ydist,2)));
     }
 
-    public boolean  DetectedPheromone(Werker w, Pheromone p)
+    public boolean  DetectedPheromone(Worker w, Pheromone p)
     {
 
         if(distBetween(w.getX(),w.getCoY(),p.getX(),p.getY())<= w.getPheromonePolicy().getDetectDistance())
@@ -723,7 +723,7 @@ public class Model
         return false;
     }
 
-    public boolean  DetectedPheromone(Werker w, CustomStruct s)
+    public boolean  DetectedPheromone(Worker w, CustomStruct s)
     {
         Pheromone p = s.getPheromone();
         int dist = distBetween(w.getX(),w.getCoY(),p.getX(),p.getY());
@@ -736,12 +736,12 @@ public class Model
         return false;
     }
 
-    public void updatePheromoneDistances(Werker w)
+    public void updatePheromoneDistances(Worker w)
     {
 
     }
 
-    public void findPheromones(Werker w)
+    public void findPheromones(Worker w)
     {
 
         for(Object o:objecten)
@@ -758,12 +758,12 @@ public class Model
         }
     }
 
-    public ArrayList<Werker> getWerkers() {
-        return werkers;
+    public ArrayList<Worker> getWorkers() {
+        return workers;
     }
 
-    public void setWerkers(ArrayList<Werker> werkers) {
-        this.werkers = werkers;
+    public void setWorkers(ArrayList<Worker> workers) {
+        this.workers = workers;
     }
 
     public ArrayList<Object> getObjecten() {

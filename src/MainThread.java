@@ -18,9 +18,9 @@ public class MainThread extends Thread
      * nieuwe Thread die de MainAnimation gebruikt, De thread wordt gestart.
      * 
      * @Param model Model,   het model die door de mainAnimatie gestuurd wordt
-     * @Param view View,    de GroteView die door de mainAnimatie gestuurd wordt
+     * @Param view View,    de WindowView die door de mainAnimatie gestuurd wordt
      */
-    public MainThread(Model model,GroteView view)
+    public MainThread(Model model, WindowView view)
     {
         a = new MainAnimation(model,view);
         t = new Thread(a);

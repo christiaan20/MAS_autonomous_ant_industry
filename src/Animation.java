@@ -3,7 +3,7 @@ package src;
 import java.util.ArrayList;
 
 /**
- * Deze klasse zorgt voor de beweging van een werkers.
+ * Deze klasse zorgt voor de beweging van een workers.
  * deze klasse implementeert Runnable
  * Deze klasse wordt gebruikt door MoveThread.
  * 
@@ -12,28 +12,28 @@ import java.util.ArrayList;
  */
 public class Animation implements Runnable
 {
-    private int coX2;// de x coordinaat waar de werkers heen gaat
-    private int coY2;// de y coordinaat waar de werkers heen gaat
-    private Werker w; // de bewegende werkers
-    private GroteView view; // de Grote view waar alles op getekend gaat worden
-    private Model model;    // het model waar de werkers in zit
+    private int coX2;// de x coordinaat waar de workers heen gaat
+    private int coY2;// de y coordinaat waar de workers heen gaat
+    private Worker w; // de bewegende workers
+    private WindowView view; // de Grote view waar alles op getekend gaat worden
+    private Model model;    // het model waar de workers in zit
     private int speed;      //hoeveel miliseconden er tussen elke stap van 10 pixel zit
-    private Object toObject; // het object waar de werkers heen gaat
+    private Object toObject; // het object waar de workers heen gaat
 
-    private boolean autom; // parameter if true then the werkers will move automatically
+    private boolean autom; // parameter if true then the workers will move automatically
     /**
-     * De conctructor voor objecten van Animation, de speed blijft voor elke beweging van een werkers
-     * 25*10, dit betekend dat een werkers om de 250 miliseconden 10 pixels vooruit gaat.
+     * De conctructor voor objecten van Animation, de speed blijft voor elke beweging van een workers
+     * 25*10, dit betekend dat een workers om de 250 miliseconden 10 pixels vooruit gaat.
      * 
-     * @param coX2 int, de X coordinaat van het punt waar de werkers heen moet gaan
-     * @param w int,    de werkers die de beweging uitvoert
-     * @param view GroteView, De GroteView waar op de beweging tezien zal zijn
-     * @param toObject Object, Het object waar de werkers naar toe gaat, kan null zijn
-     * @param m Model, het model waartoe de werkers behoort.
+     * @param coX2 int, de X coordinaat van het punt waar de workers heen moet gaan
+     * @param w int,    de workers die de beweging uitvoert
+     * @param view WindowView, De WindowView waar op de beweging tezien zal zijn
+     * @param toObject Object, Het object waar de workers naar toe gaat, kan null zijn
+     * @param m Model, het model waartoe de workers behoort.
      * 
      * 
      */
-    public Animation(int coX2, Werker w, GroteView view, Object toObject, Model m)
+    public Animation(int coX2, Worker w, WindowView view, Object toObject, Model m)
     {
         this.coX2 = coX2;
         this.coY2 = coY2;
@@ -46,7 +46,7 @@ public class Animation implements Runnable
         this.autom = false;
     }
 
-    public Animation(int coX2,int coY2, Werker w, GroteView view, Object toObject, Model m)
+    public Animation(int coX2, int coY2, Worker w, WindowView view, Object toObject, Model m)
     {
         this.coX2 = coX2;
         this.coY2= coY2;
@@ -59,7 +59,7 @@ public class Animation implements Runnable
         this.autom = false;
     }
 
-    public Animation(Werker w, GroteView view, Object toObject, Model m)
+    public Animation(Worker w, WindowView view, Object toObject, Model m)
     {
         this.coX2 = 0;
         this.coY2= 0;
@@ -75,15 +75,15 @@ public class Animation implements Runnable
     
     /**
      * Method run deze methode wordt uit gevoert bij het starten van de MoveThread.
-     * Als er op een object is gedrukt zal de werkers naar de coordinaat van dit object +20 gaan, bij
+     * Als er op een object is gedrukt zal de workers naar de coordinaat van dit object +20 gaan, bij
      * gebouwen wordt hier nog eerst gecheckt of het gebouw wel af is. op het einde van deze thread
-     * wordt de werkers aan het object toegevoegt en wordt de gatherThread gestart als het gebouw vol
-     * zit zal de werkers wachten tot er plaats is in het object.
-     * Voor de eigenlijke beweging wordt gekeken of er links of rechts van de werkers geklikt is en
-     * aan de hand daar van laat men de werkers links of rechts bewegen. de beweging stopt wanneer
-     * de positie van de werkers gelijk of groter is dan de aan geklikte x coordinaat of als de
-     * moving parameter van de werkers false wordt.
-     * op het einde wordt de moving parameter in werkers false gezet
+     * wordt de workers aan het object toegevoegt en wordt de gatherThread gestart als het gebouw vol
+     * zit zal de workers wachten tot er plaats is in het object.
+     * Voor de eigenlijke beweging wordt gekeken of er links of rechts van de workers geklikt is en
+     * aan de hand daar van laat men de workers links of rechts bewegen. de beweging stopt wanneer
+     * de positie van de workers gelijk of groter is dan de aan geklikte x coordinaat of als de
+     * moving parameter van de workers false wordt.
+     * op het einde wordt de moving parameter in workers false gezet
      */
     public void run()
     {
@@ -99,9 +99,9 @@ public class Animation implements Runnable
             {
                 if (toObject != null )
                 {
-                    if (toObject instanceof Gebouw)
+                    if (toObject instanceof Building)
                     {
-                        Gebouw gebouw = (Gebouw) toObject;
+                        Building gebouw = (Building) toObject;
                         if(gebouw.isAf())
                         {
                             coX2 = toObject.getX();
@@ -143,18 +143,18 @@ public class Animation implements Runnable
                     while(toObject.getAantalWerkers() > 5)
                     {
                     }
-                    if (toObject instanceof Gebouw)
+                    if (toObject instanceof Building)
                     {
-                        Gebouw gebouw = (Gebouw) toObject;
+                        Building gebouw = (Building) toObject;
                         if(gebouw.isAf())
                         {
-                            toObject.addWerker(w);
+                            toObject.addWorker(w);
                             GatherThread g = new GatherThread(w,toObject,model,view);
                         }
                     }
                     else
                     {
-                        toObject.addWerker(w);
+                        toObject.addWorker(w);
                     GatherThread g = new GatherThread(w,toObject,model,view);
                 }
 
@@ -223,9 +223,9 @@ public class Animation implements Runnable
         w.setMoving(true);
         if (toObject != null )
         {
-            if (toObject instanceof Gebouw)
+            if (toObject instanceof Building)
             {
-                Gebouw gebouw = (Gebouw) toObject;
+                Building gebouw = (Building) toObject;
                 if(gebouw.isAf())
                 {
                     coX2 = toObject.getX()*view.getZ() +20;
@@ -279,18 +279,18 @@ public class Animation implements Runnable
             while(toObject.getAantalWerkers() > 5)
             {
             }
-            if (toObject instanceof Gebouw)
+            if (toObject instanceof Building)
             {
-                Gebouw gebouw = (Gebouw) toObject;
+                Building gebouw = (Building) toObject;
                 if(gebouw.isAf())
                 {
-                    toObject.addWerker(w);
+                    toObject.addWorker(w);
                     GatherThread g = new GatherThread(w,toObject,model,view);  
                 }
             }
             else
             {
-                toObject.addWerker(w);
+                toObject.addWorker(w);
                 GatherThread g = new GatherThread(w,toObject,model,view);
             }
 

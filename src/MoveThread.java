@@ -19,26 +19,26 @@ public class MoveThread extends Thread
      * 
      * @param coX2 int, de X coordinaat van het punt waar de werker heen moet gaan
      * @param w int,    de werker die de beweging uitvoert
-     * @param view GroteView, De GroteView waar op de beweging tezien zal zijn
+     * @param view WindowView, De WindowView waar op de beweging tezien zal zijn
      * @param toObject Object, Het object waar de werker naar toe gaat, kan null zijn
      * @param model Model, het model waartoe de werker behoort.
      * 
      */
-    public MoveThread(int coX2, Werker w, GroteView view ,Object toObject,Model model)
+    public MoveThread(int coX2, Worker w, WindowView view , Object toObject, Model model)
     {
         a = new Animation(coX2,w,view,toObject,model);
         t = new Thread(a);
         t.start();
     }
 
-    public MoveThread(int coX2,int coY2, Werker w, GroteView view ,Object toObject,Model model)
+    public MoveThread(int coX2, int coY2, Worker w, WindowView view , Object toObject, Model model)
     {
         a = new Animation(coX2,coY2,w,view,toObject,model);
         t = new Thread(a);
         t.start();
     }
 
-    public MoveThread(Werker w, GroteView view ,Object toObject,Model model)
+    public MoveThread(Worker w, WindowView view , Object toObject, Model model)
     {
         a = new Animation(w,view,toObject,model);
         t = new Thread(a);

@@ -36,7 +36,7 @@ public class HemelLichaam
      * @param model het model waar het hemelLichaam toe behoort 
      * @param view  de Grote View die het hemelLichaam moet tekenen
      */
-    public void beweegLichaam(Model model,GroteView view)
+    public void beweegLichaam(Model model, WindowView view)
     {
         x = x +0.5;
         y = 100+(Math.pow((x-500)/30,2));

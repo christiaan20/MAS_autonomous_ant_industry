@@ -1,8 +1,0 @@
-#BlueJ class context
-comment0.params=m\ v
-comment0.target=MainAnimation(Model,\ GroteView)
-comment0.text=\r\n\ Constructor\ voor\ objecten\ van\ MainAnimation\r\n\ \r\n\ @Param\ model\ Model,\ \ \ het\ model\ die\ door\ de\ mainAnimatie\ gestuurd\ wordt\r\n\ @Param\ view\ View,\ \ \ \ de\ GroteView\ die\ door\ de\ mainAnimatie\ gestuurd\ wordt\r\n\ \r\n
-comment1.params=
-comment1.target=void\ run()
-comment1.text=\r\n\ Method\ run\ doorheen\ heel\ het\ programma\ wordt\ om\ de\ 25\ miliseconden\ De\ view\ hertekend\ en\r\n\ het\ hemelLichaam\ verplaatst.\r\n\r\n
-numComments=2

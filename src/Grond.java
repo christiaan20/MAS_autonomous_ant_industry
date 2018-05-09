@@ -1,7 +1,7 @@
 package src;
 
 /**
- * Deze klasse zijn de grond objecten die in het landschap zitten en waarover het model zijn pad maakt voor de werkers, ook alle objecten baseren hun 
+ * Deze klasse zijn de grond objecten die in het landschap zitten en waarover het model zijn pad maakt voor de workers, ook alle objecten baseren hun
  * Y positie op de hoogteGrond uit deze klasse
  * Deze klasse wordt gebruikt door View en landschap.
  * 

@@ -2,7 +2,7 @@ package src;
 
 import java.util.*;
 /**
- * Deze klasse is een onderverdeling van Object en dient ofwel als afdropplaats voor werkers ofwel als verwerkingsgebouwen. In deze versie zullen gebouwen 
+ * Deze klasse is een onderverdeling van Object en dient ofwel als afdropplaats voor workers ofwel als verwerkingsgebouwen. In deze versie zullen gebouwen
  * alleen voor opslag plaats en voor hoofdgebouw gebruikt worden.1 gebouw kan uit meerdere constructies bestaan dat is in deze versie nog niet uitgewerkt.
  * erft van Object.
  * 
@@ -10,29 +10,29 @@ import java.util.*;
  * @version V11
  */
 
-public class  Gebouw extends Object
+public class Building extends Object
 {
-    private Grondstof bovenBalk; // de grondstof waar de bovenste balk uit gemaakt is 
-    private Grondstof linkerBalk; // de grondstof waar de linkerbalk uit gemaakt is
-    private Grondstof rechterBalk;// de grondstof waar de rechter balk uit gemaakt is
-    private Functie functie;    // de functie van het gebouw
-    private ArrayList<Constructie> onderdelen = new ArrayList<Constructie>(); // delen waar een gebouw uit bestaat
+    private Task bovenBalk; // de grondstof waar de bovenste balk uit gemaakt is
+    private Task linkerBalk; // de grondstof waar de linkerbalk uit gemaakt is
+    private Task rechterBalk;// de grondstof waar de rechter balk uit gemaakt is
+    private Function function;    // de function van het gebouw
+    private ArrayList<Construction> onderdelen = new ArrayList<Construction>(); // delen waar een gebouw uit bestaat
     private boolean af; // is het gebouw compleet, true of false
     /**
      * Constructor voor objecten van Gebouwn, begin instelling zijn: een nieuw contructie in onderdelen, de muis hangt niet over het gebouw, er kunnen 5 
-     * werkers in het gebouw, eerste wordt af op false gezet en daarna wordt er met de methode afcontrole() gecontroleert of het gebouw af is of niet.
+     * workers in het gebouw, eerste wordt af op false gezet en daarna wordt er met de methode afcontrole() gecontroleert of het gebouw af is of niet.
      * (geen enkel balk in de 1st constructie is nog null => af = true)
      */
-    public Gebouw(int x, int y,Grondstof bBalk, Grondstof lBalk,Grondstof rBalk, Functie functie) 
+    public Building(int x, int y, Task bBalk, Task lBalk, Task rBalk, Function function)
     {
-        onderdelen.add(new Constructie(0,0,bBalk,lBalk,rBalk));
-        this.functie = functie;
+        onderdelen.add(new Construction(0,0,bBalk,lBalk,rBalk));
+        this.function = function;
         coX = x;
         coY = y;
         Xsize = 100;
         Ysize = 100;
         super.hoverOver = false;
-        werkers = new Werker[5];
+        workers = new Worker[5];
         af = false;
         afcontrole();
     }
@@ -42,24 +42,24 @@ public class  Gebouw extends Object
     {
         try
         {
-            for(Werker w: werkers)
+            for(Worker w: workers)
             {
-                if(this.getFunctie() == Functie.hoofdgebouw || this.getFunctie() == Functie.opslag)
+                if(this.getFunction() == Function.hoofdgebouw || this.getFunction() == Function.opslag)
                 {
 
                     if(w.inStructuur())
                     {
-                        if(w.getTask() == Grondstof.hout)
+                        if(w.getTask() == Task.hout)
                         {
-                            model.setHoeveelheidHout(w.getLading());
+                            model.setAmountWood(w.getLoad());
                         }
-                        else if(w.getTask() == Grondstof.steen)
+                        else if(w.getTask() == Task.steen)
                         {
-                            model.setHoeveelheidSteen(w.getLading());
+                            model.setAmountStone(w.getLoad());
                         }
-                        else if(w.getTask() == Grondstof.voedsel)
+                        else if(w.getTask() == Task.voedsel)
                         {
-                            model.setHoeveelheidVoedsel(w.getLading());
+                            model.setAmountFood(w.getLoad());
                         }
 
                         w.dropLading();
@@ -71,7 +71,7 @@ public class  Gebouw extends Object
                 }
 
 
-                //make the werkers drop a pheromone
+                //make the workers drop a pheromone
                 w.setDistLastPheroDrop(w.getPheromonePolicy().getDropDistance()+1);
                 //remove all the pheromones that were detected and visited in the way towards
                 w.removeAllDetectedPhero();
@@ -94,8 +94,8 @@ public class  Gebouw extends Object
      */
     public void afcontrole()
     {
-        Constructie con = onderdelen.get(0); // de hoofdconstructie van het gebouw
-        if(con.getBovenBalk() != null && con.getRechterBalk() != null && con.getLinkerBalk() != null)
+        Construction con = onderdelen.get(0); // de hoofdconstructie van het gebouw
+        if(con.getTopBeam() != null && con.getRightBeam() != null && con.getLeftBeam() != null)
         {
             af = true;
         }
@@ -105,21 +105,21 @@ public class  Gebouw extends Object
     
     
     /**
-     * Method getFunctie geeft de functie van het gebouw
+     * Method getFunction geeft de function van het gebouw
      *
-     * @return functie Functie,     de functie van het gebouw
+     * @return function Function,     de function van het gebouw
      */
-    public Functie getFunctie()
+    public Function getFunction()
     {
-        return functie;
+        return function;
     }
 
     /**
      * Method getConstructie geeft de 1ste contructie terug
      *
-     * @return onderdelen.get(0) Constructie, De eerste constructie
+     * @return onderdelen.get(0) Construction, De eerste constructie
      */
-    public Constructie getConstructie()
+    public Construction getConstructie()
     {
         return onderdelen.get(0);
     }
@@ -137,56 +137,56 @@ public class  Gebouw extends Object
     }
 
     /**
-     * Method setbovenBalk  veranderd het soortmateriaal waaruit de bovenste balk gemaakt is van een gekozen construcite maar enkel als het gebouw nog niet af is
+     * Method setTopBeam  veranderd het soortmateriaal waaruit de bovenste balk gemaakt is van een gekozen construcite maar enkel als het gebouw nog niet af is
      * na het toevoegen wordt eer gecontroleert of het gebouw af is met afcontrole()
      *
      * @param con Int,   de positie van de constructie in de ArrayList
-     * @param g Grondstof,  Het soort grondstof waaruit de balk gemaakt wordt
+     * @param g Task,  Het soort grondstof waaruit de balk gemaakt wordt
      */
-    public void setbovenBalk(int con, Grondstof g)
+    public void setbovenBalk(int con, Task g)
     {
         if(af == false)
         {
-            onderdelen.get(con).setbovenBalk(g);
+            onderdelen.get(con).setTopBeam(g);
             afcontrole();
         }
     }
     /**
-     * Method setRechterBalk  veranderd het soort materiaal waaruit de rechter balk gemaakt is van een gekozen construcite maar enkel als het gebouw nog niet af is
+     * Method setRightBeam  veranderd het soort materiaal waaruit de rechter balk gemaakt is van een gekozen construcite maar enkel als het gebouw nog niet af is
      * na het toevoegen wordt eer gecontroleert of het gebouw af is met afcontrole()
      *
      * @param con Int,   de positie van de constructie in de ArrayList
-     * @param g Grondstof,  Het soort grondstof waaruit de balk gemaakt wordt
+     * @param g Task,  Het soort grondstof waaruit de balk gemaakt wordt
      */
-    public void setRechterBalk(int con,Grondstof g)
+    public void setRechterBalk(int con, Task g)
     {
         if(af == false)
         {
-            onderdelen.get(con).setRechterBalk(g);
+            onderdelen.get(con).setRightBeam(g);
             afcontrole();
         }
     }
     /**
-     * Method setLinkerBalk  veranderd het soortmateriaal waaruit de bovenste balk gemaakt is van een gekozen construcite maar enkel als het gebouw nog niet af is
+     * Method setLeftBeam  veranderd het soortmateriaal waaruit de bovenste balk gemaakt is van een gekozen construcite maar enkel als het gebouw nog niet af is
      * na het toevoegen wordt eer gecontroleert of het gebouw af is met afcontrole()
      *
      * @param con Int,   de positie van de constructie in de ArrayList
-     * @param g Grondstof,  Het soort grondstof waaruit de balk gemaakt wordt
+     * @param g Task,  Het soort grondstof waaruit de balk gemaakt wordt
      */
-    public void setLinkerBalk(int con,Grondstof g)
+    public void setLinkerBalk(int con, Task g)
     {
         if(af == false)
         {
-            onderdelen.get(con).setLinkerBalk(g);
+            onderdelen.get(con).setLeftBeam(g);
             afcontrole();
         }
     }
     /**
      * Method getIterator geeft de iterator om de Constructies in onderdelen door telopen
      *
-     * @return onderdelen.iterator Iterator<Constructie>,   de iterator 
+     * @return onderdelen.iterator Iterator<Construction>,   de iterator
      */
-    public Iterator<Constructie> getIterator() 
+    public Iterator<Construction> getIterator()
     {
         return onderdelen.iterator();    
     }

@@ -10,20 +10,20 @@ package src;
  */
 public class GatherThread extends Thread
 {
-    private GatherAnimation a; // da animatie om een werkers te laten verzamelen
+    private GatherAnimation a; // da animatie om een workers te laten verzamelen
     private Thread t;   // de thread die da animatie uitvoert
     
     /**
      * Constructor voor objecten van GatherThread een nieuwe GatherAnimation wordt gemaakt en ook een
      * nieuwe Thread die de GatherAnimation gebruikt, De thread wordt gestart.
      * 
-     * @param w int,    de werkers die grondstoffen verzameld
-     * @param o Object, Het object waar de werkers aan het verzamelen is
-     * @param model Model, het model waartoe de werkers behoort.
-     * @param view GroteView, De GroteView  die upgedate moet worden
+     * @param w int,    de workers die grondstoffen verzameld
+     * @param o Object, Het object waar de workers aan het verzamelen is
+     * @param model Model, het model waartoe de workers behoort.
+     * @param view WindowView, De WindowView  die upgedate moet worden
      * 
      */
-    public GatherThread(Werker w, Object o, Model model,GroteView view)
+    public GatherThread(Worker w, Object o, Model model, WindowView view)
     {
         a = new GatherAnimation(w,o,model,view);
         t = new Thread(a);

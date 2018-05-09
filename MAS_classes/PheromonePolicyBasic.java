@@ -1,14 +1,14 @@
 package MAS_classes;
 
-import src.Grondstof;
-import src.Werker;
+import src.Task;
+import src.Worker;
 
 /**
  * Created by christiaan on 23/04/18.
  */
 public class PheromonePolicyBasic implements PheromonePolicy {
 
-    private Werker werker;
+    private Worker worker;
     private double expireTime; //expire time of the pheromone in seconds
     private int dropDistance;  //the distance needed to walk before a pheromone is dropped
     private int detectDistance;//the distance an ant can detect a pheromone
@@ -17,8 +17,8 @@ public class PheromonePolicyBasic implements PheromonePolicy {
     //parameters pertaining to the visualisation
     private int viewSize; //the diameter that is shown
 
-    public PheromonePolicyBasic(Werker w) {
-        werker = w;
+    public PheromonePolicyBasic(Worker w) {
+        worker = w;
         expireTime = 30.0;
         dropDistance = 30;
         detectDistance = 70;
@@ -27,13 +27,13 @@ public class PheromonePolicyBasic implements PheromonePolicy {
 
     public void selectPheromone()
     {
-        if(!werker.getDetectedPheromones().isEmpty())
+        if(!worker.getDetectedPheromones().isEmpty())
         {
             //find the closest pheromone and the closest pheromone that you own, always preferres the owned pheromone
-            Pheromone chosen = this.closestPheroToTask(Grondstof.explorer);             //the chosen out of all paths
-            Pheromone chosenTask = this.closestPheroToTask(werker.getTask());           //the chosen out of all path belonging to his task (not explorer)
-            Pheromone chosenOwned = this.closestOwnedPheroToTask(Grondstof.explorer);   //the chosen out of only his own path belonging
-            Pheromone chosenOwnedTask = this.closestOwnedPheroToTask(werker.getTask()); //the chosen out of only his own path belonging and to his task
+            Pheromone chosen = this.closestPheroToTask(Task.explorer);             //the chosen out of all paths
+            Pheromone chosenTask = this.closestPheroToTask(worker.getTask());           //the chosen out of all path belonging to his task (not explorer)
+            Pheromone chosenOwned = this.closestOwnedPheroToTask(Task.explorer);   //the chosen out of only his own path belonging
+            Pheromone chosenOwnedTask = this.closestOwnedPheroToTask(worker.getTask()); //the chosen out of only his own path belonging and to his task
 
             //The not owned pheromone is only returned of no owned pheromone is found
             if(chosenOwnedTask == null)
@@ -42,49 +42,49 @@ public class PheromonePolicyBasic implements PheromonePolicy {
                 {
                     if(chosenOwned == null)
                     {
-                        werker.setCurrPheromone(chosen);
+                        worker.setCurrPheromone(chosen);
                     }
                     else
                     {
-                        werker.setCurrPheromone(chosenOwned);
+                        worker.setCurrPheromone(chosenOwned);
                     }
                 }
                 else
                 {
-                    werker.setCurrPheromone(chosenTask);
+                    worker.setCurrPheromone(chosenTask);
                 }
 
             }
             else
             {
-                werker.setCurrPheromone(chosenOwnedTask);
+                worker.setCurrPheromone(chosenOwnedTask);
             }
 
 
         }
         else
         {
-            werker.setCurrPheromone(null);
+            worker.setCurrPheromone(null);
         }
 
     }
 
-    public Pheromone closestOwnedPheroToTask(Grondstof task)
+    public Pheromone closestOwnedPheroToTask(Task task)
     {
         //find the closest pheromone and the closest pheromone that you own, always preferres the owned pheromone
         int smallestDist = 1000000;
 
         Pheromone chosen = null;        //the chosen out of all paths
-        for (CustomStruct o : werker.getDetectedPheromones())
+        for (CustomStruct o : worker.getDetectedPheromones())
         {
             Pheromone p = o.getPheromone();
-            if(p.getOwner() == werker)
+            if(p.getOwner() == worker)
             {
                 if (p.getTask() == task)
                 {
-                   // int dist = distBetween(werkers.getX(), werkers.getCoY(), p.getX(), p.getY());
+                   // int dist = distBetween(workers.getX(), workers.getCoY(), p.getX(), p.getY());
                     int dist = o.getDistance();
-                    if (p.getOwner() == werker)
+                    if (p.getOwner() == worker)
                     {
                         if (smallestDist >= dist)
                         {
@@ -105,20 +105,20 @@ public class PheromonePolicyBasic implements PheromonePolicy {
 
     }
 
-    public Pheromone closestPheroToTask(Grondstof task)
+    public Pheromone closestPheroToTask(Task task)
     {
         //find the closest pheromone and the closest pheromone that you own, always preferres the owned pheromone
         int smallestDist = 1000000;
 
         Pheromone chosen = null;        //the chosen out of all paths
-        for (CustomStruct o : werker.getDetectedPheromones())
+        for (CustomStruct o : worker.getDetectedPheromones())
         {
             Pheromone p = o.getPheromone();
             if (p.getTask() == task)
             {
-                //int dist = distBetween(werkers.getX(), werkers.getCoY(), p.getX(), p.getY());
+                //int dist = distBetween(workers.getX(), workers.getCoY(), p.getX(), p.getY());
                 int dist = o.getDistance();
-                if (p.getOwner() == werker)
+                if (p.getOwner() == worker)
                 {
                     if (smallestDist >= dist)
                     {

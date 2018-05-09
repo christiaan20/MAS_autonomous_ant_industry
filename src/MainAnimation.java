@@ -1,7 +1,5 @@
 package src;
 
-import java.awt.*;
-
 /**
  * Deze klasse zorgt voor het bewegen van het hemelLichaam en het verversen van de Graphics in de view
  * implementeert Runnable.
@@ -14,16 +12,16 @@ public class MainAnimation implements Runnable
 {
     // instance variables - replace the example below with your own
     private Model model;
-    private GroteView view;
+    private WindowView view;
 
     /**
      * Constructor voor objecten van MainAnimation
      * 
      * @Param model Model,   het model die door de mainAnimatie gestuurd wordt
-     * @Param view View,    de GroteView die door de mainAnimatie gestuurd wordt
+     * @Param view View,    de WindowView die door de mainAnimatie gestuurd wordt
      * 
      */
-    public MainAnimation(Model m, GroteView v)
+    public MainAnimation(Model m, WindowView v)
     {
        model = m;
        view = v;
@@ -52,7 +50,7 @@ public class MainAnimation implements Runnable
                     //after going throught the normal loop countThres times then the agents are moved
                     if(countThres <= count)
                     {
-                        for(Werker w: model.getWerkers())
+                        for(Worker w: model.getWorkers())
                         {
                             w.tick(model);
                            // w.getAnimation().runAutoThread();

@@ -47,8 +47,8 @@ java.lang.Object
 <P>
 De controller die het hele spel coordineert, Deze klasse gebruikt de klasse: Model, GroteView, Werker, Object,Panel.
  Deze wordt aangemaakt bij het aanmaken van een game object.
- Deze klasse zal zorgen dat de dat de juiste werkers of objecten een parameter veranderd wanneer de muis er
- over hangt of er op geklikt wordt en dat de juiste handelingen worden uitgevoerdt bij het bewegen van werkers.
+ Deze klasse zal zorgen dat de dat de juiste workers of objecten een parameter veranderd wanneer de muis er
+ over hangt of er op geklikt wordt en dat de juiste handelingen worden uitgevoerdt bij het bewegen van workers.
  Er wordt een MouseListener en een MouseMotionListener geimplementeert
 <P>
 
@@ -128,7 +128,7 @@ De controller die het hele spel coordineert, Deze klasse gebruikt de klasse: Mod
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Method mouseMoved activeert telkens als de muis van positie veranderd
- gaat na of de muis boven een werker of een object hangt door middel van de methodes: overObject en overWerker</TD>
+ gaat na of de muis boven een worker of een object hangt door middel van de methodes: overObject en overWerker</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -137,7 +137,7 @@ De controller die het hele spel coordineert, Deze klasse gebruikt de klasse: Mod
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Method mousePressed activeert wanneer er geklikt wordt op eender welke knop op de muis 
- voert de juiste acties uit wanneer er geklikt over een object of werker of lege plaats rekening houdend met de bouwmode, eventueel alreeds geselecteerde object,eventueel alreeds geselecteerde werker.</TD>
+ voert de juiste acties uit wanneer er geklikt over een object of worker of lege plaats rekening houdend met de bouwmode, eventueel alreeds geselecteerde object,eventueel alreeds geselecteerde worker.</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
 <TD ALIGN="right" VALIGN="top" WIDTH="1%"><FONT SIZE="-1">
@@ -158,7 +158,7 @@ De controller die het hele spel coordineert, Deze klasse gebruikt de klasse: Mod
 
 <BR>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Method overObject wordt gebruikt door de mousePressed methode uit deze klasse om op te vervragen of de muis boven een object hangt of niet 
- zo ja als het opbject nog wordt overgehangen of er geen werker voor staat dan wordt er parameter hoverover in het betreffende object true en hoveringObject in model wordt het object o
+ zo ja als het opbject nog wordt overgehangen of er geen worker voor staat dan wordt er parameter hoverover in het betreffende object true en hoveringObject in model wordt het object o
  zo nee als het opbject wordt overgehange is wordt er parameter hoverover in het betreffende object false en hoveringObject in model wordt null</TD>
 </TR>
 <TR BGCOLOR="white" CLASS="TableRowColor">
@@ -170,10 +170,10 @@ De controller die het hele spel coordineert, Deze klasse gebruikt de klasse: Mod
            Werker&nbsp;w)</CODE>
 
 <BR>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Method overWerker wordt gebruikt door de mousePressed methode uit deze klasse om op te vervragen of de muis boven een bepaalde werker hangt of niet 
- zo ja als de werker nog niet wordt overgehangen of er geen werker voor staat en de werker niet in een structuur zit
- dan wordt er parameter hoverOver in het betreffende werker true en active in model wordt het true
- zo nee als het werker nog wordt overgehangen is wordt er parameter hoverOver in het betreffende  werker false en active in model wordt false</TD>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Method overWerker wordt gebruikt door de mousePressed methode uit deze klasse om op te vervragen of de muis boven een bepaalde worker hangt of niet
+ zo ja als de worker nog niet wordt overgehangen of er geen worker voor staat en de worker niet in een structuur zit
+ dan wordt er parameter hoverOver in het betreffende worker true en active in model wordt het true
+ zo nee als het worker nog wordt overgehangen is wordt er parameter hoverOver in het betreffende  worker false en active in model wordt false</TD>
 </TR>
 </TABLE>
 &nbsp;<A NAME="methods_inherited_from_class_java.lang.Object"><!-- --></A>
@@ -291,7 +291,7 @@ mouseMoved</H3>
 public void <B>mouseMoved</B>(java.awt.event.MouseEvent&nbsp;e)</PRE>
 <DL>
 <DD>Method mouseMoved activeert telkens als de muis van positie veranderd
- gaat na of de muis boven een werker of een object hangt door middel van de methodes: overObject en overWerker
+ gaat na of de muis boven een worker of een object hangt door middel van de methodes: overObject en overWerker
 <P>
 <DD><DL>
 <DT><B>Specified by:</B><DD><CODE>mouseMoved</CODE> in interface <CODE>java.awt.event.MouseMotionListener</CODE></DL>
@@ -308,10 +308,10 @@ mousePressed</H3>
 public void <B>mousePressed</B>(java.awt.event.MouseEvent&nbsp;e)</PRE>
 <DL>
 <DD>Method mousePressed activeert wanneer er geklikt wordt op eender welke knop op de muis 
- voert de juiste acties uit wanneer er geklikt over een object of werker of lege plaats rekening houdend met de bouwmode, eventueel alreeds geselecteerde object,eventueel alreeds geselecteerde werker.
- De bepaling van welk object of welke werker er word aangeklikt wordt gedaan foor te controleren of een parameter in de werker of Object true is.
+ voert de juiste acties uit wanneer er geklikt over een object of worker of lege plaats rekening houdend met de bouwmode, eventueel alreeds geselecteerde object,eventueel alreeds geselecteerde worker.
+ De bepaling van welk object of welke worker er word aangeklikt wordt gedaan foor te controleren of een parameter in de worker of Object true is.
  in bouwmode zal deze methode al dan niet gebouwen aanmaken of balken toevoegen aan gebouwen.
- Hij zal de geselecteerde werker beweging laten doen en in sommige gevallen een verzamelcyclus initialiseren.
+ Hij zal de geselecteerde worker beweging laten doen en in sommige gevallen een verzamelcyclus initialiseren.
 <P>
 <DD><DL>
 <DT><B>Specified by:</B><DD><CODE>mousePressed</CODE> in interface <CODE>java.awt.event.MouseListener</CODE></DL>
@@ -348,7 +348,7 @@ public void <B>overObject</B>(java.awt.event.MouseEvent&nbsp;e,
                        int&nbsp;hoogte)</PRE>
 <DL>
 <DD>Method overObject wordt gebruikt door de mousePressed methode uit deze klasse om op te vervragen of de muis boven een object hangt of niet 
- zo ja als het opbject nog wordt overgehangen of er geen werker voor staat dan wordt er parameter hoverover in het betreffende object true en hoveringObject in model wordt het object o
+ zo ja als het opbject nog wordt overgehangen of er geen worker voor staat dan wordt er parameter hoverover in het betreffende object true en hoveringObject in model wordt het object o
  zo nee als het opbject wordt overgehange is wordt er parameter hoverover in het betreffende object false en hoveringObject in model wordt null
 <P>
 <DD><DL>
@@ -368,16 +368,16 @@ public void <B>overWerker</B>(java.awt.event.MouseEvent&nbsp;e,
                        int&nbsp;grootteY,
                        Werker&nbsp;w)</PRE>
 <DL>
-<DD>Method overWerker wordt gebruikt door de mousePressed methode uit deze klasse om op te vervragen of de muis boven een bepaalde werker hangt of niet 
- zo ja als de werker nog niet wordt overgehangen of er geen werker voor staat en de werker niet in een structuur zit
- dan wordt er parameter hoverOver in het betreffende werker true en active in model wordt het true
- zo nee als het werker nog wordt overgehangen is wordt er parameter hoverOver in het betreffende  werker false en active in model wordt false
+<DD>Method overWerker wordt gebruikt door de mousePressed methode uit deze klasse om op te vervragen of de muis boven een bepaalde worker hangt of niet
+ zo ja als de worker nog niet wordt overgehangen of er geen worker voor staat en de worker niet in een structuur zit
+ dan wordt er parameter hoverOver in het betreffende worker true en active in model wordt het true
+ zo nee als het worker nog wordt overgehangen is wordt er parameter hoverOver in het betreffende  worker false en active in model wordt false
 <P>
 <DD><DL>
 </DL>
 </DD>
 <DD><DL>
-<DT><B>Parameters:</B><DD><CODE>e</CODE> - De MouseEvent die bij de mousePressed gegeven werdt<DD><CODE>grootteX</CODE> - de grote van de werker waarop geklikt wordt in de x richting<DD><CODE>grootteY</CODE> - de grote van de werker waarop geklikt wordt in de y richting<DD><CODE>w</CODE> - de Werker waar de test op gedaan moet worden</DL>
+<DT><B>Parameters:</B><DD><CODE>e</CODE> - De MouseEvent die bij de mousePressed gegeven werdt<DD><CODE>grootteX</CODE> - de grote van de worker waarop geklikt wordt in de x richting<DD><CODE>grootteY</CODE> - de grote van de worker waarop geklikt wordt in de y richting<DD><CODE>w</CODE> - de Werker waar de test op gedaan moet worden</DL>
 </DD>
 </DL>
 <!-- ========= END OF CLASS DATA ========= -->

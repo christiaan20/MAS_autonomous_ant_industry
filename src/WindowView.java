@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * @author Christiaan Vanbergen 
  * @version V12
  */
-public class GroteView extends Panel implements ActionListener
+public class WindowView extends Panel implements ActionListener
 {
 
     protected View view;    // de view van het spel
@@ -25,9 +25,9 @@ public class GroteView extends Panel implements ActionListener
     private Panel panelboven;   // het panel met labels in het noorden 
     private Panel panelonder;   // het panel met knoppen, labels en tekstvelden in het zuiden
     private Button bouwMode;    // de knop voor de bouwmode aan en uit te schakelen
-    private Button maakWerker;  // de knop om een werkers aan te maken
+    private Button maakWerker;  // de knop om een workers aan te maken
     private Button help;        // de knop om de help functie aan te zetten of afzetten
-    private TextField naamWerker;   // het veld waar de naam van een nieuwe werkers kan in gevoert worden
+    private TextField naamWerker;   // het veld waar de naam van een nieuwe workers kan in gevoert worden
     private Label infoNaamWerker;   // extra informatie over het vorige tekst veld
     private Button hout;    // de knop die de grondstofmode naar hout zet of af zet 
     private Button steen;   // de knop die de gronstofmode naar steen zet of af zet
@@ -39,7 +39,7 @@ public class GroteView extends Panel implements ActionListener
     private Button start; // de knop om te beginnnen
 
     /**
-     * Constructor voor objecten van GroteView, deze maakt een nieuwe View aan en zet zijn eigen layout 
+     * Constructor voor objecten van WindowView, deze maakt een nieuwe View aan en zet zijn eigen layout
      * naar borderLayout, Maakt alle knoppen,label en tekst velden aan met de beginteksten erbij, voegt 
      * aan de knoppen en de actionListener(dit object) toe en voegt ieder component aan de juiste panel
      * en voegt de panels op hun beurt toe aan de juist coordinatie en de view in het midden deze krijgt
@@ -47,22 +47,22 @@ public class GroteView extends Panel implements ActionListener
      *
      * @param m het model dat aangemaakt wordt in MAS_autoAntIndustry
      */
-    public GroteView(Model m)
+    public WindowView(Model m)
     {
         view = new View(m);
         model = m;
         this.setLayout(new BorderLayout());
         bouwMode = new Button("Bouwmode: off");
-        maakWerker = new Button("Maak werkers kost: 10 voedsel");
+        maakWerker = new Button("Maak workers kost: 10 voedsel");
         help = new Button(" help: on ");
-        naamWerker = new TextField("werkers 1",15);
-        infoNaamWerker = new Label("De naam van de nieuwe werkers: ");
+        naamWerker = new TextField("workers 1",15);
+        infoNaamWerker = new Label("De naam van de nieuwe workers: ");
         hout = new Button(" Hout: off ");
         steen = new Button(" Steen: off ");
-        infoGrondstof = new Label ("Grondstoffen: ");
-        hout1 = new Label ("Hout: "+ String.valueOf(model.getHoeveelheidHout()));
-        steen1 = new Label ("Steen: "+ String.valueOf(model.getHoeveelheidSteen()));
-        voedsel = new Label ("Voedsel: "+ String.valueOf(model.getHoeveelheidVoedsel()));
+        infoGrondstof = new Label ("Resource: ");
+        hout1 = new Label ("Hout: "+ String.valueOf(model.getAmountWood()));
+        steen1 = new Label ("Steen: "+ String.valueOf(model.getAmountStone()));
+        voedsel = new Label ("Voedsel: "+ String.valueOf(model.getAmountFood()));
         restart = new Button("Restart");
         start = new Button("start");
         bouwMode.addActionListener(this);
@@ -100,8 +100,8 @@ public class GroteView extends Panel implements ActionListener
     /**
      * Method actionPerformed de methode die reageert op het klikken van de knoppen.
      * Bij het drukken van maakWerker moet het hoofdgebouw geselecteerd zijn en dan wordt er 10 voedsel 
-     * af getrokken van de hoeveelheid voedsel in model, een nieuwe werkers gemaakt op de coordinaten van
-     * het hoofdgebouw en de parameters up gedate, de naam van de werkers wordt + 1 gedaan.
+     * af getrokken van de hoeveelheid voedsel in model, een nieuwe workers gemaakt op de coordinaten van
+     * het hoofdgebouw en de parameters up gedate, de naam van de workers wordt + 1 gedaan.
      * bij het drukken van bouwmode als bouwmode af is, wordt die aan en wordt de knop rood, 
      * als bouwmode aan is wordt deze af en wordt de knop wit.
      * bij het drukken van hout wordt grondstofmode in model hout en wordt de knop bruin en knop steen
@@ -114,17 +114,17 @@ public class GroteView extends Panel implements ActionListener
      */
     public void actionPerformed(ActionEvent e)
     {
-        if(model.getSelectedObject() instanceof Gebouw)
+        if(model.getSelectedObject() instanceof Building)
         {
-            Gebouw b = (Gebouw) model.getSelectedObject();
-            if( e.getSource() == maakWerker && b.getFunctie() == Functie.hoofdgebouw)
+            Building b = (Building) model.getSelectedObject();
+            if( e.getSource() == maakWerker && b.getFunction() == Function.hoofdgebouw)
             {
-                if(model.getHoeveelheidVoedsel()-10 >= 0)
+                if(model.getAmountFood()-10 >= 0)
                 {
-                    model.addWerker(b.getX()*view.getZ(),naamWerker.getText());
-                    model.setHoeveelheidVoedsel(-10);
+                    model.addWorker(b.getX()*view.getZ(),naamWerker.getText());
+                    model.setAmountFood(-10);
                     updateParameters();
-                    naamWerker.setText("werkers " + String.valueOf(model.getSizeWerkers()+1));
+                    naamWerker.setText("workers " + String.valueOf(model.getSizeWerkers()+1));
                 }
             }
         }
@@ -140,9 +140,9 @@ public class GroteView extends Panel implements ActionListener
             bouwMode.setLabel("Bouwmode: off");
             bouwMode.setBackground(Color.WHITE);
         }
-        if( e.getSource() == hout && model.getGrondstofmode()!= Grondstof.hout)
+        if( e.getSource() == hout && model.getGrondstofmode()!= Task.hout)
         {
-            model.setGrondstofMode(Grondstof.hout);
+            model.setTaskMode(Task.hout);
             hout.setLabel("hout: on");
             hout.setBackground(new Color(139,90,43 ));
             steen.setLabel("steen: off");
@@ -150,13 +150,13 @@ public class GroteView extends Panel implements ActionListener
         }
         else if(e.getSource() == hout)
         {
-            model.setGrondstofMode(null)  ;
+            model.setTaskMode(null)  ;
             hout.setLabel("hout: off");
             hout.setBackground(Color.WHITE);
         }
-        if( e.getSource() == steen && model.getGrondstofmode()!= Grondstof.steen)
+        if( e.getSource() == steen && model.getGrondstofmode()!= Task.steen)
         {
-            model.setGrondstofMode(Grondstof.steen);
+            model.setTaskMode(Task.steen);
             steen.setLabel("steen: on");
             steen.setBackground(Color.gray);
             hout.setLabel("hout: off");
@@ -164,7 +164,7 @@ public class GroteView extends Panel implements ActionListener
         }
         else if(e.getSource() == steen)
         {
-            model.setGrondstofMode(null)  ;
+            model.setTaskMode(null)  ;
             steen.setLabel("steen: off");
             steen.setBackground(Color.WHITE);
 
@@ -200,10 +200,10 @@ public class GroteView extends Panel implements ActionListener
         }
         if(e.getSource() == start)
         {
-            ArrayList<Werker> werkers = model.getWerkers();
+            ArrayList<Worker> workers = model.getWorkers();
             for(int i=0;i<model.getSizeWerkers();i++)
             {
-                Werker w = werkers.get(i);
+                Worker w = workers.get(i);
                 w.setMovePolicy(new MovePolicyBasic(w,50));
                 MoveThread m = new MoveThread(w,this,null,model);
 
@@ -293,9 +293,9 @@ public class GroteView extends Panel implements ActionListener
      */
     public void updateParameters()
     {
-        hout1.setText("Hout: "+ String.valueOf(model.getHoeveelheidHout()));
-        steen1.setText("Steen: "+ String.valueOf(model.getHoeveelheidSteen()));
-        voedsel.setText("Voedsel: "+ String.valueOf(model.getHoeveelheidVoedsel()));
+        hout1.setText("Hout: "+ String.valueOf(model.getAmountWood()));
+        steen1.setText("Steen: "+ String.valueOf(model.getAmountStone()));
+        voedsel.setText("Voedsel: "+ String.valueOf(model.getAmountFood()));
     }
 
     /**
