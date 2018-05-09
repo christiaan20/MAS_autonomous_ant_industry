@@ -11,7 +11,7 @@ import java.util.*;
 public class Resource extends Object
 {
     // instance variables - replace the example below with your own
-    private Task stof; // de soort stof die de grondstoffen bezit
+    private Resource_types stof; // de soort stof die de grondstoffen bezit
     private int amount;    // hoeveel stof dat in het grondstoffen object aanwezig is
     private Random random;  // een Random object om willekeurige hoeveelheden van stof te genereren
     /**
@@ -19,7 +19,7 @@ public class Resource extends Object
      * het object, er wordt een nieuw random object aangemaakt en de amount is een willekeurige
      * amount tussen 5 en 20 eenheden, er kunnen 5 workers in het object.
      */
-    public Resource(Task stof, int X, int Y)
+    public Resource(Resource_types stof, int X, int Y)
     {
         this.stof = stof;
         super.hoverOver = false;
@@ -32,7 +32,7 @@ public class Resource extends Object
         workers = new Worker[5];
     }
 
-    public Resource(Task stof, int X, int Y, int amount)
+    public Resource(Resource_types stof, int X, int Y, int amount)
     {
         this.stof = stof;
         super.hoverOver = false;
@@ -54,22 +54,22 @@ public class Resource extends Object
             try
             {
 
-                if(w.inStructuur() == true && w.isVol() == false && this.getAmount() > 0 && (this.getStof() == w.getTask() || w.getTask() == null || w.getTask() == Task.explorer))
+                if(w.inStructuur() == true && w.isVol() == false && this.getAmount() > 0 && (this.getStof() == w.getResourcetypes() || w.getResourcetypes() == null || w.getResourcetypes() == Resource_types.explorer))
                 {
 
-                    if(this.getStof() == Task.hout)
+                    if(this.getStof() == Resource_types.hout)
                     {
-                        w.addLading(Task.hout);
+                        w.addLading(Resource_types.hout);
                         this.verlaagHoeveelheid();
                     }
-                    if(this.getStof() == Task.steen)
+                    if(this.getStof() == Resource_types.steen)
                     {
-                        w.addLading(Task.steen);
+                        w.addLading(Resource_types.steen);
                         this.verlaagHoeveelheid();
                     }
-                    if(this.getStof() == Task.voedsel)
+                    if(this.getStof() == Resource_types.voedsel)
                     {
-                        w.addLading(Task.voedsel);
+                        w.addLading(Resource_types.voedsel);
 
                         this.verlaagHoeveelheid();
                     }
@@ -103,7 +103,7 @@ public class Resource extends Object
 
     }
 
-    public Task getStof()
+    public Resource_types getStof()
     {
         return stof;
     }

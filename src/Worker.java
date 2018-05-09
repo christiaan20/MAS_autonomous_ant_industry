@@ -30,7 +30,7 @@ public class Worker {
     private int maxLoad;// de maximum load die een workers kan dragen
     private boolean selected; //true als de workers geselecteerd is, false als hij niet geselecteerd is
     private boolean hoverOver; // true als de muis boven de workers hangt, false als de muis niet over de workers hangt
-    private Task task; //het type grondstof van de load die de workers draagt.
+    private Resource_types resourcetypes; //het type grondstof van de load die de workers draagt.
     private boolean moving; //true als de workers aan het bewegen is, false als de workers niet aan het bewegen is
     private boolean inStructure; // true als de workers in een object zit, false als hij niet in een object zit
     private boolean vol; //  true als de load even groot is als de maximum load, false als dat niet zo is
@@ -69,7 +69,7 @@ public class Worker {
         load = 0;
         maxLoad = 5;
         selected = false;
-        task = Task.explorer;
+        resourcetypes = Resource_types.explorer;
         hoverOver = false;
         moving = false;
 
@@ -104,7 +104,7 @@ public class Worker {
         load = 0;
         maxLoad = 5;
         selected = false;
-        task = Task.explorer;
+        resourcetypes = Resource_types.explorer;
         hoverOver = false;
         moving = false;
         inStructure = false;
@@ -138,7 +138,7 @@ public class Worker {
         load = 0;
         maxLoad = 5;
         selected = false;
-        task = Task.explorer;
+        resourcetypes = Resource_types.explorer;
         hoverOver = false;
         moving = true;
         inStructure = false;
@@ -189,23 +189,23 @@ public class Worker {
 
         }
         if(this.dropPheromone())
-            model.createPheromone(this.getX(),this.getCoY(),this.getTask(),this.getPheromonePolicy().getExpireTime(),this);
+            model.createPheromone(this.getX(),this.getCoY(),this.getResourcetypes(),this.getPheromonePolicy().getExpireTime(),this);
 
 
     }
 
 
     /**
-     * Method addLading voegt 1 eenheid van een bepaalde stof toe aan de workers en zet het task
+     * Method addLading voegt 1 eenheid van een bepaalde stof toe aan de workers en zet het resourcetypes
      * dat de workers draagt naar de stof die toegevoegt wordt, als de load de maximumlading bereikt
      * heeft dan wordt de workers als status vol gezet.
      *
-     * @param stof Task, het type van grondstof dat de workers bij krijgt
+     * @param stof Resource_types, het type van grondstof dat de workers bij krijgt
      */
-    public void addLading(Task stof)
+    public void addLading(Resource_types stof)
     {
         load++;
-        task = stof;
+        resourcetypes = stof;
         if(load >= maxLoad)
         {
             vol = true;
@@ -220,7 +220,7 @@ public class Worker {
     public void dropLading()
     {
         load = 0;
-        //task = null;
+        //resourcetypes = null;
         vol = false;
     }
 
@@ -477,17 +477,17 @@ public class Worker {
     }
 
     /**
-     * Method getTask geeft het type grondstof dat de workers draagt
+     * Method getResourcetypes geeft het type grondstof dat de workers draagt
      *
-     * @return task Task, voedsel - steen - hout - null
+     * @return resourcetypes Resource_types, voedsel - steen - hout - null
      */
-    public Task getTask()
+    public Resource_types getResourcetypes()
     {
-        return task;
+        return resourcetypes;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
+    public void setResourcetypes(Resource_types resourcetypes) {
+        this.resourcetypes = resourcetypes;
     }
 
     /**

@@ -14,7 +14,7 @@ import java.util.*;
  * ,deze neemt meer de vakken in en wordt bijgehouden in het landschap en de vakken net boven elke grond wordt gevult met Objecten 
  * deze worden in het model bijgehouden. De workers liggen als het waren boven dit rooster al zullen zij boven de 1ste rij lopen en door de 2de rij
  * zij worden in model bijgehouden.
- * De klasse maakt gebruik van de klassen: Worker, Landschap, hemelLichaam,Object,Task;
+ * De klasse maakt gebruik van de klassen: Worker, Landschap, hemelLichaam,Object,Resource_types;
  * De klasse wordt aangemaakt bij het aanmaken van een MAS_autoAntIndustry Object
  * 
  * @author christiaan Vanbergen 
@@ -33,7 +33,7 @@ public class Model
     private int sizeY; // de grootte van het bord is y richting deze is nodig om het pad correct te configureren
     private HemelLichaam hemel; // het object die de zon en de maan maakt
     private boolean bouwMode; // true als er gebouwen kunnen gezet worden, alle andere functies worden uitgeschakeld, false als de normale functie van het spel kan
-    private Task taskMode;//
+    private Resource_types resourcetypesMode;//
     private Object selectedO = null; // het object die op dat moment geselecteert is
     private Worker selectedW = null; // de workers die op dat moment geselecteert is
     private Object hoveringObject = null; // true als er al een object is waar de muist overhangt
@@ -68,15 +68,15 @@ public class Model
 
     public void set_MAS_Objects(WindowView v)
     {
-        Building HQ = new Building(400,400, Task.hout, Task.steen, Task.steen, Function.hoofdgebouw);
+        Building HQ = new Building(400,400, Resource_types.hout, Resource_types.steen, Resource_types.steen, Function.hoofdgebouw);
         objecten.add( HQ);
 
-        objecten.add( new Resource(Task.steen,500,500, 3));
-        objecten.add( new Resource(Task.steen,600,500));
-        objecten.add( new Resource(Task.steen,900,500));
-        objecten.add( new Resource(Task.steen,100,100));
-        objecten.add( new Resource(Task.steen,100,200));
-        objecten.add( new Resource(Task.steen,900,900));
+        objecten.add( new Resource(Resource_types.steen,500,500, 3));
+        objecten.add( new Resource(Resource_types.steen,600,500));
+        objecten.add( new Resource(Resource_types.steen,900,500));
+        objecten.add( new Resource(Resource_types.steen,100,100));
+        objecten.add( new Resource(Resource_types.steen,100,200));
+        objecten.add( new Resource(Resource_types.steen,900,900));
 
         for( int i = 0; i<10;i++)
         {
@@ -99,23 +99,23 @@ public class Model
      * Method randomGrondstof genereert willekeurig een waarde van grondstof met 1/5 kans op hout,steen of voedsel en 2/5 kans op null.
      * setObjecten() maakt gebruik van deze methode.
      * 
-     * @return b Task, de willekeurig gegenereerde waarde van Task die beslist welk soort grondstoffen object op een bepaalde coordinaat komt,bij null geen object
+     * @return b Resource_types, de willekeurig gegenereerde waarde van Resource_types die beslist welk soort grondstoffen object op een bepaalde coordinaat komt,bij null geen object
      */
-    public Task randomGrondstof()
+    public Resource_types randomGrondstof()
     {
-        Task b = null; // de waarde van grondstof die uiteindelijk gegeven zal worden
+        Resource_types b = null; // de waarde van grondstof die uiteindelijk gegeven zal worden
         int a =random.nextInt(10);
         if (a <= 1 )
         {
-            b = Task.hout;
+            b = Resource_types.hout;
         }
         if(a >= 8)
         {
-            b = Task.steen;
+            b = Resource_types.steen;
         }
         if(a >=4 && a<=5)
         {
-            b = Task.voedsel;
+            b = Resource_types.voedsel;
         }
         return b;
     }
@@ -157,7 +157,7 @@ public class Model
                 Grond b =landschap.getGrond(i);
                 if(b.getRichting()== GrondRichting.recht)
                 {
-                    Task c = randomGrondstof();
+                    Resource_types c = randomGrondstof();
                     if( c == null)
                     {
                         boolean toelating = randomConstructie(); // mag er daar een constructie komen?
@@ -165,7 +165,7 @@ public class Model
                         {
                             if(toelating)
                             {
-                                objecten.add( new Building(i,b.getHoogte()+1, Task.hout, Task.steen, Task.steen, Function.hoofdgebouw));
+                                objecten.add( new Building(i,b.getHoogte()+1, Resource_types.hout, Resource_types.steen, Resource_types.steen, Function.hoofdgebouw));
                                 constructie = true;
                                 b.setBezet(true);
                             }
@@ -182,7 +182,7 @@ public class Model
                                 }
                                 if (nogRechteStukken == false)
                                 {
-                                    objecten.add( new Building(i,b.getHoogte()+1, Task.hout, Task.steen, Task.steen, Function.hoofdgebouw));
+                                    objecten.add( new Building(i,b.getHoogte()+1, Resource_types.hout, Resource_types.steen, Resource_types.steen, Function.hoofdgebouw));
                                     constructie = true;
                                     b.setBezet(true);
                                 }
@@ -204,7 +204,7 @@ public class Model
 
 
 
-    public void createPheromone(int x, int y, Task g , double expireTime, Worker w)
+    public void createPheromone(int x, int y, Resource_types g , double expireTime, Worker w)
     {
         Pheromone p = new Pheromone(x,y,expireTime,g,w);
         this.addObject(p);
@@ -515,21 +515,21 @@ public class Model
      * Method getGrondstofmode geeft in welke grondstof er nu gebouwd wordt.
      * Wordt gebruikt door Controler, Groteview.
      *
-     * @return taskMode Task,  De actieve grondstof, hout of steen
+     * @return resourcetypesMode Resource_types,  De actieve grondstof, hout of steen
      */
-    public Task getGrondstofmode()
+    public Resource_types getGrondstofmode()
     {
-        return taskMode;
+        return resourcetypesMode;
     }
 
     /**
-     * Method setTaskMode veranderd in welke grondstof er nu gebouwd wordt
+     * Method setResourcetypesMode veranderd in welke grondstof er nu gebouwd wordt
      *
-     * @param b Task,  de grondstof waar gebouwd in gaat worden, hout of steen
+     * @param b Resource_types,  de grondstof waar gebouwd in gaat worden, hout of steen
      */
-    public void setTaskMode(Task b)
+    public void setResourcetypesMode(Resource_types b)
     {
-        taskMode =  b;
+        resourcetypesMode =  b;
     }
 
     /**

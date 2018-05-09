@@ -95,20 +95,20 @@ public class Controller implements MouseListener, MouseMotionListener
                         Building b = (Building) o;
                         if (e.getX()> b.getX()*Z && e.getX()<b.getX()*Z +15 && e.getY()< view.getSizeY()-((b.getY()-1)*Z+90) && e.getY()> view.getSizeY()-(b.getY()*Z-15+90))
                         {
-                            if(model.getGrondstofmode() == Task.hout)
+                            if(model.getGrondstofmode() == Resource_types.hout)
                             {
                                 if(model.getAmountWood() -5 >= 0)
                                 {
-                                    b.setLinkerBalk(0, Task.hout);
+                                    b.setLinkerBalk(0, Resource_types.hout);
                                     model.setAmountWood(-5);
                                     view.updateParameters();
                                 }
                             }
-                            else if (model.getGrondstofmode() == Task.steen)
+                            else if (model.getGrondstofmode() == Resource_types.steen)
                             {
                                 if(model.getAmountStone()-5 > 0)
                                 {
-                                    b.setLinkerBalk(0, Task.steen);
+                                    b.setLinkerBalk(0, Resource_types.steen);
                                     model.setAmountStone(-5);
                                     view.updateParameters();
                                 }
@@ -116,21 +116,21 @@ public class Controller implements MouseListener, MouseMotionListener
                         }
                         else if (e.getX()> (b.getX()+1)*Z -15 && e.getX()<(b.getX()+1)*Z && e.getY()< view.getSizeY()-((b.getY()-1)*Z+90) && e.getY()> view.getSizeY()-(b.getY()*Z-15+90))
                         {
-                            if(model.getGrondstofmode() == Task.hout)
+                            if(model.getGrondstofmode() == Resource_types.hout)
                             {
                                 if(model.getAmountWood() -5 >= 0)
                                 {
 
-                                    b.setRechterBalk(0, Task.hout);
+                                    b.setRechterBalk(0, Resource_types.hout);
                                     model.setAmountWood(-5);
                                     view.updateParameters();
                                 }
                             }
-                            else if (model.getGrondstofmode() == Task.steen)
+                            else if (model.getGrondstofmode() == Resource_types.steen)
                             {
                                 if(model.getAmountStone()-5 >= 0)
                                 {
-                                    b.setRechterBalk(0, Task.steen);
+                                    b.setRechterBalk(0, Resource_types.steen);
                                     model.setAmountStone(-5);
                                     view.updateParameters();
                                 }
@@ -138,20 +138,20 @@ public class Controller implements MouseListener, MouseMotionListener
                         }
                         else if (e.getX()>(b.getX())*Z  && e.getX()<(b.getX()+1)*Z && e.getY()< view.getSizeY()-((b.getY())*Z-15+90) && e.getY()> view.getSizeY()-(b.getY()*Z+90))
                         {
-                            if(model.getGrondstofmode() == Task.hout)
+                            if(model.getGrondstofmode() == Resource_types.hout)
                             {
                                 if(model.getAmountWood() -10 >= 0)
                                 {
-                                    b.setbovenBalk(0, Task.hout);
+                                    b.setbovenBalk(0, Resource_types.hout);
                                     model.setAmountWood(-10);
                                     view.updateParameters();
                                 }
                             }
-                            else if (model.getGrondstofmode() == Task.steen)
+                            else if (model.getGrondstofmode() == Resource_types.steen)
                             {
                                 if(model.getAmountStone() -10 >= 0)
                                 {
-                                    b.setbovenBalk(0, Task.steen);
+                                    b.setbovenBalk(0, Resource_types.steen);
                                     model.setAmountStone(-10);
                                     view.updateParameters();
                                 }
@@ -342,11 +342,11 @@ public class Controller implements MouseListener, MouseMotionListener
 
                 if (o instanceof Resource) {
                     Resource b = (Resource) o;
-                    if (b.getStof() == Task.hout) {
+                    if (b.getStof() == Resource_types.hout) {
                         overObject(e, 50, 100, b, 2);
-                    } else if (b.getStof() == Task.steen) {
+                    } else if (b.getStof() == Resource_types.steen) {
                         overObject(e, 50, 50, b, 1);
-                    } else if (b.getStof() == Task.voedsel) {
+                    } else if (b.getStof() == Resource_types.voedsel) {
                         overObject(e, 50, 50, b, 1);
                     }
                 } else {

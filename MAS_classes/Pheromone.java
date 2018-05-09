@@ -1,6 +1,6 @@
 package MAS_classes;
 
-import src.Task;
+import src.Resource_types;
 import src.Worker;
 import src.Object;
 
@@ -10,10 +10,10 @@ import src.Object;
 public class Pheromone extends Object{
 
     private double expireTime; // the expire time of the pheromone in seconds
-    private Task task;
+    private Resource_types resourcetypes;
     private Worker owner;
 
-    public Pheromone(int x, int y, double expireTime, Task task, Worker owner) {
+    public Pheromone(int x, int y, double expireTime, Resource_types resourcetypes, Worker owner) {
          super.hoverOver= false;
          super.selected = false;
          super.coX = x;
@@ -21,7 +21,7 @@ public class Pheromone extends Object{
          super.Xsize = 10;
          super.Ysize = 10;
          this.expireTime = expireTime;
-         this.task= task;
+         this.resourcetypes = resourcetypes;
          this.owner = owner;
     }
 
@@ -44,12 +44,12 @@ public class Pheromone extends Object{
         this.expireTime = expireTime;
     }
 
-    public Task getTask() {
-        return task;
+    public Resource_types getResourcetypes() {
+        return resourcetypes;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
+    public void setResourcetypes(Resource_types resourcetypes) {
+        this.resourcetypes = resourcetypes;
     }
 
 
@@ -60,7 +60,7 @@ public class Pheromone extends Object{
         Pheromone pheromone = (Pheromone) o;
 
         if (Double.compare(pheromone.getExpireTime(), getExpireTime()) != 0) return false;
-        if(super.equals(o)  &&  getTask() == pheromone.getTask()) return true ;
+        if(super.equals(o)  &&  getResourcetypes() == pheromone.getResourcetypes()) return true ;
         return false;
     }
 
@@ -70,7 +70,7 @@ public class Pheromone extends Object{
         long temp;
         temp = Double.doubleToLongBits(getExpireTime());
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + getTask().hashCode();
+        result = 31 * result + getResourcetypes().hashCode();
         return result;
     }
 

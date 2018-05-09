@@ -12,9 +12,9 @@ import java.util.*;
 
 public class Building extends Object
 {
-    private Task bovenBalk; // de grondstof waar de bovenste balk uit gemaakt is
-    private Task linkerBalk; // de grondstof waar de linkerbalk uit gemaakt is
-    private Task rechterBalk;// de grondstof waar de rechter balk uit gemaakt is
+    private Resource_types bovenBalk; // de grondstof waar de bovenste balk uit gemaakt is
+    private Resource_types linkerBalk; // de grondstof waar de linkerbalk uit gemaakt is
+    private Resource_types rechterBalk;// de grondstof waar de rechter balk uit gemaakt is
     private Function function;    // de function van het gebouw
     private ArrayList<Construction> onderdelen = new ArrayList<Construction>(); // delen waar een gebouw uit bestaat
     private boolean af; // is het gebouw compleet, true of false
@@ -23,7 +23,7 @@ public class Building extends Object
      * workers in het gebouw, eerste wordt af op false gezet en daarna wordt er met de methode afcontrole() gecontroleert of het gebouw af is of niet.
      * (geen enkel balk in de 1st constructie is nog null => af = true)
      */
-    public Building(int x, int y, Task bBalk, Task lBalk, Task rBalk, Function function)
+    public Building(int x, int y, Resource_types bBalk, Resource_types lBalk, Resource_types rBalk, Function function)
     {
         onderdelen.add(new Construction(0,0,bBalk,lBalk,rBalk));
         this.function = function;
@@ -49,15 +49,15 @@ public class Building extends Object
 
                     if(w.inStructuur())
                     {
-                        if(w.getTask() == Task.hout)
+                        if(w.getResourcetypes() == Resource_types.hout)
                         {
                             model.setAmountWood(w.getLoad());
                         }
-                        else if(w.getTask() == Task.steen)
+                        else if(w.getResourcetypes() == Resource_types.steen)
                         {
                             model.setAmountStone(w.getLoad());
                         }
-                        else if(w.getTask() == Task.voedsel)
+                        else if(w.getResourcetypes() == Resource_types.voedsel)
                         {
                             model.setAmountFood(w.getLoad());
                         }
@@ -141,9 +141,9 @@ public class Building extends Object
      * na het toevoegen wordt eer gecontroleert of het gebouw af is met afcontrole()
      *
      * @param con Int,   de positie van de constructie in de ArrayList
-     * @param g Task,  Het soort grondstof waaruit de balk gemaakt wordt
+     * @param g Resource_types,  Het soort grondstof waaruit de balk gemaakt wordt
      */
-    public void setbovenBalk(int con, Task g)
+    public void setbovenBalk(int con, Resource_types g)
     {
         if(af == false)
         {
@@ -156,9 +156,9 @@ public class Building extends Object
      * na het toevoegen wordt eer gecontroleert of het gebouw af is met afcontrole()
      *
      * @param con Int,   de positie van de constructie in de ArrayList
-     * @param g Task,  Het soort grondstof waaruit de balk gemaakt wordt
+     * @param g Resource_types,  Het soort grondstof waaruit de balk gemaakt wordt
      */
-    public void setRechterBalk(int con, Task g)
+    public void setRechterBalk(int con, Resource_types g)
     {
         if(af == false)
         {
@@ -171,9 +171,9 @@ public class Building extends Object
      * na het toevoegen wordt eer gecontroleert of het gebouw af is met afcontrole()
      *
      * @param con Int,   de positie van de constructie in de ArrayList
-     * @param g Task,  Het soort grondstof waaruit de balk gemaakt wordt
+     * @param g Resource_types,  Het soort grondstof waaruit de balk gemaakt wordt
      */
-    public void setLinkerBalk(int con, Task g)
+    public void setLinkerBalk(int con, Resource_types g)
     {
         if(af == false)
         {

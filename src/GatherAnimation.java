@@ -55,25 +55,25 @@ public class GatherAnimation implements Runnable
             boolean struct = w.inStructuur();
             boolean vol = w.isVol();
             int hoev =  b.getAmount();
-            Task grondstof = b.getStof();
-            Task task = w.getTask();
+            Resource_types grondstof = b.getStof();
+            Resource_types resourcetypes = w.getResourcetypes();
 
-            while(w.inStructuur() == true && w.isVol() == false && b.getAmount() > 0 && (b.getStof() == w.getTask() || w.getTask() == null || w.getTask() == Task.explorer))
+            while(w.inStructuur() == true && w.isVol() == false && b.getAmount() > 0 && (b.getStof() == w.getResourcetypes() || w.getResourcetypes() == null || w.getResourcetypes() == Resource_types.explorer))
             {
 
-                if(b.getStof() == Task.hout)
+                if(b.getStof() == Resource_types.hout)
                 {
-                    w.addLading(Task.hout);
+                    w.addLading(Resource_types.hout);
                     b.verlaagHoeveelheid();
                 }
-                if(b.getStof() == Task.steen)
+                if(b.getStof() == Resource_types.steen)
                 {
-                    w.addLading(Task.steen);
+                    w.addLading(Resource_types.steen);
                     b.verlaagHoeveelheid();
                 }
-                if(b.getStof() == Task.voedsel)
+                if(b.getStof() == Resource_types.voedsel)
                 {
-                    w.addLading(Task.voedsel);
+                    w.addLading(Resource_types.voedsel);
 
                     b.verlaagHoeveelheid();
                 }
@@ -110,15 +110,15 @@ public class GatherAnimation implements Runnable
                 }
                 if(w.inStructuur())
                 {
-                    if(w.getTask() == Task.hout)
+                    if(w.getResourcetypes() == Resource_types.hout)
                     {
                         model.setAmountWood(w.getLoad());
                     }
-                    else if(w.getTask() == Task.steen)
+                    else if(w.getResourcetypes() == Resource_types.steen)
                     {
                         model.setAmountStone(w.getLoad());
                     }
-                    else if(w.getTask() == Task.voedsel)
+                    else if(w.getResourcetypes() == Resource_types.voedsel)
                     {
                         model.setAmountFood(w.getLoad());
                     }

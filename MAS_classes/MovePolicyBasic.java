@@ -1,7 +1,7 @@
 package MAS_classes;
 import src.Building;
 import src.Resource;
-import src.Task;
+import src.Resource_types;
 import src.Worker;
 
 import java.util.*;
@@ -41,11 +41,11 @@ public class MovePolicyBasic implements movePolicy {
 
     public boolean move(int SizeX,int SizeY)
     {
-        if(worker.getTask() == Task.explorer)
+        if(worker.getResourcetypes() == Resource_types.explorer)
         {
             return explorerMove(SizeX, SizeY);
         }
-        else if (worker.getTask() == Task.steen)
+        else if (worker.getResourcetypes() == Resource_types.steen)
         {
             return steenWorkerMove(SizeX, SizeY);
         }
@@ -75,7 +75,7 @@ public class MovePolicyBasic implements movePolicy {
         {
             worker.getPheromonePolicy().setEnablePheroDrop(false);
             wanderWithin(sizeX,sizeY);
-           // workers.setTask(Task.explorer);
+           // workers.setResourcetypes(Resource_types.explorer);
         }
         /*else if (phero.getX() == workers.getX() && phero.getY() == workers.getCoY())
         {
@@ -112,11 +112,11 @@ public class MovePolicyBasic implements movePolicy {
     {
         worker.getPheromonePolicy().setEnablePheroDrop(true);
 
-            if (worker.getTask() == Task.explorer) {
+            if (worker.getResourcetypes() == Resource_types.explorer) {
 
                 return explorerFoundObject(obj);
             }
-            if (worker.getTask() == Task.steen) {
+            if (worker.getResourcetypes() == Resource_types.steen) {
                 return steenWorkerFoundObject(obj);
             }
 
@@ -134,7 +134,7 @@ public class MovePolicyBasic implements movePolicy {
             Resource stof = (Resource) obj;
 
             worker.setMoving(false);
-            worker.setTask(stof.getStof());
+            worker.setResourcetypes(stof.getStof());
             worker.removeAllVisitedPhero(); //so that it can find his way home but might want to give this responsibility to the pheromonePolicy
             worker.removeAllDetectedPhero();
 
@@ -149,7 +149,7 @@ public class MovePolicyBasic implements movePolicy {
         {
             Resource stof = (Resource) obj;
 
-            if(worker.getTask() == stof.getStof() && !(worker.isVol()))
+            if(worker.getResourcetypes() == stof.getStof() && !(worker.isVol()))
             {
                 worker.setDistLastPheroDrop(worker.getPheromonePolicy().getDropDistance()+1);
 

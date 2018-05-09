@@ -140,9 +140,9 @@ public class WindowView extends Panel implements ActionListener
             bouwMode.setLabel("Bouwmode: off");
             bouwMode.setBackground(Color.WHITE);
         }
-        if( e.getSource() == hout && model.getGrondstofmode()!= Task.hout)
+        if( e.getSource() == hout && model.getGrondstofmode()!= Resource_types.hout)
         {
-            model.setTaskMode(Task.hout);
+            model.setResourcetypesMode(Resource_types.hout);
             hout.setLabel("hout: on");
             hout.setBackground(new Color(139,90,43 ));
             steen.setLabel("steen: off");
@@ -150,13 +150,13 @@ public class WindowView extends Panel implements ActionListener
         }
         else if(e.getSource() == hout)
         {
-            model.setTaskMode(null)  ;
+            model.setResourcetypesMode(null)  ;
             hout.setLabel("hout: off");
             hout.setBackground(Color.WHITE);
         }
-        if( e.getSource() == steen && model.getGrondstofmode()!= Task.steen)
+        if( e.getSource() == steen && model.getGrondstofmode()!= Resource_types.steen)
         {
-            model.setTaskMode(Task.steen);
+            model.setResourcetypesMode(Resource_types.steen);
             steen.setLabel("steen: on");
             steen.setBackground(Color.gray);
             hout.setLabel("hout: off");
@@ -164,7 +164,7 @@ public class WindowView extends Panel implements ActionListener
         }
         else if(e.getSource() == steen)
         {
-            model.setTaskMode(null)  ;
+            model.setResourcetypesMode(null)  ;
             steen.setLabel("steen: off");
             steen.setBackground(Color.WHITE);
 

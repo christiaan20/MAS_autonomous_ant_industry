@@ -11,21 +11,21 @@ public class Construction
 {
     private int xPositionBuilding; // de x positie ten opzichte de x positie van het gebouw in  rooster coordinaten
     private int yPositionBuilding; // de y positie tenopzichte de y positie van het gebouw in  rooster coordinaten
-    private Task topBeam; // de bovenste balk van de constructie
-    private Task leftBeam; // de linker balk van de constructie
-    private Task rightBeam; // de rechter balk van de constructie
+    private Resource_types topBeam; // de bovenste balk van de constructie
+    private Resource_types leftBeam; // de linker balk van de constructie
+    private Resource_types rightBeam; // de rechter balk van de constructie
         
     /**
      * Constructor voor objecten van Construction
      * 
      * @param xPos int, De positie in x richting ten opzichte van de x coordinaat van het gebouw in rooster coordinaten
      * @param yPos int, De positie in y richting ten opzichte van de y coordinaat van het gebouw in rooster coordinaten
-     * @param bBalk Task,  de Task waar de bovenste balk uit gemaakt is
-     * @param lBalk Task,  de Task waar de rechter balk uit gemaakt is
-     * @param rBalk Task,  de Task waar de linker balk uit gemaakt is
+     * @param bBalk Resource_types,  de Resource_types waar de bovenste balk uit gemaakt is
+     * @param lBalk Resource_types,  de Resource_types waar de rechter balk uit gemaakt is
+     * @param rBalk Resource_types,  de Resource_types waar de linker balk uit gemaakt is
      * 
      */
-    public Construction(int xPos, int yPos, Task bBalk, Task lBalk, Task rBalk)
+    public Construction(int xPos, int yPos, Resource_types bBalk, Resource_types lBalk, Resource_types rBalk)
     {
         topBeam = bBalk;
         leftBeam = lBalk;
@@ -36,11 +36,11 @@ public class Construction
     }
 
     /**
-     * Method setTopBeam als er nog geen bovenbalk is wordt de bovenbalk uit de meegeven Task gemaakt
+     * Method setTopBeam als er nog geen bovenbalk is wordt de bovenbalk uit de meegeven Resource_types gemaakt
      *
      * @param g De grondstof waar de nieuwe balk uit gemaakt moet worden
      */
-    public void setTopBeam(Task g)
+    public void setTopBeam(Resource_types g)
     {
          if(topBeam == null)
          {
@@ -49,11 +49,11 @@ public class Construction
     }
     
     /**
-     * Method setRightBeam als er nog geen Rechterbalk is wordt de Rechterbalk uit de meegeven Task gemaakt
+     * Method setRightBeam als er nog geen Rechterbalk is wordt de Rechterbalk uit de meegeven Resource_types gemaakt
      *
      * @param g De grondstof waar de nieuwe balk uit gemaakt moet worden
      */
-    public void setRightBeam(Task g)
+    public void setRightBeam(Resource_types g)
     { 
         if(rightBeam == null)
         {
@@ -62,11 +62,11 @@ public class Construction
     }
     
     /**
-     * Method setLeftBeam als er nog geen linkerbalk is wordt de linkerbalk uit de meegeven Task gemaakt
+     * Method setLeftBeam als er nog geen linkerbalk is wordt de linkerbalk uit de meegeven Resource_types gemaakt
      *
      * @param g De grondstof waar de nieuwe balk uit gemaakt moet worden
      */
-    public void setLeftBeam(Task g)
+    public void setLeftBeam(Resource_types g)
     {
          if(leftBeam == null)
          {
@@ -75,31 +75,31 @@ public class Construction
     }
     
     /**
-     * Method getTopBeam geeft de Task waar de bovenste balk uitgemaakt is
+     * Method getTopBeam geeft de Resource_types waar de bovenste balk uitgemaakt is
      *
-     * @return bovenbalk Task,  de Task waar de bovenste balk uitgemaakt is
+     * @return bovenbalk Resource_types,  de Resource_types waar de bovenste balk uitgemaakt is
      */
-    public Task getTopBeam()
+    public Resource_types getTopBeam()
     {
         return topBeam;
     }
 
     /**
-     * Method getRightBeam geeft de Task waar de rechter balk uitgemaakt is
+     * Method getRightBeam geeft de Resource_types waar de rechter balk uitgemaakt is
      *
-     * @return bovenbalk Task,  de Task waar de rechter balk uitgemaakt is
+     * @return bovenbalk Resource_types,  de Resource_types waar de rechter balk uitgemaakt is
      */
-    public Task getRightBeam()
+    public Resource_types getRightBeam()
     {
         return rightBeam;
     }
 
     /**
-     * Method getLeftBeam geeft de Task waar de linker balk uitgemaakt is
+     * Method getLeftBeam geeft de Resource_types waar de linker balk uitgemaakt is
      *
-     * @return linkerbalk Task,  de Task waar de linker balk uitgemaakt is
+     * @return linkerbalk Resource_types,  de Resource_types waar de linker balk uitgemaakt is
      */
-    public Task getLeftBeam()
+    public Resource_types getLeftBeam()
     {
         return leftBeam;
     }

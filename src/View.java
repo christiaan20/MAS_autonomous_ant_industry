@@ -178,9 +178,9 @@ public class View extends Canvas
                     g.setColor(Color.red);
                     g.drawString(w.getName(), w.getX()-10, coYW - size/2  - 5);
                     g.drawString(String.valueOf(w.getLoad()), w.getX()-10, coYW - size/2  - 15);
-                    if(w.getTask()!= null)
+                    if(w.getResourcetypes()!= null)
                     {
-                        g.drawString(String.valueOf(w.getTask()), w.getX()-10, coYW- size/2 - 25);
+                        g.drawString(String.valueOf(w.getResourcetypes()), w.getX()-10, coYW- size/2 - 25);
                     }
                     String point = '(' + String.valueOf(w.getX()) + ',' + String.valueOf(w.getCoY()) + ')';
                     g.drawString(point, w.getX()-10, coYW - size/2 -35);
@@ -311,7 +311,7 @@ public class View extends Canvas
                 int x = b.getX(); // de x coordinaat van b
                 int y = b.getY(); // de y coordinaat van b
 
-                if (b.getStof() == Task.hout) {
+                if (b.getStof() == Resource_types.hout) {
                     if (b.isSelected() == true) {
                         g.setColor(Color.red);
                         g.drawString(String.valueOf(b.getAmount()), x + 20, sizeY - (y + 1) - 5);
@@ -329,7 +329,7 @@ public class View extends Canvas
                     if (b.getHoverOver() == true) {
                         g.drawRect(x, sizeY - y + 1, 50, 100);
                     }
-                } else if (b.getStof() == Task.steen) {
+                } else if (b.getStof() == Resource_types.steen) {
                     int objSizeX = b.getXsize();
                     int objSizeY = b.getYsize();
 
@@ -348,7 +348,7 @@ public class View extends Canvas
                     if (b.getHoverOver() == true) {
                         g.drawRect(x - objSizeX / 2, sizeY - (y) - b.getYsize() / 2, objSizeX, objSizeY);
                     }
-                } else if (b.getStof() == Task.voedsel) {
+                } else if (b.getStof() == Resource_types.voedsel) {
                     if (b.isSelected() == true) {
                         g.setColor(Color.red);
                         g.drawString(String.valueOf(b.getAmount()), x + 20, sizeY - y - 5);
@@ -383,9 +383,9 @@ public class View extends Canvas
                 int x = p.getX();
                 int y = p.getY();
 
-                if (p.getTask() == Task.steen) {
+                if (p.getResourcetypes() == Resource_types.steen) {
                     g.setColor(Color.GRAY);
-                } else if (p.getTask() == Task.explorer) {
+                } else if (p.getResourcetypes() == Resource_types.explorer) {
                     g.setColor(Color.BLUE);
 
                 }
@@ -417,7 +417,7 @@ public class View extends Canvas
                                     g.fillRoundRect((b.getX()) + 15, sizeY - (b.getY()) - 10, 20, 20, 3, 3);
 
                                 }
-                            } else if (c.getTopBeam() == Task.hout) {
+                            } else if (c.getTopBeam() == Resource_types.hout) {
                                 if (b.getFunction() == Function.hoofdgebouw) {
                                     g.setColor(Color.GRAY);
                                     g.fillRoundRect((b.getX()) + 15, sizeY - (b.getY()) - 10, 20, 20, 3, 3);
@@ -439,7 +439,7 @@ public class View extends Canvas
                                 g.drawRect((x + xPos) + 35, sizeY - (y + yPos) + 15, 15, 35);
                             }
                         } else {
-                            if (c.getRightBeam() == Task.hout) {
+                            if (c.getRightBeam() == Resource_types.hout) {
                                 g.setColor(new Color(139, 90, 43));
                             } else {
                                 g.setColor(Color.gray);
@@ -452,7 +452,7 @@ public class View extends Canvas
                                 g.drawRect((x + xPos), sizeY - (y + yPos) + 15, 15, 35);
                             }
                         } else {
-                            if (c.getLeftBeam() == Task.hout) {
+                            if (c.getLeftBeam() == Resource_types.hout) {
                                 g.setColor(new Color(139, 90, 43));
                             } else {
                                 g.setColor(Color.gray);
@@ -494,7 +494,7 @@ public class View extends Canvas
                 int x = b.getX(); // de x coordinaat van b
                 int y = b.getY(); // de y coordinaat van b
 
-                if(b.getStof() == Task.hout)
+                if(b.getStof() == Resource_types.hout)
                 {
                     if(b.isSelected()== true)
                     {
@@ -518,7 +518,7 @@ public class View extends Canvas
                         g.drawRect(x,sizeY-(y+1)*Z-yVerschuiving, 50, 100);
                     }
                 }
-                else if(b.getStof() == Task.steen)
+                else if(b.getStof() == Resource_types.steen)
                 {
                     if(b.isSelected()== true)
                     {
@@ -537,7 +537,7 @@ public class View extends Canvas
                         g.drawRect(x,sizeY-(y)*50-yVerschuiving , 50, 50);
                     }
                 }
-                else if(b.getStof() == Task.voedsel)
+                else if(b.getStof() == Resource_types.voedsel)
                 {
                     if(b.isSelected()== true)
                     {
@@ -608,7 +608,7 @@ public class View extends Canvas
 
                                 }
                             }
-                            else if(c.getTopBeam() == Task.hout)
+                            else if(c.getTopBeam() == Resource_types.hout)
                             {
                                 if(b.getFunction() == Function.hoofdgebouw)
                                 {
@@ -639,7 +639,7 @@ public class View extends Canvas
                         }
                         else
                         {
-                            if(c.getRightBeam() == Task.hout)
+                            if(c.getRightBeam() == Resource_types.hout)
                             {
                                 g.setColor(new Color(139,90,43 ));
                             }
@@ -660,7 +660,7 @@ public class View extends Canvas
                         }
                         else
                         {
-                            if(c.getLeftBeam() == Task.hout)
+                            if(c.getLeftBeam() == Resource_types.hout)
                             {
                                 g.setColor(new Color(139,90,43 ));
                             }
