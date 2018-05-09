@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="707d35a4-b822-4822-b8d4-faed79bf3a53" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Base.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Order.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Building.java" afterPath="$PROJECT_DIR$/src/Building.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -68,7 +67,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Base.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Base.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Base.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="148">
@@ -77,6 +76,26 @@
                 <element signature="imports" expanded="true" />
                 <element signature="e#437#444#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Building.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Building.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="141">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Construction.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Construction.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="833">
+              <caret line="49" column="4" lean-forward="true" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="4" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -199,7 +218,6 @@
         <option value="$PROJECT_DIR$/src/Controller.java" />
         <option value="$PROJECT_DIR$/src/Functie.java" />
         <option value="$PROJECT_DIR$/src/Gebouw.java" />
-        <option value="$PROJECT_DIR$/src/Building.java" />
         <option value="$PROJECT_DIR$/src/Grondstof.java" />
         <option value="$PROJECT_DIR$/src/Werker.java" />
         <option value="$PROJECT_DIR$/src/Worker.java" />
@@ -212,6 +230,7 @@
         <option value="$PROJECT_DIR$/src/Resource_types.java" />
         <option value="$PROJECT_DIR$/src/Order.java" />
         <option value="$PROJECT_DIR$/src/Base.java" />
+        <option value="$PROJECT_DIR$/src/Building.java" />
       </list>
     </option>
   </component>
@@ -733,7 +752,7 @@
       <option name="presentableId" value="Default" />
       <updated>1524485012669</updated>
       <workItem from="1525855823787" duration="1451000" />
-      <workItem from="1525857564563" duration="2306000" />
+      <workItem from="1525857564563" duration="2624000" />
     </task>
     <task id="LOCAL-00001" summary="changez in workings simplified much of the processes. gathering at resources in no longer seperate threads but ticked in the Objects themselfs which is initiated in mainanimation.&#10;Werker doesn't use the animation class anymore but also ticked directly via mainanimation.&#10;Bugs with the current werkers movepolicybasic and pheromonepolicybasic fixed an now operational.">
       <created>1525114257363</created>
@@ -749,11 +768,18 @@
       <option name="project" value="LOCAL" />
       <updated>1525857610486</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Order defines a task to complete&#10;Base now holds an orderlist to complete">
+      <created>1525861678287</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1525861678287</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3757000" />
+    <option name="totallyTimeSpent" value="4075000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -838,7 +864,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="changez in workings simplified much of the processes. gathering at resources in no longer seperate threads but ticked in the Objects themselfs which is initiated in mainanimation.&#10;Werker doesn't use the animation class anymore but also ticked directly via mainanimation.&#10;Bugs with the current werkers movepolicybasic and pheromonepolicybasic fixed an now operational." />
     <MESSAGE value="refactor task to resource_types" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor task to resource_types" />
+    <MESSAGE value="Order defines a task to complete&#10;Base now holds an orderlist to complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="Order defines a task to complete&#10;Base now holds an orderlist to complete" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1148,13 +1175,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Construction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-111">
-          <caret line="49" column="4" lean-forward="true" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Worker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
@@ -1169,14 +1189,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="535">
           <caret line="447" column="0" lean-forward="true" selection-start-line="447" selection-start-column="0" selection-end-line="447" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Building.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="25" column="19" lean-forward="false" selection-start-line="25" selection-start-column="19" selection-end-line="25" selection-end-column="19" />
           <folding />
         </state>
       </provider>
@@ -1252,14 +1264,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Resource_types.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Base.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
@@ -1268,6 +1272,30 @@
             <element signature="imports" expanded="true" />
             <element signature="e#437#444#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Resource_types.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="32" lean-forward="true" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Construction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="49" column="4" lean-forward="true" selection-start-line="49" selection-start-column="4" selection-end-line="49" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Building.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -12,9 +12,7 @@ import java.util.*;
 
 public class Building extends Object
 {
-    private Resource_types bovenBalk; // de grondstof waar de bovenste balk uit gemaakt is
-    private Resource_types linkerBalk; // de grondstof waar de linkerbalk uit gemaakt is
-    private Resource_types rechterBalk;// de grondstof waar de rechter balk uit gemaakt is
+
     private Function function;    // de function van het gebouw
     private ArrayList<Construction> onderdelen = new ArrayList<Construction>(); // delen waar een gebouw uit bestaat
     private boolean af; // is het gebouw compleet, true of false
